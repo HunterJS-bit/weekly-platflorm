@@ -6,9 +6,9 @@ export const Users: CollectionConfig = {
   slug: 'users',
   access: {
     admin: authenticated,
-    create: authenticated,
+    create: () => true, // Allow public registration
     delete: authenticated,
-    read: authenticated,
+    read: () => true, // Allow reading user profiles publicly
     update: authenticated,
   },
   admin: {
