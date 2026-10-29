@@ -49,6 +49,7 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(dirname),
   },
+  serverExternalPackages: ['file-type', 'payload']
 }
 
 export default withPayload(nextConfig, { devBundleServerPackages: false })
