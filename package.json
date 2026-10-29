@@ -82,9 +82,7 @@
     "node": "^22.23.4 || >=24.22.1",
     "pnpm": "^9 || ^10 || ^11"
   },
-  "pnpm": {
-    "overrides": {
-      "file-type": "16.5.4"
-    }
+  "overrides": {
+    "file-type": "16.5.4"
   }
 }
