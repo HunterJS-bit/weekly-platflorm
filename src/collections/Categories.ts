@@ -21,6 +21,13 @@ export const Categories: CollectionConfig = {
       type: 'text',
       required: true,
     },
+    {
+      name: 'description',
+      type: 'textarea',
+      admin: {
+        description: 'Short description shown on the category page',
+      },
+    },
     slugField({
       position: undefined,
     }),
