@@ -1,8 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
 
 type Comment = {
   id: string
@@ -30,17 +28,11 @@ export default function CommentsSection({ postId }: { postId: string | number })
 
   const fetchComments = async () => {
     try {
-      const payload = await getPayload({ config: configPromise })
-      const result = await payload.find({
-        collection: 'comments',
-        where: {
-          post: {
-            equals: postId,
-          },
-        },
-        depth: 1,
-        sort: '-createdAt',
-      })
+      const response = await fetch(
+        `/api/comments?where[post][equals]=${encodeURIComponent(postId)}&depth=1&sort=-createdAt&limit=100`,
+      )
+      if (!response.ok) throw new Error(`Request failed with status ${response.status}`)
+      const result = await response.json()
       setComments(result.docs as Comment[])
     } catch (error) {
       console.error('Failed to fetch comments:', error)
@@ -69,15 +61,18 @@ export default function CommentsSection({ postId }: { postId: string | number })
 
     setLoading(true)
     try {
-      const payload = await getPayload({ config: configPromise })
-      await payload.create({
-        collection: 'comments',
-        data: {
+      const response = await fetch('/api/comments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           content: newComment,
           post: postId,
           author: user.id,
-        },
+        }),
       })
+      if (!response.ok) throw new Error(`Request failed with status ${response.status}`)
       setNewComment('')
       fetchComments()
     } catch (error) {
