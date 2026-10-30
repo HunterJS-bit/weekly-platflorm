@@ -11,6 +11,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    # Make every step see the same env. Secrets must be configured in
+    # Settings -> Secrets and variables -> Actions (repo-level, or add
+    # `environment: <name>` below if they are environment-level secrets).
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+      NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL }}
+      CRON_SECRET: ${{ secrets.CRON_SECRET }}
+      PREVIEW_SECRET: ${{ secrets.PREVIEW_SECRET }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,22 +35,25 @@ jobs:
         with:
           version: 12
 
+      - name: Validate required secrets
+        run: |
+          missing=0
+          for name in DATABASE_URL PAYLOAD_SECRET; do
+            if [ -z "${!name}" ]; then
+              echo "::error::$name is empty. Add it under Settings -> Secrets and variables -> Actions."
+              missing=1
+            fi
+          done
+          exit "$missing"
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Generate Payload types
         run: pnpm run generate:types
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Build application
         run: pnpm run build
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
-          NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL }}
-          CRON_SECRET: ${{ secrets.CRON_SECRET }}
-          PREVIEW_SECRET: ${{ secrets.PREVIEW_SECRET }}
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
