@@ -262,6 +262,7 @@ export interface Post {
     | {
         id?: string | null;
         name?: string | null;
+        slug?: string | null;
       }[]
     | null;
   /**
@@ -452,6 +453,28 @@ export interface Comment {
 export interface User {
   id: number;
   name?: string | null;
+  /**
+   * Used in the public author page URL. Auto-generated from the name when left empty.
+   */
+  slug?: string | null;
+  /**
+   * Short author biography shown on the author page.
+   */
+  bio?: string | null;
+  /**
+   * Square portrait image. Displayed as a circle on the author page.
+   */
+  avatar?: (number | null) | Media;
+  /**
+   * Optional links shown as icons on the author page.
+   */
+  socials?: {
+    website?: string | null;
+    facebook?: string | null;
+    x?: string | null;
+    instagram?: string | null;
+    linkedin?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -1241,6 +1264,7 @@ export interface PostsSelect<T extends boolean = true> {
     | {
         id?: T;
         name?: T;
+        slug?: T;
       };
   generateSlug?: T;
   slug?: T;
@@ -1369,6 +1393,18 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  slug?: T;
+  bio?: T;
+  avatar?: T;
+  socials?:
+    | T
+    | {
+        website?: T;
+        facebook?: T;
+        x?: T;
+        instagram?: T;
+        linkedin?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   email?: T;
