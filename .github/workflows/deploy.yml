@@ -11,8 +11,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    # Make every step see the same env. Secrets must be configured in
-    # Settings -> Secrets and variables -> Actions (repo-level, or add
     # `environment: <name>` below if they are environment-level secrets).
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}

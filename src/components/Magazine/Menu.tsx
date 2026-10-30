@@ -29,12 +29,6 @@ export const MagazineMenu = ({
         >
           <Menu className="size-6" />
         </button>
-        <Link
-          href="#newsletter"
-          className="rounded-full bg-[#111] px-5 py-2.5 text-sm font-medium text-white hover:bg-black"
-        >
-          Subscribe
-        </Link>
       </div>
       {open ? (
         <div className="fixed inset-0 z-50 bg-white/95 p-6 backdrop-blur-sm dark:bg-black/95">
