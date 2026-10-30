@@ -7,6 +7,7 @@ export type MagazinePost = {
   categories: string[]
   excerpt: string
   author: string
+  authorHref?: string
   date: string
   readTime: string
   comments: number
