@@ -37,6 +37,8 @@ export const mapCmsPost = (post: Post, index: number): MagazinePost => {
     ? post.comments.filter((comment) => typeof comment === 'object').length
     : 0
 
+  const firstAuthor = post.populatedAuthors?.find((author) => author.name)
+
   return {
     id: String(post.id),
     title: post.title,
@@ -46,7 +48,11 @@ export const mapCmsPost = (post: Post, index: number): MagazinePost => {
     categories: categories.length ? categories : ['Stories'],
     excerpt: post.meta?.description || 'A new story from the Weekly newsroom.',
     author:
-      post.populatedAuthors?.map((author) => author.name).filter(Boolean).join(', ') || 'Weekly Editors',
+      post.populatedAuthors
+        ?.map((author) => author.name)
+        .filter(Boolean)
+        .join(', ') || 'Weekly Editors',
+    authorHref: firstAuthor ? `/author/${firstAuthor.slug || firstAuthor.id}` : undefined,
     date: formatDate(post.publishedAt),
     readTime: '5 min read',
     comments: commentsCount,

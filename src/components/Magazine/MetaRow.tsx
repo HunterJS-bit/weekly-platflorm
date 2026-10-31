@@ -20,7 +20,7 @@ export const MetaRow = ({
     <div className={`flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] ${tone} ${className}`}>
       <span>
         by{' '}
-        <Link href={post.href} className={`${accent} hover:underline`}>
+        <Link href={post.authorHref || post.href} className={`${accent} hover:underline`}>
           {post.author}
         </Link>
       </span>
