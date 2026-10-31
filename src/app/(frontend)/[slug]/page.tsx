@@ -13,6 +13,19 @@ import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 
+// Top-level routes that have their own page.tsx. The catch-all must not
+// pre-render these slugs or it will shadow the dedicated routes.
+const RESERVED_SLUGS = new Set([
+  'home',
+  'contact',
+  'about',
+  'posts',
+  'search',
+  'register',
+  'author',
+  'category',
+])
+
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const pages = await payload.find({
@@ -28,7 +41,7 @@ export async function generateStaticParams() {
 
   const params = pages.docs
     ?.filter((doc) => {
-      return doc.slug !== 'home'
+      return doc.slug && !RESERVED_SLUGS.has(doc.slug)
     })
     .map(({ slug }) => {
       return { slug }
