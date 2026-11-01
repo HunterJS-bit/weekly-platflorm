@@ -1,129 +1,36 @@
-'use client'
+import type { Metadata } from 'next'
+import Link from 'next/link'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+export const metadata: Metadata = {
+  title: 'Accounts — Weekly',
+  description: 'Accounts on Weekly are created by the editorial team.',
+}
+
+export const dynamic = 'force-dynamic'
 
 export default function RegisterPage() {
-  const router = useRouter()
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-  })
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
-
-    try {
-      const response = await fetch('/api/users/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
-
-      if (!response.ok) {
-        const data = await response.json()
-        throw new Error(data.message || 'Registration failed')
-      }
-
-      router.push('/login?registered=true')
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Registration failed')
-    } finally {
-      setLoading(false)
-    }
-  }
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full space-y-8 p-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Create your account
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Join our weekly platform to share your thoughts
-          </p>
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-6">
+      <div className="w-full max-w-md space-y-6 rounded-2xl border border-gray-200 bg-white p-10 text-center shadow-sm">
+        <h1 className="text-3xl font-semibold tracking-tight text-gray-900">Accounts are by invite</h1>
+        <p className="text-gray-600">
+          Public registration is closed. If you need an account, please contact the editorial team
+          and an administrator will create one for you.
+        </p>
+        <div className="flex flex-col gap-3">
+          <Link
+            href="/contact"
+            className="rounded-lg bg-gray-900 px-5 py-3 text-sm font-medium text-white hover:bg-black"
+          >
+            Contact the team
+          </Link>
+          <Link
+            href="/admin/login"
+            className="rounded-lg border border-gray-200 px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          >
+            Sign in
+          </Link>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
-              {error}
-            </div>
-          )}
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="name" className="sr-only">
-                Name
-              </label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                required
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="appearance-none rounded-none rounded-t-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Full name"
-              />
-            </div>
-            <div>
-              <label htmlFor="email" className="sr-only">
-                Email address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="appearance-none rounded-none rounded-b-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
-              />
-            </div>
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? 'Creating account...' : 'Create account'}
-            </button>
-          </div>
-
-          <div className="text-center">
-            <p className="text-sm text-gray-600">
-              Already have an account?{' '}
-              <a href="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
-                Sign in
-              </a>
-            </p>
-          </div>
-        </form>
       </div>
     </div>
   )
