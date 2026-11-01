@@ -3,10 +3,12 @@ import type { CollectionConfig } from 'payload'
 export const Comments: CollectionConfig = {
   slug: 'comments',
   access: {
+    // Only signed-in users may write or moderate comments.
     create: () => true, // Allow anyone to create comments
-    delete: () => false, // Only admins can delete (you can customize this)
-    read: () => true, // Allow anyone to read comments
-    update: () => false, // Only admins can update
+    delete: ({ req: { user } }) => Boolean(user),
+    // Reading comments is public.
+    read: () => true,
+    update: ({ req: { user } }) => Boolean(user),
   },
   admin: {
     defaultColumns: ['content', 'post', 'author', 'createdAt'],
@@ -17,8 +19,10 @@ export const Comments: CollectionConfig = {
       name: 'content',
       type: 'textarea',
       required: true,
+      minLength: 1,
+      maxLength: 2000,
       admin: {
-        description: 'The comment content',
+        description: 'The comment content (maximum 2000 characters)',
       },
     },
     {
@@ -36,7 +40,8 @@ export const Comments: CollectionConfig = {
       relationTo: 'users',
       required: true,
       admin: {
-        description: 'The user who wrote this comment',
+        readOnly: true,
+        description: 'Set automatically from the signed-in user and cannot be spoofed',
       },
     },
     {
@@ -48,5 +53,26 @@ export const Comments: CollectionConfig = {
       },
     },
   ],
+  hooks: {
+    beforeChange: [
+      ({ data, operation, req }) => {
+        // Never trust a client-supplied author. On create it is always the
+        // authenticated user making the request.
+        if (operation === 'create') {
+          if (!req.user) {
+            throw new Error('You must be signed in to comment.')
+          }
+
+          data.author = req.user.id
+        }
+
+        if (typeof data.content === 'string') {
+          data.content = data.content.trim()
+        }
+
+        return data
+      },
+    ],
+  },
   timestamps: true,
 }
