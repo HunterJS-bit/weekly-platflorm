@@ -428,7 +428,7 @@ export interface Category {
 export interface Comment {
   id: number;
   /**
-   * The comment content
+   * The comment content (maximum 2000 characters)
    */
   content: string;
   /**
@@ -436,7 +436,7 @@ export interface Comment {
    */
   post: number | Post;
   /**
-   * The user who wrote this comment
+   * Set automatically from the signed-in user and cannot be spoofed
    */
   author: number | User;
   /**

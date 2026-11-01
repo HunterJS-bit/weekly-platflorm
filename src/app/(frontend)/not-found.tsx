@@ -3,6 +3,9 @@ import React from 'react'
 
 import { Button } from '@/components/ui/button'
 
+// Also keep the global 404 dynamic because it renders the CMS-driven layout.
+export const dynamic = 'force-dynamic'
+
 export default function NotFound() {
   return (
     <div className="container py-28">

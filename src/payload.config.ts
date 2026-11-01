@@ -12,6 +12,7 @@ import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
+import { migrations } from './migrations'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -59,9 +60,13 @@ export default buildConfig({
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
   db: postgresAdapter({
+    migrationDir: path.resolve(dirname, 'migrations'),
     pool: {
       connectionString: process.env.DATABASE_URL || '',
     },
+    // Applied automatically the first time the production server connects to the
+    // database. Safe to leave enabled: already-applied migrations are skipped.
+    prodMigrations: migrations,
   }),
   collections: [Pages, Posts, Media, Categories, Users, Comments],
   cors: [getServerSideURL()].filter(Boolean),
