@@ -102,8 +102,8 @@ jobs:
           DOKPLOY_WEBHOOK_URL: ${{ secrets.DOKPLOY_WEBHOOK_URL }}
         run: |
           if [ -z "$DOKPLOY_WEBHOOK_URL" ]; then
-            echo "::warning::DOKPLOY_WEBHOOK_URL is not set. Build succeeded, but no deployment was triggered."
-            exit 0
+            echo "::error::DOKPLOY_WEBHOOK_URL is not set. Deployment failed because the webhook secret is missing."
+            exit 1
           fi
 
           curl --fail --silent --show-error \
