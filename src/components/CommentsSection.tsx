@@ -69,7 +69,6 @@ export default function CommentsSection({ postId }: { postId: string | number })
         body: JSON.stringify({
           content: newComment,
           post: postId,
-          author: user.id,
         }),
       })
       if (!response.ok) throw new Error(`Request failed with status ${response.status}`)
@@ -108,14 +107,10 @@ export default function CommentsSection({ postId }: { postId: string | number })
         <div className="mb-8 p-4 bg-gray-50 rounded-lg">
           <p className="text-gray-600">
             Please{' '}
-            <a href="/login" className="text-indigo-600 hover:text-indigo-700 font-medium">
-              log in
+            <a href="/admin/login" className="text-indigo-600 hover:text-indigo-700 font-medium">
+              sign in
             </a>{' '}
-            or{' '}
-            <a href="/register" className="text-indigo-600 hover:text-indigo-700 font-medium">
-              register
-            </a>{' '}
-            to leave a comment
+            to leave a comment. Accounts are created by the editorial team.
           </p>
         </div>
       )}

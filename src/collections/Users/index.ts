@@ -15,7 +15,9 @@ export const Users: CollectionConfig = {
   slug: 'users',
   access: {
     admin: authenticated,
-    create: () => true, // Allow public registration
+    // Accounts are provisioned by an administrator. Public self-registration
+    // would let anyone create a user in the admin collection.
+    create: authenticated,
     delete: authenticated,
     read: () => true, // Allow reading user profiles publicly
     update: authenticated,
