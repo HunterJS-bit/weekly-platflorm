@@ -15,6 +15,9 @@
     "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",
     "lint:fix": "cross-env NODE_OPTIONS=--no-deprecation eslint . --fix",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
+    "migrate": "cross-env NODE_OPTIONS=--no-deprecation payload migrate",
+    "migrate:create": "cross-env NODE_OPTIONS=--no-deprecation payload migrate:create",
+    "seed:prod": "cross-env NODE_OPTIONS=--no-deprecation payload run src/scripts/seed-production.ts",
     "reinstall": "cross-env NODE_OPTIONS=--no-deprecation rm -rf node_modules && rm pnpm-lock.yaml && pnpm --ignore-workspace install",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "test": "pnpm run test:int && pnpm run test:e2e",
@@ -80,6 +83,6 @@
   },
   "engines": {
     "node": "^22.23.4 || >=24.22.1",
-    "pnpm": "^9 || ^10 || ^11"
+    "pnpm": "^9 || ^10 || ^11 || ^12"
   }
 }
