@@ -13,42 +13,9 @@ import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 
-// Top-level routes that have their own page.tsx. The catch-all must not
-// pre-render these slugs or it will shadow the dedicated routes.
-const RESERVED_SLUGS = new Set([
-  'home',
-  'contact',
-  'about',
-  'posts',
-  'search',
-  'register',
-  'author',
-  'category',
-])
-
-export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise })
-  const pages = await payload.find({
-    collection: 'pages',
-    draft: false,
-    limit: 1000,
-    overrideAccess: false,
-    pagination: false,
-    select: {
-      slug: true,
-    },
-  })
-
-  const params = pages.docs
-    ?.filter((doc) => {
-      return doc.slug && !RESERVED_SLUGS.has(doc.slug)
-    })
-    .map(({ slug }) => {
-      return { slug }
-    })
-
-  return params
-}
+// Render pages on demand so `next build` never needs a database connection.
+// Content changes published in the CMS are visible immediately.
+export const dynamic = 'force-dynamic'
 
 type Args = {
   params: Promise<{

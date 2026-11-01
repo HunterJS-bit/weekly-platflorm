@@ -1,6 +1,10 @@
 import React from 'react'
 import Link from 'next/link'
 
+// The shared layout reads header/footer data from the CMS, so keep this route
+// dynamic to avoid a database connection during `next build`.
+export const dynamic = 'force-dynamic'
+
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-gray-50">
@@ -34,10 +38,10 @@ export default function AboutPage() {
 
           <div className="mt-8 flex gap-4">
             <Link
-              href="/register"
+              href="/contact"
               className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition"
             >
-              Get Started
+              Get in Touch
             </Link>
             <Link
               href="/posts"
