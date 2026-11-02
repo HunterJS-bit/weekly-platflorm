@@ -55,16 +55,6 @@ jobs:
       - name: Build application
         run: pnpm run build
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build
-          path: |
-            .next
-            public
-            package.json
-            pnpm-lock.yaml
-          retention-days: 1
 
   docker:
     name: Build and push Docker image
@@ -94,7 +84,9 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/hunterjs-bit/weekly-platflorm:latest
+          tags: |
+            ghcr.io/hunterjs-bit/weekly-platflorm:latest
+            ghcr.io/hunterjs-bit/weekly-platflorm:${{ github.sha }}
           build-args: |
             NEXT_PUBLIC_SERVER_URL=${{ secrets.NEXT_PUBLIC_SERVER_URL || 'https://example.com' }}
           cache-from: type=gha
