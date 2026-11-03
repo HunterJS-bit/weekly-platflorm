@@ -484,6 +484,10 @@ export interface User {
   id: number;
   name?: string | null;
   /**
+   * User role determines permissions and access levels
+   */
+  role: 'admin' | 'editor' | 'author';
+  /**
    * Used in the public author page URL. Auto-generated from the name when left empty.
    */
   slug?: string | null;
@@ -1442,6 +1446,7 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  role?: T;
   slug?: T;
   bio?: T;
   avatar?: T;
