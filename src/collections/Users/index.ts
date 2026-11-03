@@ -33,6 +33,30 @@ export const Users: CollectionConfig = {
       type: 'text',
     },
     {
+      name: 'role',
+      type: 'select',
+      options: [
+        {
+          label: 'Admin',
+          value: 'admin',
+        },
+        {
+          label: 'Editor',
+          value: 'editor',
+        },
+        {
+          label: 'Author',
+          value: 'author',
+        },
+      ],
+      defaultValue: 'author',
+      admin: {
+        position: 'sidebar',
+        description: 'User role determines permissions and access levels',
+      },
+      required: true,
+    },
+    {
       name: 'slug',
       type: 'text',
       unique: true,
