@@ -43,6 +43,8 @@ export const Posts: CollectionConfig<'posts'> = {
     slug: true,
     categories: true,
     tags: true,
+    featured: true,
+    pinned: true,
     meta: {
       image: true,
       description: true,
@@ -199,6 +201,24 @@ export const Posts: CollectionConfig<'posts'> = {
           },
         ],
       },
+    },
+    {
+      name: 'featured',
+      type: 'checkbox',
+      admin: {
+        description: 'Mark this post as featured to display it prominently',
+        position: 'sidebar',
+      },
+      defaultValue: false,
+    },
+    {
+      name: 'pinned',
+      type: 'checkbox',
+      admin: {
+        description: 'Pin this post to the top of lists',
+        position: 'sidebar',
+      },
+      defaultValue: false,
     },
     {
       name: 'authors',

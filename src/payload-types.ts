@@ -260,6 +260,14 @@ export interface Post {
     description?: string | null;
   };
   publishedAt?: string | null;
+  /**
+   * Mark this post as featured to display it prominently
+   */
+  featured?: boolean | null;
+  /**
+   * Pin this post to the top of lists
+   */
+  pinned?: boolean | null;
   authors?: (number | User)[] | null;
   populatedAuthors?:
     | {
@@ -1297,6 +1305,8 @@ export interface PostsSelect<T extends boolean = true> {
         description?: T;
       };
   publishedAt?: T;
+  featured?: T;
+  pinned?: T;
   authors?: T;
   populatedAuthors?:
     | T
