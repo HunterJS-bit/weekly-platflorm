@@ -12,7 +12,6 @@ import { post3 } from './post-3'
 
 const collections: CollectionSlug[] = [
   'categories',
-  'media',
   'pages',
   'posts',
   'forms',
@@ -59,15 +58,15 @@ export const seed = async ({
     ),
   )
 
-  await Promise.all(
-    collections.map((collection) => payload.db.deleteMany({ collection, req, where: {} })),
-  )
+  // Delete collections sequentially to avoid deadlocks
+  for (const collection of collections) {
+    await payload.db.deleteMany({ collection, req, where: {} })
+  }
 
-  await Promise.all(
-    collections
-      .filter((collection) => Boolean(payload.collections[collection].config.versions))
-      .map((collection) => payload.db.deleteVersions({ collection, req, where: {} })),
-  )
+  // Delete versions sequentially to avoid deadlocks
+  for (const collection of collections.filter((collection) => Boolean(payload.collections[collection].config.versions))) {
+    await payload.db.deleteVersions({ collection, req, where: {} })
+  }
 
   payload.logger.info(`— Seeding demo author and user...`)
 
