@@ -178,6 +178,7 @@ const upsertAuthor = async (
       ...data,
       email: author.email,
       password: process.env.SEED_AUTHOR_PASSWORD || crypto.randomUUID(),
+      role: 'author',
     },
     overrideAccess: true,
   })) as User
