@@ -22,7 +22,7 @@ const collections: CollectionSlug[] = [
 
 const globals: GlobalSlug[] = ['header', 'footer']
 
-const categories = ['Technology', 'News', 'Finance', 'Design', 'Software', 'Engineering']
+const categories = ['Technology', 'News', 'Finance', 'Design', 'Software', 'Engineering', 'AI', 'Business', 'Lifestyle', 'Mindset', 'Reflections', 'Travel', 'Wellbeing']
 
 // Next.js revalidation errors are normal when seeding the database without a server running
 // i.e. running `yarn seed` locally instead of using the admin UI within an active app
@@ -98,7 +98,7 @@ export const seed = async ({
     ),
   ])
 
-  const [demoAuthor, image1Doc, image2Doc, image3Doc, imageHomeDoc] = await Promise.all([
+  const [demoAuthor, markWeber, image1Doc, image2Doc, image3Doc, imageHomeDoc] = await Promise.all([
     payload.create({
       collection: 'users',
       data: {
@@ -106,6 +106,16 @@ export const seed = async ({
         email: 'demo-author@example.com',
         password: 'password',
         role: 'author',
+      },
+    }),
+    payload.create({
+      collection: 'users',
+      data: {
+        name: 'Mark Weber',
+        email: 'mark.weber@example.com',
+        password: 'password',
+        role: 'author',
+        bio: 'Writer and creator sharing insights on lifestyle, mindset, and wellbeing.',
       },
     }),
     payload.create({
@@ -192,6 +202,146 @@ export const seed = async ({
       relatedPosts: [post1Doc.id, post2Doc.id],
     },
   })
+
+  payload.logger.info(`— Seeding Mark Weber demo posts...`)
+
+  const demoPostData = [
+    {
+      title: 'Lessons From Doing Things Differently My Own Way',
+      slug: 'lessons-doing-things-differently',
+      excerpt:
+        'In the heart of a bustling city, where innovation meets opportunity, the story of our digital agency began. Like all great journeys, it started with a simple…',
+      category: 'Lifestyle',
+      image: image1Doc,
+    },
+    {
+      title: 'Starting Over Again: Why It’s Not as Scary as It Feels',
+      slug: 'starting-over-again',
+      excerpt: 'A new chapter rarely arrives with a map. It usually begins with a quiet decision to try again.',
+      category: 'Mindset',
+      image: image2Doc,
+    },
+    {
+      title: 'Why Taking Care of Yourself Doesn’t Have to Be Complicated',
+      slug: 'taking-care-yourself',
+      excerpt: 'Small rituals, repeated often, do more for your days than ambitious plans you never keep.',
+      category: 'Wellbeing',
+      image: image3Doc,
+    },
+    {
+      title: 'Slowing Down and Paying More Attention to Life',
+      slug: 'slowing-down-attention',
+      excerpt: 'Attention is the rarest currency we spend. Most of it disappears before we notice where it went.',
+      category: 'Lifestyle',
+      image: image1Doc,
+    },
+    {
+      title: 'Why Simplicity Feels So Good',
+      slug: 'why-simplicity-feels-good',
+      excerpt:
+        'There’s a particular kind of relief that comes from a clean desk, an empty inbox, or a quiet morning with nothing…',
+      category: 'Reflections',
+      image: image2Doc,
+    },
+    {
+      title: 'Designing a Life That Feels Good, Not Just Successful',
+      slug: 'designing-life-feels-good',
+      excerpt: 'Success looks impressive from far away. Close up, it has to feel like a life you want to keep living.',
+      category: 'Lifestyle',
+      image: image3Doc,
+    },
+    {
+      title: 'The Importance of Rest: How Doing Nothing Helps You',
+      slug: 'importance-of-rest',
+      excerpt: 'Rest is not a reward for finishing the list. It is how the list stays worth doing.',
+      category: 'Wellbeing',
+      image: image1Doc,
+    },
+    {
+      title: 'A Complete Beginner’s Guide to Building Better Habits',
+      slug: 'beginners-guide-better-habits',
+      excerpt:
+        "Most people don't fail at building habits because they're lazy. They fail because they are trying to build the wrong…",
+      category: 'Mindset',
+      image: image2Doc,
+    },
+    {
+      title: 'The Moments That Matter Most When You Stop Looking',
+      slug: 'moments-that-matter',
+      excerpt: 'The best hours of a week are often the ones that never made it onto the calendar.',
+      category: 'Lifestyle',
+      image: image3Doc,
+    },
+    {
+      title: 'A Practical Approach to Creating a Life You Actually Enjoy',
+      slug: 'practical-approach-life',
+      excerpt:
+        'We spend so much time chasing the idea of a good life: bigger goals, better titles, more boxes checked. And we…',
+      category: 'Lifestyle',
+      image: image1Doc,
+    },
+  ]
+
+  const demoPostDocs = []
+  for (const postData of demoPostData) {
+    const categoryDoc = await payload.find({
+      collection: 'categories',
+      where: {
+        title: {
+          equals: postData.category,
+        },
+      },
+      limit: 1,
+    })
+
+    const postDoc = await payload.create({
+      collection: 'posts',
+      depth: 0,
+      context: {
+        disableRevalidate: true,
+      },
+      data: {
+        title: postData.title,
+        slug: postData.slug,
+        _status: 'published',
+        authors: [markWeber],
+        heroImage: postData.image.id,
+        content: {
+          root: {
+            type: 'root',
+            children: [
+              {
+                type: 'paragraph',
+                children: [
+                  {
+                    type: 'text',
+                    text: postData.excerpt,
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                textFormat: 0,
+                version: 1,
+              },
+            ],
+            direction: 'ltr',
+            format: '',
+            indent: 0,
+            version: 1,
+          },
+        },
+        meta: {
+          description: postData.excerpt,
+          image: postData.image.id,
+          title: postData.title,
+        },
+        categories: categoryDoc.docs.length > 0 ? [categoryDoc.docs[0].id] : [],
+      },
+    })
+    demoPostDocs.push(postDoc)
+  }
 
   payload.logger.info(`— Seeding contact form...`)
 

@@ -1,6 +1,6 @@
 import type { Post } from '@/payload-types'
 
-import { demoImages, demoPosts } from './demoPosts'
+import { demoImages } from './demoPosts'
 import type { MagazinePost } from './types'
 
 const formatDate = (value?: string | null) => {
@@ -60,8 +60,5 @@ export const mapCmsPost = (post: Post, index: number): MagazinePost => {
 }
 
 export const buildMagazineFeed = (posts: Post[]): MagazinePost[] => {
-  const fromCms = posts.map(mapCmsPost)
-  const used = new Set(fromCms.map((post) => post.title.toLowerCase()))
-  const extras = demoPosts.filter((post) => !used.has(post.title.toLowerCase()))
-  return [...fromCms, ...extras]
+  return posts.map(mapCmsPost)
 }
