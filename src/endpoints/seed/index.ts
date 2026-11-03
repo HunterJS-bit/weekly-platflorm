@@ -395,6 +395,14 @@ export const seed = async ({
     payload.updateGlobal({
       slug: 'footer',
       data: {
+        description: 'Welcome to Weekly. A place for ideas, stories, and tips that spark curiosity. Whether you\'re here to learn, get inspired, or just enjoy a good read, you\'re in the right place.',
+        socialLinks: {
+          facebook: 'https://facebook.com',
+          x: 'https://x.com',
+          instagram: 'https://instagram.com',
+          linkedin: 'https://linkedin.com',
+          youtube: 'https://youtube.com',
+        },
         navItems: [
           {
             link: {

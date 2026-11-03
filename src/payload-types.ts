@@ -1799,6 +1799,32 @@ export interface Header {
  */
 export interface Footer {
   id: number;
+  /**
+   * Site description shown in the footer
+   */
+  description?: string | null;
+  socialLinks?: {
+    /**
+     * Facebook URL
+     */
+    facebook?: string | null;
+    /**
+     * X (Twitter) URL
+     */
+    x?: string | null;
+    /**
+     * Instagram URL
+     */
+    instagram?: string | null;
+    /**
+     * LinkedIn URL
+     */
+    linkedin?: string | null;
+    /**
+     * YouTube URL
+     */
+    youtube?: string | null;
+  };
   navItems?:
     | {
         link: {
@@ -1850,6 +1876,16 @@ export interface HeaderSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
+  description?: T;
+  socialLinks?:
+    | T
+    | {
+        facebook?: T;
+        x?: T;
+        instagram?: T;
+        linkedin?: T;
+        youtube?: T;
+      };
   navItems?:
     | T
     | {
