@@ -10,6 +10,54 @@ export const Footer: GlobalConfig = {
   },
   fields: [
     {
+      name: 'description',
+      type: 'textarea',
+      admin: {
+        description: 'Site description shown in the footer',
+      },
+    },
+    {
+      name: 'socialLinks',
+      type: 'group',
+      fields: [
+        {
+          name: 'facebook',
+          type: 'text',
+          admin: {
+            description: 'Facebook URL',
+          },
+        },
+        {
+          name: 'x',
+          type: 'text',
+          admin: {
+            description: 'X (Twitter) URL',
+          },
+        },
+        {
+          name: 'instagram',
+          type: 'text',
+          admin: {
+            description: 'Instagram URL',
+          },
+        },
+        {
+          name: 'linkedin',
+          type: 'text',
+          admin: {
+            description: 'LinkedIn URL',
+          },
+        },
+        {
+          name: 'youtube',
+          type: 'text',
+          admin: {
+            description: 'YouTube URL',
+          },
+        },
+      ],
+    },
+    {
       name: 'navItems',
       type: 'array',
       fields: [
