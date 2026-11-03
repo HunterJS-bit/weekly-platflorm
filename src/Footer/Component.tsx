@@ -18,6 +18,8 @@ const XIcon = () => (
 export async function Footer() {
   const footerData = await getCachedGlobal('footer', 1)()
   const navItems = footerData?.navItems || []
+  const description = footerData?.description || 'Welcome to Weekly. A place for ideas, stories, and tips that spark curiosity. Whether you\'re here to learn, get inspired, or just enjoy a good read, you\'re in the right place.'
+  const socialLinks = footerData?.socialLinks || {}
 
   let footerCategories: { title: string; slug: string }[] = []
   try {
@@ -47,25 +49,34 @@ export async function Footer() {
         <div>
           <MagazineLogo />
           <p className="mt-6 max-w-[42ch] text-[16px] leading-7 text-[#737373]">
-            Welcome to Weekly. A place for ideas, stories, and tips that spark curiosity. Whether
-            you’re here to learn, get inspired, or just enjoy a good read, you’re in the right place.
+            {description}
           </p>
           <div className="mt-6 flex items-center gap-4 text-[#444] dark:text-white">
-            <a href="https://facebook.com" aria-label="Facebook" className="hover:opacity-70">
-              <Facebook className="size-4" />
-            </a>
-            <a href="https://x.com" aria-label="X" className="hover:opacity-70">
-              <XIcon />
-            </a>
-            <a href="https://instagram.com" aria-label="Instagram" className="hover:opacity-70">
-              <Instagram className="size-4" />
-            </a>
-            <a href="https://linkedin.com" aria-label="LinkedIn" className="hover:opacity-70">
-              <Linkedin className="size-4" />
-            </a>
-            <a href="https://youtube.com" aria-label="YouTube" className="hover:opacity-70">
-              <Youtube className="size-4" />
-            </a>
+            {socialLinks.facebook && (
+              <a href={socialLinks.facebook} aria-label="Facebook" className="hover:opacity-70">
+                <Facebook className="size-4" />
+              </a>
+            )}
+            {socialLinks.x && (
+              <a href={socialLinks.x} aria-label="X" className="hover:opacity-70">
+                <XIcon />
+              </a>
+            )}
+            {socialLinks.instagram && (
+              <a href={socialLinks.instagram} aria-label="Instagram" className="hover:opacity-70">
+                <Instagram className="size-4" />
+              </a>
+            )}
+            {socialLinks.linkedin && (
+              <a href={socialLinks.linkedin} aria-label="LinkedIn" className="hover:opacity-70">
+                <Linkedin className="size-4" />
+              </a>
+            )}
+            {socialLinks.youtube && (
+              <a href={socialLinks.youtube} aria-label="YouTube" className="hover:opacity-70">
+                <Youtube className="size-4" />
+              </a>
+            )}
           </div>
         </div>
 
