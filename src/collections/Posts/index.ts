@@ -11,6 +11,7 @@ import {
 
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
+import { isAdminOrEditor } from '../../access/roles'
 import { Banner } from '../../blocks/Banner/config'
 import { Code } from '../../blocks/Code/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
@@ -30,10 +31,21 @@ import { slugField } from 'payload'
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
   access: {
-    create: authenticated,
-    delete: authenticated,
+    create: isAdminOrEditor,
+    delete: isAdminOrEditor,
     read: authenticatedOrPublished,
-    update: authenticated,
+    update: (args) => {
+      // Admins and editors can update any post
+      if (isAdminOrEditor(args)) {
+        return true
+      }
+      // Authors can only update their own posts
+      return {
+        authors: {
+          equals: args.req.user?.id,
+        },
+      }
+    },
   },
   // This config controls what's populated by default when a post is referenced
   // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property
