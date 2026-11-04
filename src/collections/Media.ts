@@ -40,11 +40,13 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
-    // Upload to the public/media directory in Next.js making them publicly accessible even outside of Payload.
+    // Upload to Cloudflare R2 if configured, otherwise use local filesystem
     // Set MEDIA_DIR to a mounted volume in production so uploads survive redeploys.
-    staticDir: process.env.MEDIA_DIR
-      ? path.resolve(process.env.MEDIA_DIR)
-      : path.resolve(dirname, '../../public/media'),
+    staticDir: process.env.R2_ACCESS_KEY_ID
+      ? undefined // Use R2 storage when credentials are present
+      : process.env.MEDIA_DIR
+        ? path.resolve(process.env.MEDIA_DIR)
+        : path.resolve(dirname, '../../public/media'),
     adminThumbnail: 'thumbnail',
     focalPoint: true,
     imageSizes: [
