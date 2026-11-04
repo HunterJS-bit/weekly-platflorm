@@ -1,16 +1,24 @@
 import { buildMagazineFeed } from '@/components/Magazine/fromCms'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
+import Link from 'next/link'
 import React from 'react'
 
 type Args = {
   params: Promise<{
     slug?: string
   }>
+  searchParams: Promise<{
+    page?: string
+  }>
 }
 
-export default async function CategoryPage({ params: paramsPromise }: Args) {
+const POSTS_PER_PAGE = 12
+
+export default async function CategoryPage({ params: paramsPromise, searchParams: searchParamsPromise }: Args) {
   const { slug = '' } = await paramsPromise
+  const { page: pageParam = '1' } = await searchParamsPromise
+  const currentPage = parseInt(pageParam, 10) || 1
   const payload = await getPayload({ config: configPromise })
 
   // Fetch category by slug
@@ -34,14 +42,15 @@ export default async function CategoryPage({ params: paramsPromise }: Args) {
 
   const categoryData = category.docs[0]
 
-  // Fetch posts for this category
+  // Fetch posts for this category with pagination
   const posts = await payload.find({
     collection: 'posts',
     draft: false,
-    limit: 20,
+    limit: POSTS_PER_PAGE,
     overrideAccess: false,
     sort: '-publishedAt',
     depth: 2,
+    page: currentPage,
     where: {
       categories: {
         in: [categoryData.id],
@@ -50,6 +59,7 @@ export default async function CategoryPage({ params: paramsPromise }: Args) {
   })
 
   const feed = buildMagazineFeed(posts.docs)
+  const totalPages = Math.ceil((posts.totalDocs || 0) / POSTS_PER_PAGE)
 
   return (
     <div className="bg-[#f9f9f9] text-[#111] dark:bg-[#111] dark:text-white min-h-screen">
@@ -107,6 +117,43 @@ export default async function CategoryPage({ params: paramsPromise }: Args) {
               </article>
             ))}
           </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="mt-12 flex items-center justify-center gap-2">
+              {currentPage > 1 && (
+                <Link
+                  href={`/category/${slug}?page=${currentPage - 1}`}
+                  className="rounded-full border border-[#ececec] bg-white px-4 py-2 text-sm text-[#111] transition-colors hover:bg-[#f0f0f0] dark:border-white/10 dark:bg-[#111] dark:text-white dark:hover:bg-[#222]"
+                >
+                  Previous
+                </Link>
+              )}
+              
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                <Link
+                  key={pageNum}
+                  href={`/category/${slug}?page=${pageNum}`}
+                  className={`rounded-full px-4 py-2 text-sm transition-colors ${
+                    pageNum === currentPage
+                      ? 'bg-[#111] text-white dark:bg-white dark:text-[#111]'
+                      : 'border border-[#ececec] bg-white text-[#111] hover:bg-[#f0f0f0] dark:border-white/10 dark:bg-[#111] dark:text-white dark:hover:bg-[#222]'
+                  }`}
+                >
+                  {pageNum}
+                </Link>
+              ))}
+
+              {currentPage < totalPages && (
+                <Link
+                  href={`/category/${slug}?page=${currentPage + 1}`}
+                  className="rounded-full border border-[#ececec] bg-white px-4 py-2 text-sm text-[#111] transition-colors hover:bg-[#f0f0f0] dark:border-white/10 dark:bg-[#111] dark:text-white dark:hover:bg-[#222]"
+                >
+                  Next
+                </Link>
+              )}
+            </div>
+          )}
         </div>
       ) : (
         <div className="magazine-wrap pb-16">
