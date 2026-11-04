@@ -7,7 +7,6 @@ import type { Header } from '@/payload-types'
 
 import { MagazineLogo } from '@/components/Magazine/Logo'
 import { MagazineMenu } from '@/components/Magazine/Menu'
-import { defaultCategories } from '@/components/Magazine/demoPosts'
 import Link from 'next/link'
 
 interface HeaderClientProps {
@@ -19,9 +18,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, categories = [
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
-  const navCategories = categories.length
-    ? categories
-    : defaultCategories.map((title) => ({ title, slug: title.toLowerCase() }))
+  const navCategories = categories
 
   useEffect(() => {
     setHeaderTheme(null)

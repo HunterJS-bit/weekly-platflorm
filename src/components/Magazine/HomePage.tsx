@@ -6,7 +6,6 @@ import { Carousel } from './Carousel'
 import { Hero } from './Hero'
 import { CategoryPills, MetaRow } from './MetaRow'
 import { SubscribeForm } from './Subscribe'
-import { demoImages } from './demoPosts'
 import type { MagazinePost } from './types'
 
 const SectionTitle = ({ children }: { children: React.ReactNode }) => (
@@ -163,15 +162,11 @@ export const MagazineHomePage = ({
       <section id="newsletter" className="magazine-wrap py-8">
         <div className="grid overflow-hidden bg-white md:grid-cols-2 dark:bg-[#1a1a1a]">
           <div className="relative min-h-[320px]">
-            <img
-              src={demoImages[11]}
-              alt="People working together at a table"
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-black/35" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#667eea] to-[#764ba2]" />
+            <div className="absolute inset-0 bg-black/20" />
             <div className="relative flex h-full min-h-[320px] flex-col justify-end p-8 text-white md:p-10">
               <p className="max-w-[14ch] text-[36px] font-semibold leading-10 tracking-[-0.03em]">
-                Let’s work together & build something great together.
+                Let's work together & build something great together.
               </p>
               <Link
                 href="/about"
@@ -185,7 +180,7 @@ export const MagazineHomePage = ({
             <h2 className="text-[36px] font-semibold leading-tight tracking-[-0.03em]">
               Sign Up for Our Newsletters
             </h2>
-            <p className="mt-3 text-[#8a8a8a]">We’ll send you nice letter once per week. No spam.</p>
+            <p className="mt-3 text-[#8a8a8a]">We'll send you nice letter once per week. No spam.</p>
             <SubscribeForm />
           </div>
         </div>

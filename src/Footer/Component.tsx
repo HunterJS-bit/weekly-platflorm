@@ -6,7 +6,6 @@ import { getPayload } from 'payload'
 import React from 'react'
 
 import { MagazineLogo } from '@/components/Magazine/Logo'
-import { defaultCategories } from '@/components/Magazine/demoPosts'
 import { CMSLink } from '@/components/Link'
 
 const XIcon = () => (
@@ -22,24 +21,17 @@ export async function Footer() {
   const socialLinks = footerData?.socialLinks || {}
 
   let footerCategories: { title: string; slug: string }[] = []
-  try {
-    const payload = await getPayload({ config: configPromise })
-    const result = await payload.find({
-      collection: 'categories',
-      limit: 6,
-      overrideAccess: false,
-      sort: 'title',
-    })
-    if (result.docs.length) {
-      footerCategories = result.docs.map((category) => ({
-        title: category.title,
-        slug: category.slug,
-      }))
-    }
-  } catch {
-    footerCategories = defaultCategories.slice(0, 6).map((title) => ({
-      title,
-      slug: title.toLowerCase().replace(/\s+/g, '-'),
+  const payload = await getPayload({ config: configPromise })
+  const result = await payload.find({
+    collection: 'categories',
+    limit: 6,
+    overrideAccess: false,
+    sort: 'title',
+  })
+  if (result.docs.length) {
+    footerCategories = result.docs.map((category) => ({
+      title: category.title,
+      slug: category.slug,
     }))
   }
 
