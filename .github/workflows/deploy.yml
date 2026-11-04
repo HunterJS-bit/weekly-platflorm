@@ -102,6 +102,43 @@ jobs:
     if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
 
     steps:
+      - name: Validate Required Secrets
+        run: |
+          REQUIRED_SECRETS=(
+            "DATABASE_URL"
+            "PAYLOAD_SECRET"
+            "CRON_SECRET"
+            "PREVIEW_SECRET"
+            "NEXT_PUBLIC_SERVER_URL"
+          )
+          OPTIONAL_SECRETS=(
+            "R2_ACCESS_KEY_ID"
+            "R2_SECRET_ACCESS_KEY"
+            "R2_BUCKET_NAME"
+            "R2_ENDPOINT"
+            "R2_PUBLIC_URL"
+          )
+          
+          MISSING=()
+          for secret in "${REQUIRED_SECRETS[@]}"; do
+            if [ -z "${!secret}" ]; then
+              MISSING+=("$secret")
+            fi
+          done
+          
+          if [ ${#MISSING[@]} -gt 0 ]; then
+            echo "❌ Missing required secrets: ${MISSING[*]}"
+            exit 1
+          fi
+          
+          echo "✅ All required secrets are set"
+          
+          for secret in "${OPTIONAL_SECRETS[@]}"; do
+            if [ -z "${!secret}" ]; then
+              echo "⚠️  Optional secret not set: $secret (will use fallback)"
+            fi
+          done
+
       - name: Update Environment Variables in Dokploy
         env:
           DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
@@ -116,7 +153,7 @@ jobs:
               -H "Content-Type: application/json" \
               -d "{
                 \"applicationId\": \"$DOKPLOY_APP_ID\",
-                \"env\": \"\nNODE_ENV=production\nDATABASE_URL=${{ secrets.DATABASE_URL }}\nPAYLOAD_SECRET=${{ secrets.PAYLOAD_SECRET }}\nCRON_SECRET=${{ secrets.CRON_SECRET }}\nPREVIEW_SECRET=${{ secrets.PREVIEW_SECRET }}\nNEXT_PUBLIC_SERVER_URL=${{ secrets.NEXT_PUBLIC_SERVER_URL }}\"
+                \"env\": \"\nNODE_ENV=production\nDATABASE_URL=${{ secrets.DATABASE_URL }}\nPAYLOAD_SECRET=${{ secrets.PAYLOAD_SECRET }}\nCRON_SECRET=${{ secrets.CRON_SECRET }}\nPREVIEW_SECRET=${{ secrets.PREVIEW_SECRET }}\nNEXT_PUBLIC_SERVER_URL=${{ secrets.NEXT_PUBLIC_SERVER_URL }}\nR2_ACCESS_KEY_ID=${{ secrets.R2_ACCESS_KEY_ID }}\nR2_SECRET_ACCESS_KEY=${{ secrets.R2_SECRET_ACCESS_KEY }}\nR2_BUCKET_NAME=${{ secrets.R2_BUCKET_NAME }}\nR2_ENDPOINT=${{ secrets.R2_ENDPOINT }}\nR2_PUBLIC_URL=${{ secrets.R2_PUBLIC_URL }}\"
               }"
           else
             echo "Error: DOKPLOY_URL, DOKPLOY_API_KEY, or DOKPLOY_APP_ID not configured"
