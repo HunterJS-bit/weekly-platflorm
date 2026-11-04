@@ -1,5 +1,3 @@
-import { MagazineHomePage } from '@/components/Magazine/HomePage'
-import { defaultCategories } from '@/components/Magazine/demoPosts'
 import { buildMagazineFeed } from '@/components/Magazine/fromCms'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'

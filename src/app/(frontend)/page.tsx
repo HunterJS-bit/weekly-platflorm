@@ -1,5 +1,4 @@
 import { MagazineHomePage } from '@/components/Magazine/HomePage'
-import { defaultCategories } from '@/components/Magazine/demoPosts'
 import { buildMagazineFeed } from '@/components/Magazine/fromCms'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
@@ -27,9 +26,7 @@ export default async function HomePage() {
   ])
 
   const feed = buildMagazineFeed(posts.docs)
-  const tags = categories.docs.length
-    ? categories.docs.map((category) => category.title)
-    : defaultCategories
+  const tags = categories.docs.map((category) => category.title)
 
   return <MagazineHomePage posts={feed} tags={tags} />
 }
