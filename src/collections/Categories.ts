@@ -6,14 +6,11 @@ import { slugField } from 'payload'
 
 export const Categories: CollectionConfig = {
   slug: 'categories',
-  access: {
-    create: authenticated,
-    delete: authenticated,
-    read: anyone,
-    update: authenticated,
-  },
   admin: {
     useAsTitle: 'title',
+  },
+  access: {
+    read: () => true,
   },
   fields: [
     {
@@ -22,14 +19,27 @@ export const Categories: CollectionConfig = {
       required: true,
     },
     {
+      name: 'titleSr',
+      type: 'text',
+      label: 'Title (Serbian)',
+      admin: {
+        description: 'Serbian translation of the category title',
+      },
+    },
+    {
       name: 'description',
       type: 'textarea',
+    },
+    {
+      name: 'descriptionSr',
+      type: 'textarea',
+      label: 'Description (Serbian)',
       admin: {
-        description: 'Short description shown on the category page',
+        description: 'Serbian translation of the category description',
       },
     },
     slugField({
-      position: undefined,
+      position: 'sidebar',
     }),
   ],
 }
