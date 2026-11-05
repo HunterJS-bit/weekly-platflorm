@@ -1,5 +1,16 @@
+import createMiddleware from 'next-intl/middleware'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { locales, defaultLocale, localePrefix } from './i18n/config'
+
+const intlMiddleware = createMiddleware({
+  locales,
+  defaultLocale,
+  localePrefix,
+  // The public site is Serbian-only for now. Without this, a browser that
+  // prefers English would be redirected to /en on the unprefixed homepage.
+  localeDetection: false,
+})
 
 // Simple in-memory rate limiter
 // For production, consider using Redis or a dedicated rate limiting service
@@ -29,8 +40,24 @@ function getIdentifier(request: NextRequest): string {
 }
 
 export function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl
+
+  // Locale routing only applies to the frontend. Payload's admin panel and
+  // API routes must never be locale-prefixed.
+  if (!pathname.startsWith('/api') && !pathname.startsWith('/admin')) {
+    // Serbian is the only public locale, so never serve the English-prefixed
+    // routes even if someone navigates to them directly.
+    if (pathname === '/en' || pathname.startsWith('/en/')) {
+      const url = request.nextUrl.clone()
+      url.pathname = pathname.replace(/^\/en(?=\/|$)/, '') || '/'
+      return NextResponse.redirect(url, 308)
+    }
+
+    return intlMiddleware(request)
+  }
+
   // Only rate limit API routes
-  if (!request.nextUrl.pathname.startsWith('/api')) {
+  if (!pathname.startsWith('/api')) {
     return NextResponse.next()
   }
 
@@ -95,5 +122,5 @@ setInterval(() => {
 }, RATE_LIMIT_WINDOW)
 
 export const config = {
-  matcher: '/api/:path*',
+  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)', '/api/:path*'],
 }
