@@ -1,8 +1,12 @@
+'use client'
+
 import { Clock, MessageSquare } from 'lucide-react'
-import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import React from 'react'
 
-import type { MagazinePost } from './types'
+import { Link } from '@/i18n/navigation'
+
+import type { MagazineCategory, MagazinePost } from './types'
 
 export const MetaRow = ({
   post,
@@ -13,13 +17,14 @@ export const MetaRow = ({
   className?: string
   light?: boolean
 }) => {
+  const t = useTranslations('post')
   const tone = light ? 'text-white/80' : 'text-[#8a8a8a]'
   const accent = light ? 'text-white' : 'text-[#111] dark:text-white'
 
   return (
     <div className={`flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] ${tone} ${className}`}>
       <span>
-        by{' '}
+        {t('by')}{' '}
         <Link href={post.authorHref || post.href} className={`${accent} hover:underline`}>
           {post.author}
         </Link>
@@ -44,7 +49,7 @@ export const CategoryPills = ({
   categories,
   className = '',
 }: {
-  categories: string[]
+  categories: MagazineCategory[]
   className?: string
 }) => {
   if (!categories.length) return null
@@ -53,11 +58,15 @@ export const CategoryPills = ({
     <div className={`flex flex-wrap gap-2 ${className}`}>
       {categories.map((category) => (
         <Link
-          key={category}
-          href={`/search?q=${encodeURIComponent(category)}`}
+          key={category.slug || category.title}
+          href={
+            category.slug
+              ? `/category/${category.slug}`
+              : `/search?q=${encodeURIComponent(category.title)}`
+          }
           className="rounded-full bg-[#ececec] px-3 py-1 text-[11px] font-medium tracking-[0.12em] uppercase text-[#666] hover:bg-[#e0e0e0] dark:bg-white/10 dark:text-white/70"
         >
-          {category}
+          {category.title}
         </Link>
       ))}
     </div>
