@@ -1,0 +1,200 @@
+{
+  "common": {
+    "readMore": "Pročitaj više",
+    "backToHome": "Nazad na početnu",
+    "search": "Pretraga",
+    "searchPlaceholder": "Pretraži članke...",
+    "loading": "Učitavanje...",
+    "noResults": "Nema rezultata",
+    "viewAll": "Prikaži sve",
+    "home": "Početna",
+    "previous": "Prethodna",
+    "next": "Sledeća",
+    "breadcrumb": "Putanja",
+    "noImage": "Bez slike",
+    "untitledCategory": "Neimenovana kategorija",
+    "morePages": "Još stranica",
+    "taglineTop": "Minimalistički",
+    "taglineBottom": "magazin"
+  },
+  "nav": {
+    "home": "Početna",
+    "about": "O nama",
+    "contact": "Kontakt",
+    "posts": "Članci",
+    "categories": "Kategorije",
+    "tagline": "Minimalistički blog magazin",
+    "openMenu": "Otvori meni",
+    "closeMenu": "Zatvori meni",
+    "menuLabel": "Glavni meni"
+  },
+  "footer": {
+    "description": "Dobrodošli u Weekly. Mesto za ideje, priče i savete koji probude radoznalost. Bilo da ste ovde da naučite, dobijete inspiraciju ili uživate u dobrom čitanju, na pravom ste mestu.",
+    "categories": "Kategorije",
+    "howToFindUs": "Kako da nas nađete",
+    "address": "27 Division St, Njujork, NY\n10002, Sjedinjene Američke Države",
+    "newsletter": "Prijavite se za naš bilten",
+    "newsletterDesc": "Poslaćemo vam lepo pismo jednom nedeljno. Bez spama.",
+    "getInTouch": "Kontaktirajte nas",
+    "getInTouchDesc": "Hajde da radimo zajedno i gradimo nešto sjajno.",
+    "copyright": "© {year} — Weekly. Sva prava zadržana."
+  },
+  "home": {
+    "featuredPosts": "Istaknuti članci",
+    "trendingPosts": "Trending članci",
+    "popularPosts": "Popularni članci",
+    "recentPosts": "Najnoviji članci",
+    "popularTags": "Popularne oznake",
+    "newsletterTitle": "Prijavite se za naš bilten",
+    "newsletterDesc": "Poslaćemo vam lepo pismo jednom nedeljno. Bez spama.",
+    "ctaTitle": "Hajde da radimo zajedno i izgradimo nešto sjajno.",
+    "getInTouch": "Kontaktirajte nas",
+    "previousSlide": "Prethodni slajd",
+    "nextSlide": "Sledeći slajd",
+    "hero": {
+      "latestStories": "Najnovije priče",
+      "readMore": "Pročitaj više"
+    }
+  },
+  "newsletter": {
+    "emailPlaceholder": "Unesite vaš email",
+    "subscribe": "Prijavite se",
+    "terms": "Potvrđujem da sam pročitao/la i da se slažem sa uslovima korišćenja u vezi sa čuvanjem podataka poslatih putem ovog formulara.",
+    "thanks": "Hvala — na listi ste."
+  },
+  "category": {
+    "title": "Kategorija",
+    "label": "Kategorija",
+    "notFound": "Kategorija nije pronađena",
+    "noPosts": "Još uvek nema članaka u ovoj kategoriji.",
+    "pagination": {
+      "previous": "Prethodna",
+      "next": "Sledeća"
+    }
+  },
+  "posts": {
+    "title": "Članci",
+    "postSingular": "članak",
+    "postPlural": "članaka",
+    "showing": "Prikazano {start} - {end} od {total} {label}",
+    "showingFrom": "Prikazano od {start} do {end} od {total} {label}",
+    "noResults": "Pretraga nije dala rezultate."
+  },
+  "post": {
+    "by": "od",
+    "readTime": "min čitanja",
+    "relatedPosts": "Srodni članci",
+    "comments": "Komentari",
+    "commentsWithCount": "Komentari ({count})",
+    "share": "Podeli",
+    "author": "Autor",
+    "datePublished": "Datum objave",
+    "shareThoughts": "Podelite svoje mišljenje...",
+    "posting": "Objavljivanje...",
+    "postComment": "Objavi komentar",
+    "signIn": "prijavite se",
+    "signInPrompt": "Komentarisanje je dostupno prijavljenim korisnicima. Naloge kreira urednički tim.",
+    "noComments": "Još uvek nema komentara. Budite prvi!",
+    "loginRequired": "Prijavite se da biste komentarisali",
+    "postFailed": "Slanje komentara nije uspelo"
+  },
+  "search": {
+    "title": "Pretraga",
+    "label": "Pretraga",
+    "placeholder": "Pretraži članke...",
+    "submit": "Pretraži",
+    "noResults": "Nema rezultata."
+  },
+  "author": {
+    "label": "Autor",
+    "notFound": "Autor nije pronađen",
+    "storiesBy": "Priče autora {name}",
+    "storyCount": "{count, plural, one {# priča} few {# priče} other {# priča}}",
+    "noStories": "{name} još uvek nije objavio priče. Vratite se uskoro.",
+    "readMore": "Pročitaj više",
+    "website": "Veb sajt"
+  },
+  "about": {
+    "title": "O Weekly platformi",
+    "description": "Saznajte više o našoj misiji i timu.",
+    "intro": "Dobrodošli na Weekly platformu, prostor koji zajednica gradi za deljenje ideja, priča i znanja.",
+    "missionTitle": "Naša misija",
+    "mission": "Verujemo da svako ima priču koju vredi ispričati. Naša platforma pruža jednostavan i elegantan prostor piscima, misliocima i stvaraocima da podele svoje ideje sa svetom.",
+    "offerTitle": "Šta nudimo",
+    "offerItems": {
+      "reading": "Čisto iskustvo čitanja bez odvraćanja pažnje",
+      "community": "Uključivanje zajednice kroz komentare i diskusije",
+      "categories": "Kategorije koje vam pomažu da otkrijete sadržaj koji volite",
+      "writers": "Platforma za afirmisane i nove pisce"
+    },
+    "joinTitle": "Pridružite se zajednici",
+    "join": "Bilo da ste ovde da čitate, pišete ili učestvujete u diskusijama, biće nam drago da budete deo priče. Prijavite se danas i započnite svoje putovanje sa nama.",
+    "getInTouch": "Kontaktirajte nas",
+    "browseArticles": "Pregledajte članke"
+  },
+  "contact": {
+    "title": "Kontaktirajte nas",
+    "description": "Imate pitanje ili želite da radite zajedno? Pošaljite nam poruku.",
+    "metadataTitle": "Kontakt — Weekly",
+    "metadataDescription": "Stupite u kontakt sa timom Weekly. Rado ćemo vas saslušati.",
+    "home": "Početna",
+    "emailAddress": "Email adresa",
+    "address": "27 Division St, Njujork, NY\n10002, Sjedinjene Američke Države",
+    "howToFindUs": "Kako da nas nađete",
+    "phoneNumber": "Telefonski broj",
+    "social": "Društvene mreže",
+    "getInTouch": "Stupite u kontakt",
+    "formTitle": "Pišite nam",
+    "formDescription": "Imate ideju za priču, pitanje ili samo želite da nas pozdravite? Popunite formular i odgovorićemo vam što pre.",
+    "formUnavailable": "Formular za kontakt trenutno nije dostupan. Pišite nam na {email}.",
+    "latestPosts": "Najnoviji članci",
+    "viewAll": "Prikaži sve",
+    "imageAlt": "Mirno radno okruženje sa laptopom i kafom",
+    "name": "Ime",
+    "fullName": "Ime i prezime",
+    "namePlaceholder": "Vaše ime",
+    "email": "Email",
+    "emailPlaceholder": "vi@primer.com",
+    "phone": "Telefon",
+    "optional": "(opciono)",
+    "phonePlaceholder": "Vaš broj telefona",
+    "message": "Poruka",
+    "messagePlaceholder": "Recite nam šta vas zanima…",
+    "send": "Pošalji poruku",
+    "sending": "Šalje se…",
+    "successTitle": "Hvala što ste nam se javili.",
+    "successDescription": "Primili smo vašu poruku i odgovorićemo vam uskoro.",
+    "sendAnother": "Pošalji još jednu poruku",
+    "genericError": "Nešto je pošlo naopako. Pokušajte ponovo."
+  },
+  "adminBar": {
+    "dashboard": "Kontrolna tabla",
+    "pagesPlural": "Stranice",
+    "pageSingular": "Stranica",
+    "postsPlural": "Članci",
+    "postSingular": "Članak",
+    "projectsPlural": "Projekti",
+    "projectSingular": "Projekat"
+  },
+  "register": {
+    "metadataTitle": "Nalozi — Weekly",
+    "metadataDescription": "Naloge na Weekly platformi kreira urednički tim.",
+    "title": "Nalozi su po pozivu",
+    "description": "Javna registracija je zatvorena. Ako vam je potreban nalog, kontaktirajte urednički tim i administrator će ga kreirati.",
+    "contact": "Kontaktirajte tim",
+    "signIn": "Prijavite se"
+  },
+  "error": {
+    "404": {
+      "title": "404",
+      "description": "Stranica koju tražite ne postoji ili je premeštena. Hajde da vas vratimo na pravi put.",
+      "backToHome": "Nazad na početnu"
+    },
+    "500": {
+      "title": "500",
+      "description": "Nešto je pošlo po zlu na našoj strani. Obavešteni smo i radimo na tome da to popravimo.",
+      "tryAgain": "Pokušaj ponovo",
+      "backToHome": "Nazad na početnu"
+    }
+  }
+}

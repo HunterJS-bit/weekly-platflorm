@@ -1,0 +1,200 @@
+{
+  "common": {
+    "readMore": "Read more",
+    "backToHome": "Back to Home",
+    "search": "Search",
+    "searchPlaceholder": "Search articles...",
+    "loading": "Loading...",
+    "noResults": "No results found",
+    "viewAll": "View all",
+    "home": "Home",
+    "previous": "Previous",
+    "next": "Next",
+    "breadcrumb": "Breadcrumb",
+    "noImage": "No image",
+    "untitledCategory": "Untitled category",
+    "morePages": "More pages",
+    "taglineTop": "Minimal blog",
+    "taglineBottom": "magazine"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "posts": "Posts",
+    "categories": "Categories",
+    "tagline": "Minimal blog magazine",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "menuLabel": "Main menu"
+  },
+  "footer": {
+    "description": "Welcome to Weekly. A place for ideas, stories, and tips that spark curiosity. Whether you're here to learn, get inspired, or just enjoy a good read, you're in the right place.",
+    "categories": "Categories",
+    "howToFindUs": "How to find us",
+    "address": "27 Division St, New York, NY\n10002, United States",
+    "newsletter": "Sign Up for Our Newsletter",
+    "newsletterDesc": "We'll send you nice letter once per week. No spam.",
+    "getInTouch": "Get in Touch",
+    "getInTouchDesc": "Let's work together & build something great together.",
+    "copyright": "© {year} — Weekly. All rights reserved."
+  },
+  "home": {
+    "featuredPosts": "Featured posts",
+    "trendingPosts": "Trending posts",
+    "popularPosts": "Popular posts",
+    "recentPosts": "Recent posts",
+    "popularTags": "Popular tags",
+    "newsletterTitle": "Sign Up for Our Newsletter",
+    "newsletterDesc": "We'll send you nice letter once per week. No spam.",
+    "ctaTitle": "Let's work together & build something great together.",
+    "getInTouch": "Get in Touch",
+    "previousSlide": "Previous slide",
+    "nextSlide": "Next slide",
+    "hero": {
+      "latestStories": "Latest Stories",
+      "readMore": "Read More"
+    }
+  },
+  "newsletter": {
+    "emailPlaceholder": "Enter Your Email",
+    "subscribe": "Subscribe",
+    "terms": "By checking this box, you confirm that you have read and are agreeing to our terms of use regarding the storage of the data submitted through this form.",
+    "thanks": "Thanks — you're on the list."
+  },
+  "category": {
+    "title": "Category",
+    "label": "Category",
+    "notFound": "Category not found",
+    "noPosts": "No posts found in this category yet.",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next"
+    }
+  },
+  "posts": {
+    "title": "Posts",
+    "postSingular": "post",
+    "postPlural": "posts",
+    "showing": "Showing {start} - {end} of {total} {label}",
+    "showingFrom": "Showing from {start} to {end} of {total} {label}",
+    "noResults": "Search produced no results."
+  },
+  "post": {
+    "by": "by",
+    "readTime": "min read",
+    "relatedPosts": "Related Posts",
+    "comments": "Comments",
+    "commentsWithCount": "Comments ({count})",
+    "share": "Share",
+    "author": "Author",
+    "datePublished": "Date Published",
+    "shareThoughts": "Share your thoughts...",
+    "posting": "Posting...",
+    "postComment": "Post Comment",
+    "signIn": "sign in",
+    "signInPrompt": "Commenting is available to signed-in users. Accounts are created by the editorial team.",
+    "noComments": "No comments yet. Be the first to comment!",
+    "loginRequired": "Please log in to comment",
+    "postFailed": "Failed to post comment"
+  },
+  "search": {
+    "title": "Search",
+    "label": "Search",
+    "placeholder": "Search articles...",
+    "submit": "Search",
+    "noResults": "No results found."
+  },
+  "author": {
+    "label": "Author",
+    "notFound": "Author not found",
+    "storiesBy": "Stories by {name}",
+    "storyCount": "{count, plural, one {# story} other {# stories}}",
+    "noStories": "{name} hasn't published any stories yet. Check back soon.",
+    "readMore": "Read more",
+    "website": "Website"
+  },
+  "about": {
+    "title": "About Weekly Platform",
+    "description": "Learn more about our mission and team.",
+    "intro": "Welcome to Weekly Platform, a community-driven space for sharing ideas, stories, and knowledge.",
+    "missionTitle": "Our Mission",
+    "mission": "We believe everyone has a story worth telling. Our platform provides a simple, elegant space for writers, thinkers, and creators to share their thoughts with the world.",
+    "offerTitle": "What We Offer",
+    "offerItems": {
+      "reading": "A clean, distraction-free reading experience",
+      "community": "Community engagement through comments and discussions",
+      "categories": "Categories to help you discover content you love",
+      "writers": "A platform for both established and emerging writers"
+    },
+    "joinTitle": "Join Our Community",
+    "join": "Whether you're here to read, write, or engage in discussions, we'd love to have you. Sign up today to start your journey with us.",
+    "getInTouch": "Get in Touch",
+    "browseArticles": "Browse Articles"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "description": "Have a question or want to work together? Send us a message.",
+    "metadataTitle": "Contact Us — Weekly",
+    "metadataDescription": "Get in touch with the Weekly team. We'd love to hear from you.",
+    "home": "Home",
+    "emailAddress": "Email Address",
+    "address": "27 Division St, New York, NY\n10002, United States",
+    "howToFindUs": "How to find us",
+    "phoneNumber": "Phone Number",
+    "social": "Social",
+    "getInTouch": "Get in touch",
+    "formTitle": "Drop Us a Line",
+    "formDescription": "Have a story idea, a question, or just want to say hello? Fill in the form and we'll get back to you as soon as we can.",
+    "formUnavailable": "The contact form isn't available right now. Please email us at {email}.",
+    "latestPosts": "Latest Posts",
+    "viewAll": "View all",
+    "imageAlt": "A calm workspace with a laptop and coffee",
+    "name": "Name",
+    "fullName": "Full Name",
+    "namePlaceholder": "Your name",
+    "email": "Email",
+    "emailPlaceholder": "you@example.com",
+    "phone": "Phone",
+    "optional": "(optional)",
+    "phonePlaceholder": "Your phone number",
+    "message": "Message",
+    "messagePlaceholder": "Tell us what's on your mind…",
+    "send": "Send Message",
+    "sending": "Sending…",
+    "successTitle": "Thanks for reaching out.",
+    "successDescription": "We've received your message and will get back to you soon.",
+    "sendAnother": "Send another message",
+    "genericError": "Something went wrong. Please try again."
+  },
+  "adminBar": {
+    "dashboard": "Dashboard",
+    "pagesPlural": "Pages",
+    "pageSingular": "Page",
+    "postsPlural": "Posts",
+    "postSingular": "Post",
+    "projectsPlural": "Projects",
+    "projectSingular": "Project"
+  },
+  "register": {
+    "metadataTitle": "Accounts — Weekly",
+    "metadataDescription": "Accounts on Weekly are created by the editorial team.",
+    "title": "Accounts are by invite",
+    "description": "Public registration is closed. If you need an account, please contact the editorial team and an administrator will create one for you.",
+    "contact": "Contact the team",
+    "signIn": "Sign in"
+  },
+  "error": {
+    "404": {
+      "title": "404",
+      "description": "The page you're looking for doesn't exist or has been moved. Let's get you back on track.",
+      "backToHome": "Back to Home"
+    },
+    "500": {
+      "title": "500",
+      "description": "Something went wrong on our end. We've been notified and are working to fix it.",
+      "tryAgain": "Try Again",
+      "backToHome": "Back to Home"
+    }
+  }
+}
