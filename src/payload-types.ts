@@ -414,9 +414,14 @@ export interface Category {
   id: number;
   title: string;
   /**
-   * Short description shown on the category page
+   * Serbian translation of the category title
    */
+  titleSr?: string | null;
   description?: string | null;
+  /**
+   * Serbian translation of the category description
+   */
+  descriptionSr?: string | null;
   /**
    * When enabled, the slug will auto-generate from the title field on save and autosave.
    */
@@ -1429,7 +1434,9 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface CategoriesSelect<T extends boolean = true> {
   title?: T;
+  titleSr?: T;
   description?: T;
+  descriptionSr?: T;
   generateSlug?: T;
   slug?: T;
   parent?: T;
