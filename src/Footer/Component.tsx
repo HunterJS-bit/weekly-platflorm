@@ -1,12 +1,13 @@
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import configPromise from '@payload-config'
 import { Facebook, Instagram, Linkedin, Youtube } from 'lucide-react'
-import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { getPayload } from 'payload'
 import React from 'react'
 
 import { MagazineLogo } from '@/components/Magazine/Logo'
-import { CMSLink } from '@/components/Link'
+import { Link } from '@/i18n/navigation'
+import { localizeCategoryTitle } from '@/utilities/localizeCategory'
 
 const XIcon = () => (
   <svg viewBox="0 0 24 24" className="size-4 fill-current" aria-hidden="true">
@@ -14,13 +15,13 @@ const XIcon = () => (
   </svg>
 )
 
-export async function Footer() {
+export async function Footer({ locale = 'sr' }: { locale?: string }) {
+  const t = await getTranslations('footer')
   const footerData = await getCachedGlobal('footer', 1)()
-  const navItems = footerData?.navItems || []
-  const description = footerData?.description || 'Welcome to Weekly. A place for ideas, stories, and tips that spark curiosity. Whether you\'re here to learn, get inspired, or just enjoy a good read, you\'re in the right place.'
+  const description = footerData?.description || t('description')
   const socialLinks = footerData?.socialLinks || {}
 
-  let footerCategories: { title: string; slug: string }[] = []
+  let footerCategories: { title: string; titleSr?: string | null; slug: string }[] = []
   const payload = await getPayload({ config: configPromise })
   const result = await payload.find({
     collection: 'categories',
@@ -31,6 +32,7 @@ export async function Footer() {
   if (result.docs.length) {
     footerCategories = result.docs.map((category) => ({
       title: category.title,
+      titleSr: category.titleSr,
       slug: category.slug,
     }))
   }
@@ -73,34 +75,27 @@ export async function Footer() {
         </div>
 
         <div>
-          <h3 className="mb-5 text-lg font-semibold">Categories</h3>
+          <h3 className="mb-5 text-lg font-semibold">{t('categories')}</h3>
           <nav className="flex flex-col gap-3 text-[#555] dark:text-white/70">
             {footerCategories.map((category) => (
               <Link key={category.slug} href={`/category/${category.slug}`}>
-                {category.title}
+                {localizeCategoryTitle(category, locale)}
               </Link>
-            ))}
-            {navItems.map(({ link }, index) => (
-              <CMSLink key={index} {...link} />
             ))}
           </nav>
         </div>
 
         <div>
-          <h3 className="mb-5 text-lg font-semibold">How to find us</h3>
+          <h3 className="mb-5 text-lg font-semibold">{t('howToFindUs')}</h3>
           <div className="flex flex-col gap-4 text-[#555] dark:text-white/70">
-            <p>
-              27 Division St, New York, NY
-              <br />
-              10002, United States
-            </p>
+            <p className="whitespace-pre-line">{t('address')}</p>
             <a href="mailto:hello@mysite.com">hello@mysite.com</a>
             <a href="tel:88002345234">8 800 2345 234</a>
           </div>
         </div>
       </div>
       <div className="magazine-wrap border-t border-[#e8e8e8] py-6 text-center text-sm text-[#8a8a8a] dark:border-white/10">
-        © {new Date().getFullYear()} — Weekly. All Rights Reserved.
+        {t('copyright', { year: new Date().getFullYear() })}
       </div>
     </footer>
   )

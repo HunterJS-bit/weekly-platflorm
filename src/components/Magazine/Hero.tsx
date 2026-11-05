@@ -1,13 +1,16 @@
 'use client'
 
 import { ArrowLeft, ArrowRight } from 'lucide-react'
-import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import React, { useState } from 'react'
+
+import { Link } from '@/i18n/navigation'
 
 import { CategoryPills, MetaRow } from './MetaRow'
 import type { MagazinePost } from './types'
 
 export const Hero = ({ posts }: { posts: MagazinePost[] }) => {
+  const t = useTranslations('home')
   const slides = posts.slice(0, 4)
   const [index, setIndex] = useState(0)
   const post = slides[index] || slides[0]
@@ -32,7 +35,7 @@ export const Hero = ({ posts }: { posts: MagazinePost[] }) => {
         <div className="mt-8 flex gap-3">
           <button
             type="button"
-            aria-label="Previous slide"
+            aria-label={t('previousSlide')}
             onClick={() => go(-1)}
             className="flex size-11 items-center justify-center rounded-full border border-[#e2e2e2] text-[#444] hover:bg-white dark:border-white/20 dark:text-white"
           >
@@ -40,7 +43,7 @@ export const Hero = ({ posts }: { posts: MagazinePost[] }) => {
           </button>
           <button
             type="button"
-            aria-label="Next slide"
+            aria-label={t('nextSlide')}
             onClick={() => go(1)}
             className="flex size-11 items-center justify-center rounded-full border border-[#e2e2e2] text-[#444] hover:bg-white dark:border-white/20 dark:text-white"
           >

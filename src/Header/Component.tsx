@@ -1,28 +1,26 @@
 import { HeaderClient } from './Component.client'
 import { getCachedGlobal } from '@/utilities/getGlobals'
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
 import React from 'react'
 
-export async function Header() {
+import { MagazineLogo } from '@/components/Magazine/Logo'
+import { MagazineMenu } from '@/components/Magazine/Menu'
+import type { Header } from '@/payload-types'
+
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
+
+export async function Header({ locale = 'sr' }: { locale?: string }) {
   const headerData = await getCachedGlobal('header', 1)()
 
-  let categories: { title: string; slug?: string | null }[] = []
-  try {
-    const payload = await getPayload({ config: configPromise })
-    const result = await payload.find({
-      collection: 'categories',
-      limit: 12,
-      overrideAccess: false,
-      sort: 'title',
-    })
-    categories = result.docs.map((category) => ({
-      title: category.title,
-      slug: category.slug,
-    }))
-  } catch {
-    categories = []
-  }
+  const payload = await getPayload({ config: configPromise })
 
-  return <HeaderClient categories={categories} data={headerData} />
+  const categories = await payload.find({
+    collection: 'categories',
+    draft: false,
+    limit: 12,
+    overrideAccess: false,
+    sort: 'title',
+  })
+
+  return <HeaderClient categories={categories.docs} data={headerData} locale={locale} />
 }

@@ -1,12 +1,14 @@
 import { MessageSquare } from 'lucide-react'
-import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import React from 'react'
+
+import { Link } from '@/i18n/navigation'
 
 import { Carousel } from './Carousel'
 import { Hero } from './Hero'
 import { CategoryPills, MetaRow } from './MetaRow'
 import { SubscribeForm } from './Subscribe'
-import type { MagazinePost } from './types'
+import type { MagazineCategory, MagazinePost } from './types'
 
 const SectionTitle = ({ children }: { children: React.ReactNode }) => (
   <h2 className="mb-6 text-[28px] font-semibold tracking-[-0.02em] text-[#111] dark:text-white">
@@ -26,13 +28,15 @@ const FeaturedCard = ({ post, widthClass }: { post: MagazinePost; widthClass: st
   </article>
 )
 
-export const MagazineHomePage = ({
+export const MagazineHomePage = async ({
   posts,
   tags,
 }: {
   posts: MagazinePost[]
-  tags: string[]
+  tags: MagazineCategory[]
 }) => {
+  const t = await getTranslations('home')
+  const tPost = await getTranslations('post')
   const featured = posts.slice(1, 5)
   const trending = posts.slice(5, 8)
   const highlight = posts[8] || posts[0]
@@ -49,7 +53,7 @@ export const MagazineHomePage = ({
       </div>
 
       <section className="magazine-wrap py-12">
-        <SectionTitle>Featured posts</SectionTitle>
+        <SectionTitle>{t('featuredPosts')}</SectionTitle>
         <Carousel>
           {featured.map((post) => (
             <FeaturedCard key={post.id} post={post} widthClass="w-[320px] md:w-[370px]" />
@@ -58,7 +62,7 @@ export const MagazineHomePage = ({
       </section>
 
       <section className="magazine-wrap pb-12">
-        <SectionTitle>Trending posts</SectionTitle>
+        <SectionTitle>{t('trendingPosts')}</SectionTitle>
         <Carousel>
           {trending.map((post) => (
             <FeaturedCard key={post.id} post={post} widthClass="w-[420px] md:w-[580px]" />
@@ -83,7 +87,7 @@ export const MagazineHomePage = ({
 
       <section className="magazine-wrap grid gap-12 pb-8 lg:grid-cols-[1.15fr_0.85fr]">
         <div>
-          <SectionTitle>Popular posts</SectionTitle>
+          <SectionTitle>{t('popularPosts')}</SectionTitle>
           <div className="flex flex-col gap-12">
             {popular.map((post) => (
               <article key={post.id} className="grid gap-6 sm:grid-cols-[220px_1fr]">
@@ -110,7 +114,9 @@ export const MagazineHomePage = ({
               <div className="relative flex h-full min-h-[280px] flex-col justify-end p-6 text-white">
                 <h3 className="text-[26px] font-semibold leading-8">{overlay.title}</h3>
                 <div className="mt-3 flex flex-wrap items-center gap-2 text-[13px] text-white/80">
-                  <span>by {overlay.author}</span>
+                  <span>
+                    {tPost('by')} {overlay.author}
+                  </span>
                   <span>•</span>
                   <span>{overlay.date}</span>
                   <span>•</span>
@@ -124,7 +130,7 @@ export const MagazineHomePage = ({
           ) : null}
 
           <div>
-            <SectionTitle>Recent posts</SectionTitle>
+            <SectionTitle>{t('recentPosts')}</SectionTitle>
             <div className="flex flex-col gap-6">
               {recent.map((post) => (
                 <article key={post.id} className="grid grid-cols-[84px_1fr] gap-4">
@@ -143,15 +149,19 @@ export const MagazineHomePage = ({
           </div>
 
           <div>
-            <SectionTitle>Popular tags</SectionTitle>
+            <SectionTitle>{t('popularTags')}</SectionTitle>
             <div className="flex flex-wrap gap-2">
               {tags.map((tag) => (
                 <Link
-                  key={tag}
-                  href={`/search?q=${encodeURIComponent(tag)}`}
+                  key={tag.slug || tag.title}
+                  href={
+                    tag.slug
+                      ? `/category/${tag.slug}`
+                      : `/search?q=${encodeURIComponent(tag.title)}`
+                  }
                   className="rounded-full bg-[#ececec] px-3 py-1.5 text-[11px] tracking-[0.14em] uppercase text-[#666] hover:bg-[#e0e0e0] dark:bg-white/10 dark:text-white/70"
                 >
-                  {tag}
+                  {tag.title}
                 </Link>
               ))}
             </div>
@@ -166,21 +176,21 @@ export const MagazineHomePage = ({
             <div className="absolute inset-0 bg-black/20" />
             <div className="relative flex h-full min-h-[320px] flex-col justify-end p-8 text-white md:p-10">
               <p className="max-w-[14ch] text-[36px] font-semibold leading-10 tracking-[-0.03em]">
-                Let's work together & build something great together.
+                {t('ctaTitle')}
               </p>
               <Link
                 href="/about"
                 className="mt-6 inline-flex w-fit rounded-full bg-white px-5 py-2 text-sm text-[#111]"
               >
-                Get in Touch
+                {t('getInTouch')}
               </Link>
             </div>
           </div>
           <div className="flex flex-col justify-center p-8 md:p-12">
             <h2 className="text-[36px] font-semibold leading-tight tracking-[-0.03em]">
-              Sign Up for Our Newsletters
+              {t('newsletterTitle')}
             </h2>
-            <p className="mt-3 text-[#8a8a8a]">We'll send you nice letter once per week. No spam.</p>
+            <p className="mt-3 text-[#8a8a8a]">{t('newsletterDesc')}</p>
             <SubscribeForm />
           </div>
         </div>

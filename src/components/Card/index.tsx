@@ -1,12 +1,14 @@
 'use client'
 import { cn } from '@/utilities/ui'
 import useClickableCard from '@/utilities/useClickableCard'
-import Link from 'next/link'
+import { useLocale, useTranslations } from 'next-intl'
 import React, { Fragment } from 'react'
 
 import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
+import { Link } from '@/i18n/navigation'
+import { localizeCategoryTitle } from '@/utilities/localizeCategory'
 
 export type CardPostData = Pick<Post, 'slug' | 'categories' | 'meta' | 'title'>
 
@@ -18,6 +20,8 @@ export const Card: React.FC<{
   showCategories?: boolean
   title?: string
 }> = (props) => {
+  const t = useTranslations('common')
+  const locale = useLocale()
   const { card, link } = useClickableCard({})
   const { className, doc, relationTo, showCategories, title: titleFromProps } = props
 
@@ -38,7 +42,7 @@ export const Card: React.FC<{
       ref={card.ref}
     >
       <div className="relative w-full ">
-        {!metaImage && <div className="">No image</div>}
+        {!metaImage && <div className="">{t('noImage')}</div>}
         {metaImage && typeof metaImage !== 'string' && <Media resource={metaImage} size="33vw" />}
       </div>
       <div className="p-4">
@@ -46,9 +50,8 @@ export const Card: React.FC<{
           <div className="uppercase text-sm mb-4">
             {categories?.map((category, index) => {
               if (typeof category === 'object') {
-                const { title: titleFromCategory } = category
-
-                const categoryTitle = titleFromCategory || 'Untitled category'
+                const categoryTitle =
+                  localizeCategoryTitle(category, locale) || t('untitledCategory')
 
                 const isLast = index === categories.length - 1
 

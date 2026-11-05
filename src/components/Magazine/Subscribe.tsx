@@ -1,8 +1,10 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import React, { useState } from 'react'
 
 export const SubscribeForm = () => {
+  const t = useTranslations('newsletter')
   const [submitted, setSubmitted] = useState(false)
 
   return (
@@ -18,22 +20,23 @@ export const SubscribeForm = () => {
           required
           type="email"
           name="email"
-          placeholder="Enter Your Email"
+          placeholder={t('emailPlaceholder')}
           className="min-w-0 flex-1 bg-transparent px-5 py-3 text-sm outline-none"
         />
         <button
           type="submit"
           className="rounded-full bg-[#111] px-6 py-3 text-[11px] font-semibold tracking-[0.16em] text-white uppercase"
         >
-          Subscribe
+          {t('subscribe')}
         </button>
       </div>
       <label className="mt-4 flex items-start gap-2 text-[12px] leading-5 text-[#8a8a8a]">
         <input type="checkbox" required className="mt-1" />
-        By checking this box, you confirm that you have read and are agreeing to our terms of use
-        regarding the storage of the data submitted through this form.
+        {t('terms')}
       </label>
-      {submitted ? <p className="mt-3 text-sm text-[#111] dark:text-white">Thanks — you’re on the list.</p> : null}
+      {submitted ? (
+        <p className="mt-3 text-sm text-[#111] dark:text-white">{t('thanks')}</p>
+      ) : null}
     </form>
   )
 }

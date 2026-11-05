@@ -1,18 +1,24 @@
-import { formatDateTime } from 'src/utilities/formatDateTime'
+import { getTranslations } from 'next-intl/server'
 import React from 'react'
 
 import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
 import { formatAuthors } from '@/utilities/formatAuthors'
+import { localizeCategoryTitle } from '@/utilities/localizeCategory'
 
 export const PostHero: React.FC<{
   post: Post
-}> = ({ post }) => {
+  locale?: string
+}> = async ({ post, locale = 'sr' }) => {
+  const t = await getTranslations('post')
+  const tCommon = await getTranslations('common')
   const { categories, heroImage, populatedAuthors, publishedAt, title } = post
 
   const hasAuthors =
-    populatedAuthors && populatedAuthors.length > 0 && formatAuthors(populatedAuthors) !== ''
+    populatedAuthors &&
+    populatedAuthors.length > 0 &&
+    formatAuthors(populatedAuthors, locale) !== ''
 
   return (
     <div className="relative -mt-[10.4rem] flex items-end">
@@ -21,9 +27,8 @@ export const PostHero: React.FC<{
           <div className="uppercase text-sm mb-6">
             {categories?.map((category, index) => {
               if (typeof category === 'object' && category !== null) {
-                const { title: categoryTitle } = category
-
-                const titleToUse = categoryTitle || 'Untitled category'
+                const titleToUse =
+                  localizeCategoryTitle(category, locale) || tCommon('untitledCategory')
 
                 const isLast = index === categories.length - 1
 
@@ -46,17 +51,22 @@ export const PostHero: React.FC<{
             {hasAuthors && (
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1">
-                  <p className="text-sm">Author</p>
+                  <p className="text-sm">{t('author')}</p>
 
-                  <p>{formatAuthors(populatedAuthors)}</p>
+                  <p>{formatAuthors(populatedAuthors, locale)}</p>
                 </div>
               </div>
             )}
             {publishedAt && (
               <div className="flex flex-col gap-1">
-                <p className="text-sm">Date Published</p>
+                <p className="text-sm">{t('datePublished')}</p>
 
-                <time dateTime={publishedAt}>{formatDateTime(publishedAt)}</time>
+                <time dateTime={publishedAt}>
+                  {new Date(publishedAt).toLocaleDateString(
+                    locale === 'sr' ? 'sr-Latn-RS' : 'en-US',
+                    { month: 'long', day: 'numeric', year: 'numeric' },
+                  )}
+                </time>
               </div>
             )}
           </div>

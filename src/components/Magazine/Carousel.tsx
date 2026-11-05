@@ -1,8 +1,10 @@
 'use client'
 
 import { ArrowLeft, ArrowRight } from 'lucide-react'
-import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import React, { useRef } from 'react'
+
+import { Link } from '@/i18n/navigation'
 
 export const Carousel = ({
   children,
@@ -11,6 +13,7 @@ export const Carousel = ({
   children: React.ReactNode
   viewAllHref?: string
 }) => {
+  const t = useTranslations('common')
   const scroller = useRef<HTMLDivElement>(null)
 
   const scrollByCard = (direction: number) => {
@@ -37,7 +40,7 @@ export const Carousel = ({
         <div className="h-px flex-1 bg-[#e8e8e8] dark:bg-white/10" />
         <button
           type="button"
-          aria-label="Previous"
+          aria-label={t('previous')}
           onClick={() => scrollByCard(-1)}
           className="flex size-10 items-center justify-center rounded-full border border-[#e2e2e2] text-[#444] hover:bg-white dark:border-white/20 dark:text-white"
         >
@@ -45,7 +48,7 @@ export const Carousel = ({
         </button>
         <button
           type="button"
-          aria-label="Next"
+          aria-label={t('next')}
           onClick={() => scrollByCard(1)}
           className="flex size-10 items-center justify-center rounded-full border border-[#e2e2e2] text-[#444] hover:bg-white dark:border-white/20 dark:text-white"
         >
@@ -55,7 +58,7 @@ export const Carousel = ({
           href={viewAllHref}
           className="rounded-full border border-[#e2e2e2] px-4 py-2 text-sm text-[#333] hover:bg-white dark:border-white/20 dark:text-white"
         >
-          View all
+          {t('viewAll')}
         </Link>
       </div>
     </div>

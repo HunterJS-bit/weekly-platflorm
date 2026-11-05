@@ -1,20 +1,9 @@
+import { getTranslations } from 'next-intl/server'
 import React from 'react'
-
-const defaultLabels = {
-  plural: 'Docs',
-  singular: 'Doc',
-}
-
-const defaultCollectionLabels = {
-  posts: {
-    plural: 'Posts',
-    singular: 'Post',
-  },
-}
 
 export const PageRange: React.FC<{
   className?: string
-  collection?: keyof typeof defaultCollectionLabels
+  collection?: 'posts'
   collectionLabels?: {
     plural?: string
     singular?: string
@@ -22,15 +11,9 @@ export const PageRange: React.FC<{
   currentPage?: number
   limit?: number
   totalDocs?: number
-}> = (props) => {
-  const {
-    className,
-    collection,
-    collectionLabels: collectionLabelsFromProps,
-    currentPage,
-    limit,
-    totalDocs,
-  } = props
+}> = async (props) => {
+  const { className, currentPage, limit, totalDocs } = props
+  const t = await getTranslations('posts')
 
   let indexStart = (currentPage ? currentPage - 1 : 1) * (limit || 1) + 1
   if (totalDocs && indexStart > totalDocs) indexStart = 0
@@ -38,20 +21,21 @@ export const PageRange: React.FC<{
   let indexEnd = (currentPage || 1) * (limit || 1)
   if (totalDocs && indexEnd > totalDocs) indexEnd = totalDocs
 
-  const { plural, singular } =
-    collectionLabelsFromProps ||
-    (collection ? defaultCollectionLabels[collection] : undefined) ||
-    defaultLabels ||
-    {}
+  if (typeof totalDocs === 'undefined' || totalDocs === 0) {
+    return (
+      <div className={[className, 'font-semibold'].filter(Boolean).join(' ')}>
+        {t('noResults')}
+      </div>
+    )
+  }
+
+  const label = totalDocs > 1 ? t('postPlural') : t('postSingular')
 
   return (
     <div className={[className, 'font-semibold'].filter(Boolean).join(' ')}>
-      {(typeof totalDocs === 'undefined' || totalDocs === 0) && 'Search produced no results.'}
-      {typeof totalDocs !== 'undefined' &&
-        totalDocs > 0 &&
-        `Showing ${indexStart}${indexStart > 0 ? ` - ${indexEnd}` : ''} of ${totalDocs} ${
-          totalDocs > 1 ? plural : singular
-        }`}
+      {indexStart > 0
+        ? t('showing', { start: indexStart, end: indexEnd, total: totalDocs, label })
+        : t('showingFrom', { start: indexStart, end: indexEnd, total: totalDocs, label })}
     </div>
   )
 }

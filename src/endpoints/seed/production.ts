@@ -47,33 +47,47 @@ const mediaFiles: Record<
 const categories: RequiredDataFromCollectionSlug<'categories'>[] = [
   {
     title: 'Technology',
+    titleSr: 'Tehnologija',
     slug: 'technology',
     description: 'The tools, platforms and ideas shaping how we live and work.',
+    descriptionSr:
+      'Alati, platforme i ideje koje oblikuju način na koji živimo i radimo.',
   },
   {
     title: 'News',
+    titleSr: 'Vesti',
     slug: 'news',
     description: 'The stories and events worth paying attention to this week.',
+    descriptionSr: 'Priče i događaji na koje vredi obratiti pažnju ove nedelje.',
   },
   {
     title: 'Finance',
+    titleSr: 'Finansije',
     slug: 'finance',
     description: 'Practical money thinking, markets and the economy explained.',
+    descriptionSr: 'Praktično razmišljanje o novcu, tržištima i ekonomiji.',
   },
   {
     title: 'Design',
+    titleSr: 'Dizajn',
     slug: 'design',
     description: 'Craft, typography and the details that make good products feel right.',
+    descriptionSr:
+      'Zanat, tipografija i detalji zbog kojih dobri proizvodi deluju ispravno.',
   },
   {
     title: 'Software',
+    titleSr: 'Softver',
     slug: 'software',
     description: 'Engineering notes, developer workflows and things we are building.',
+    descriptionSr: 'Inženjerske beleške, razvojni tokovi i stvari koje gradimo.',
   },
   {
     title: 'Engineering',
+    titleSr: 'Inženjering',
     slug: 'engineering',
     description: 'Deep dives into systems, architecture and technical decisions.',
+    descriptionSr: 'Detaljni uvidi u sisteme, arhitekturu i tehničke odluke.',
   },
 ]
 
