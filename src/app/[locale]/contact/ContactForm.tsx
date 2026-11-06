@@ -9,7 +9,7 @@ const inputClass =
 
 const labelClass = 'mb-1 block text-[11px] tracking-[0.16em] uppercase text-[#999]'
 
-export const ContactForm = ({ formID }: { formID: number }) => {
+export const ContactForm = () => {
   const t = useTranslations('contact')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [error, setError] = useState('')
@@ -19,27 +19,33 @@ export const ContactForm = ({ formID }: { formID: number }) => {
 
     const form = event.currentTarget
     const data = new FormData(form)
-    const submissionData = ['full-name', 'email', 'phone', 'message']
-      .map((field) => ({ field, value: String(data.get(field) ?? '') }))
-      .filter(({ value }) => value.trim().length > 0)
+    
+    const name = String(data.get('name') ?? '')
+    const email = String(data.get('email') ?? '')
+    const message = String(data.get('message') ?? '')
+    const honeypot = String(data.get('website') ?? '') // Honeypot field
 
     setStatus('loading')
     setError('')
 
     try {
-      const response = await fetch('/api/form-submissions', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          form: formID,
-          submissionData,
+          name,
+          email,
+          message,
+          honeypot,
         }),
       })
 
+      const result = await response.json()
+
       if (!response.ok) {
-        throw new Error(t('genericError'))
+        throw new Error(result.error || t('genericError'))
       }
 
       form.reset()
@@ -69,15 +75,24 @@ export const ContactForm = ({ formID }: { formID: number }) => {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-7">
+      {/* Honeypot field - hidden from users but visible to bots */}
+      <input
+        type="text"
+        name="website"
+        className="hidden"
+        tabIndex={-1}
+        autoComplete="off"
+      />
+
       <div className="grid gap-7 sm:grid-cols-2">
         <div>
-          <label htmlFor="full-name" className={labelClass}>
+          <label htmlFor="name" className={labelClass}>
             {t('fullName')}
           </label>
           <input
             required
-            id="full-name"
-            name="full-name"
+            id="name"
+            name="name"
             type="text"
             autoComplete="name"
             placeholder={t('namePlaceholder')}
@@ -98,21 +113,6 @@ export const ContactForm = ({ formID }: { formID: number }) => {
             className={inputClass}
           />
         </div>
-      </div>
-
-      <div>
-        <label htmlFor="phone" className={labelClass}>
-          {t('phone')}{' '}
-          <span className="normal-case tracking-normal text-[#b3b3b3]">{t('optional')}</span>
-        </label>
-        <input
-          id="phone"
-          name="phone"
-          type="tel"
-          autoComplete="tel"
-          placeholder={t('phonePlaceholder')}
-          className={inputClass}
-        />
       </div>
 
       <div>
