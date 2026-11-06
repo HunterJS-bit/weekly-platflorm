@@ -195,6 +195,28 @@ export const MagazineHomePage = async ({
           </div>
         </div>
       </section>
+
+      {/* Writers CTA Section */}
+      <section className="magazine-wrap py-16">
+        <div className="rounded-2xl bg-gradient-to-br from-[#f0f4ff] to-[#e8f0fe] p-8 md:p-12 dark:from-[#1a1a2e] dark:to-[#16213e]">
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="text-[32px] font-semibold leading-tight tracking-[-0.03em] md:text-[40px]">
+              {t('writersTitle')}
+            </h2>
+            <p className="mt-4 text-[16px] leading-7 text-[#666] dark:text-white/70">
+              {t('writersDescription')}
+            </p>
+            <div className="mt-8 flex flex-wrap justify-center gap-4">
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 rounded-full bg-[#111] px-6 py-3 text-sm font-medium text-white transition hover:bg-black dark:bg-white dark:text-[#111] dark:hover:bg-white/90"
+              >
+                {t('writersCta')}
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
