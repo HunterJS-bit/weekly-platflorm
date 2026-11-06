@@ -40,28 +40,15 @@ export default async function ContactPage({
   const tCommon = await getTranslations('common')
   const payload = await getPayload({ config: configPromise })
 
-  const [formResult, postsResult] = await Promise.all([
-    payload.find({
-      collection: 'forms',
-      where: {
-        title: {
-          equals: 'Contact Form',
-        },
-      },
-      limit: 1,
-      depth: 0,
-    }),
-    payload.find({
-      collection: 'posts',
-      draft: false,
-      limit: 3,
-      overrideAccess: false,
-      sort: '-publishedAt',
-      depth: 2,
-    }),
-  ])
+  const postsResult = await payload.find({
+    collection: 'posts',
+    draft: false,
+    limit: 3,
+    overrideAccess: false,
+    sort: '-publishedAt',
+    depth: 2,
+  })
 
-  const contactForm = formResult.docs[0]
   const latestPosts = postsResult.docs.map((post, index) => mapCmsPost(post, index, locale))
 
   return (
@@ -169,13 +156,7 @@ export default async function ContactPage({
           </div>
 
           <div>
-            {contactForm ? (
-              <ContactForm formID={contactForm.id} />
-            ) : (
-              <p className="text-[16px] leading-7 text-[#8d8d8d]">
-                {t('formUnavailable', { email: CONTACT_EMAIL })}
-              </p>
-            )}
+            <ContactForm />
           </div>
         </div>
       </section>
