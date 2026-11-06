@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
 import { Comments } from './collections/Comments'
+import { ContactMessages } from './collections/ContactMessages'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
@@ -70,7 +71,7 @@ export default buildConfig({
     // database. Safe to leave enabled: already-applied migrations are skipped.
     prodMigrations: migrations,
   }),
-  collections: [Pages, Tags, Posts, Media, Categories, Users, Comments],
+  collections: [Pages, Tags, Posts, Media, Categories, Users, Comments, ContactMessages],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [
