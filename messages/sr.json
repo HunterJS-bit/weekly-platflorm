@@ -54,7 +54,10 @@
     "hero": {
       "latestStories": "Najnovije priče",
       "readMore": "Pročitaj više"
-    }
+    },
+    "writersTitle": "Pišete? Želimo da vas čujemo",
+    "writersDescription": "Pišete tekstove ili članke koje želite da predstavite široj publici? Pošaljite nam svoj rad — odabrane tekstove objavićemo na našem sajtu",
+    "writersCta": "Pošaljite članak"
   },
   "newsletter": {
     "emailPlaceholder": "Unesite vaš email",

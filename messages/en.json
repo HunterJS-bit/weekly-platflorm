@@ -54,7 +54,10 @@
     "hero": {
       "latestStories": "Latest Stories",
       "readMore": "Read More"
-    }
+    },
+    "writersTitle": "Do you write? We want to hear from you.",
+    "writersDescription": "Do you write texts or articles that you would like to share with a wider audience? Send us your work — we will publish selected pieces on our website.",
+    "writersCta": "Submit an article"
   },
   "newsletter": {
     "emailPlaceholder": "Enter Your Email",
