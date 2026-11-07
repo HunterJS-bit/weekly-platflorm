@@ -12,7 +12,17 @@ module.exports = {
     policies: [
       {
         userAgent: '*',
-        disallow: '/admin/*',
+        allow: ['/', '/api/media/'],
+        disallow: [
+          '/admin',
+          '/admin/*',
+          '/api',
+          '/api/*',
+          '/next',
+          '/next/*',
+          '/search',
+          '/register',
+        ],
       },
     ],
     additionalSitemaps: [`${SITE_URL}/pages-sitemap.xml`, `${SITE_URL}/posts-sitemap.xml`],
