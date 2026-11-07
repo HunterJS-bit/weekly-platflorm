@@ -67,6 +67,7 @@
   },
   "category": {
     "title": "Category",
+    "metadataDescription": "Articles from the {title} category on Weekly.",
     "label": "Category",
     "notFound": "Category not found",
     "noPosts": "No posts found in this category yet.",
@@ -77,6 +78,7 @@
   },
   "posts": {
     "title": "Posts",
+    "metadataDescription": "Browse the latest articles, stories and ideas from the Weekly newsroom.",
     "postSingular": "post",
     "postPlural": "posts",
     "showing": "Showing {start} - {end} of {total} {label}",
@@ -103,6 +105,7 @@
   },
   "search": {
     "title": "Search",
+    "metadataDescription": "Search articles, topics and stories on Weekly.",
     "label": "Search",
     "placeholder": "Search articles...",
     "submit": "Search",
@@ -110,6 +113,7 @@
   },
   "author": {
     "label": "Author",
+    "metadataDescription": "Stories by {name} on Weekly.",
     "notFound": "Author not found",
     "storiesBy": "Stories by {name}",
     "storyCount": "{count, plural, one {# story} other {# stories}}",

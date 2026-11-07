@@ -67,6 +67,7 @@
   },
   "category": {
     "title": "Kategorija",
+    "metadataDescription": "Članci iz kategorije {title} na Weekly platformi.",
     "label": "Kategorija",
     "notFound": "Kategorija nije pronađena",
     "noPosts": "Još uvek nema članaka u ovoj kategoriji.",
@@ -77,6 +78,7 @@
   },
   "posts": {
     "title": "Članci",
+    "metadataDescription": "Pregledajte najnovije članke, priče i ideje iz redakcije Weekly.",
     "postSingular": "članak",
     "postPlural": "članaka",
     "showing": "Prikazano {start} - {end} od {total} {label}",
@@ -103,6 +105,7 @@
   },
   "search": {
     "title": "Pretraga",
+    "metadataDescription": "Pretražite članke, teme i priče na Weekly platformi.",
     "label": "Pretraga",
     "placeholder": "Pretraži članke...",
     "submit": "Pretraži",
@@ -110,6 +113,7 @@
   },
   "author": {
     "label": "Autor",
+    "metadataDescription": "Priče autora {name} na Weekly platformi.",
     "notFound": "Autor nije pronađen",
     "storiesBy": "Priče autora {name}",
     "storyCount": "{count, plural, one {# priča} few {# priče} other {# priča}}",
