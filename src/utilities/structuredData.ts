@@ -82,6 +82,7 @@ export const articleJsonLd = ({
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     '@id': `${url}#article`,
+    url,
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': url,

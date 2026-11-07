@@ -1,17 +1,45 @@
+import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import React from 'react'
 
+import { JsonLd } from '@/components/JsonLd'
 import { Link } from '@/i18n/navigation'
+import { buildSeoMetadata } from '@/utilities/seo'
+import { breadcrumbJsonLd, webPageJsonLd } from '@/utilities/structuredData'
 
 // The shared layout reads header/footer data from the CMS, so keep this route
 // dynamic to avoid a database connection during `next build`.
 export const dynamic = 'force-dynamic'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('about')
+
+  return buildSeoMetadata({
+    title: t('title'),
+    description: t('description'),
+    path: '/about',
+  })
+}
 
 export default async function AboutPage() {
   const t = await getTranslations('about')
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <JsonLd
+        data={[
+          webPageJsonLd({
+            title: t('title'),
+            description: t('description'),
+            path: '/about',
+            type: 'AboutPage',
+          }),
+          breadcrumbJsonLd([
+            { name: 'Početna', path: '/' },
+            { name: t('title'), path: '/about' },
+          ]),
+        ]}
+      />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <h1 className="text-4xl font-bold text-gray-900 mb-8">{t('title')}</h1>
 

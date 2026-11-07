@@ -1,6 +1,7 @@
 'use client'
 
 import { ArrowLeft, ArrowRight } from 'lucide-react'
+import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import React, { useState } from 'react'
 
@@ -51,8 +52,15 @@ export const Hero = ({ posts }: { posts: MagazinePost[] }) => {
           </button>
         </div>
       </div>
-      <Link href={post.href} className="block overflow-hidden">
-        <img src={post.image} alt={post.imageAlt} className="h-[420px] w-full object-cover md:h-[520px]" />
+      <Link href={post.href} className="relative block h-[420px] overflow-hidden md:h-[520px]">
+        <Image
+          src={post.image}
+          alt={post.imageAlt}
+          fill
+          priority
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          className="object-cover"
+        />
       </Link>
     </section>
   )

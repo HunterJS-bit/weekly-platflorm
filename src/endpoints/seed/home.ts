@@ -47,7 +47,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
                   format: 0,
                   mode: 'normal',
                   style: '',
-                  text: 'Weekly',
+                  text: 'FrontLine',
                   version: 1,
                 },
               ],
@@ -668,7 +668,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
     meta: {
       description: 'Ideje, priče i saveti koji probude radoznalost.',
       image: heroImage.id,
-      title: 'Weekly',
+      title: 'FrontLine',
     },
     title: 'Home',
   }

@@ -29,7 +29,7 @@
     "menuLabel": "Main menu"
   },
   "footer": {
-    "description": "Welcome to Weekly. A place for ideas, stories, and tips that spark curiosity. Whether you're here to learn, get inspired, or just enjoy a good read, you're in the right place.",
+    "description": "Welcome to FrontLine. A place for ideas, stories, and tips that spark curiosity. Whether you're here to learn, get inspired, or just enjoy a good read, you're in the right place.",
     "categories": "Categories",
     "howToFindUs": "How to find us",
     "address": "27 Division St, New York, NY\n10002, United States",
@@ -37,7 +37,7 @@
     "newsletterDesc": "We'll send you nice letter once per week. No spam.",
     "getInTouch": "Get in Touch",
     "getInTouchDesc": "Let's work together & build something great together.",
-    "copyright": "© {year} — Weekly. All rights reserved."
+    "copyright": "© {year} — FrontLine. All rights reserved."
   },
   "home": {
     "featuredPosts": "Featured posts",
@@ -67,7 +67,7 @@
   },
   "category": {
     "title": "Category",
-    "metadataDescription": "Articles from the {title} category on Weekly.",
+    "metadataDescription": "Articles from the {title} category on FrontLine.",
     "label": "Category",
     "notFound": "Category not found",
     "noPosts": "No posts found in this category yet.",
@@ -78,7 +78,7 @@
   },
   "posts": {
     "title": "Posts",
-    "metadataDescription": "Browse the latest articles, stories and ideas from the Weekly newsroom.",
+    "metadataDescription": "Browse the latest articles, stories and ideas from the FrontLine newsroom.",
     "postSingular": "post",
     "postPlural": "posts",
     "showing": "Showing {start} - {end} of {total} {label}",
@@ -105,7 +105,7 @@
   },
   "search": {
     "title": "Search",
-    "metadataDescription": "Search articles, topics and stories on Weekly.",
+    "metadataDescription": "Search articles, topics and stories on FrontLine.",
     "label": "Search",
     "placeholder": "Search articles...",
     "submit": "Search",
@@ -113,7 +113,7 @@
   },
   "author": {
     "label": "Author",
-    "metadataDescription": "Stories by {name} on Weekly.",
+    "metadataDescription": "Stories by {name} on FrontLine.",
     "notFound": "Author not found",
     "storiesBy": "Stories by {name}",
     "storyCount": "{count, plural, one {# story} other {# stories}}",
@@ -122,9 +122,9 @@
     "website": "Website"
   },
   "about": {
-    "title": "About Weekly Platform",
+    "title": "About FrontLine Platform",
     "description": "Learn more about our mission and team.",
-    "intro": "Welcome to Weekly Platform, a community-driven space for sharing ideas, stories, and knowledge.",
+    "intro": "Welcome to FrontLine Platform, a community-driven space for sharing ideas, stories, and knowledge.",
     "missionTitle": "Our Mission",
     "mission": "We believe everyone has a story worth telling. Our platform provides a simple, elegant space for writers, thinkers, and creators to share their thoughts with the world.",
     "offerTitle": "What We Offer",
@@ -142,8 +142,8 @@
   "contact": {
     "title": "Contact Us",
     "description": "Have a question or want to work together? Send us a message.",
-    "metadataTitle": "Contact Us — Weekly",
-    "metadataDescription": "Get in touch with the Weekly team. We'd love to hear from you.",
+    "metadataTitle": "Contact Us",
+    "metadataDescription": "Get in touch with the FrontLine team. We'd love to hear from you.",
     "home": "Home",
     "emailAddress": "Email Address",
     "address": "27 Division St, New York, NY\n10002, United States",
@@ -184,8 +184,8 @@
     "projectSingular": "Project"
   },
   "register": {
-    "metadataTitle": "Accounts — Weekly",
-    "metadataDescription": "Accounts on Weekly are created by the editorial team.",
+    "metadataTitle": "Accounts",
+    "metadataDescription": "Accounts on FrontLine are created by the editorial team.",
     "title": "Accounts are by invite",
     "description": "Public registration is closed. If you need an account, please contact the editorial team and an administrator will create one for you.",
     "contact": "Contact the team",

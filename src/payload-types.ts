@@ -293,7 +293,10 @@ export interface Post {
  */
 export interface Media {
   id: number;
-  alt?: string | null;
+  /**
+   * Describe the image for screen readers and search engines. Required for accessibility and SEO.
+   */
+  alt: string;
   caption?: {
     root: {
       type: string;
@@ -309,8 +312,6 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
-  prefix?: string | null;
-  _objectKey?: string | null;
   folder?: (number | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
@@ -424,6 +425,14 @@ export interface Category {
    * Serbian translation of the category description
    */
   descriptionSr?: string | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
   /**
    * When enabled, the slug will auto-generate from the title field on save and autosave.
    */
@@ -517,6 +526,14 @@ export interface User {
     x?: string | null;
     instagram?: string | null;
     linkedin?: string | null;
+  };
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -1363,8 +1380,6 @@ export interface PostsSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   caption?: T;
-  prefix?: T;
-  _objectKey?: T;
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1461,6 +1476,13 @@ export interface CategoriesSelect<T extends boolean = true> {
   titleSr?: T;
   description?: T;
   descriptionSr?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
   generateSlug?: T;
   slug?: T;
   parent?: T;
@@ -1493,6 +1515,13 @@ export interface UsersSelect<T extends boolean = true> {
         x?: T;
         instagram?: T;
         linkedin?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
       };
   updatedAt?: T;
   createdAt?: T;

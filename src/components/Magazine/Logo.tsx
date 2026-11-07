@@ -13,7 +13,7 @@ export const MagazineLogo = ({
   return (
     <Link href="/" className={`flex items-center gap-4 min-w-0 ${className}`}>
       <span className="font-serif text-[42px] leading-none tracking-tight text-[#111] dark:text-white lowercase">
-        weekly.
+        FrontLine
       </span>
       {tagline ? (
         <>

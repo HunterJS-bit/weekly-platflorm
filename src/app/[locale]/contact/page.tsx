@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { Facebook, Instagram, Linkedin, Mail, Twitter, Youtube } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import configPromise from '@payload-config'
@@ -6,17 +7,21 @@ import { getPayload } from 'payload'
 
 import { mapCmsPost } from '@/components/Magazine/fromCms'
 import { MetaRow } from '@/components/Magazine/MetaRow'
+import { JsonLd } from '@/components/JsonLd'
 import { Link } from '@/i18n/navigation'
+import { buildSeoMetadata } from '@/utilities/seo'
+import { breadcrumbJsonLd, webPageJsonLd } from '@/utilities/structuredData'
 
 import { ContactForm } from './ContactForm'
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('contact')
 
-  return {
+  return buildSeoMetadata({
     title: t('metadataTitle'),
     description: t('metadataDescription'),
-  }
+    path: '/contact',
+  })
 }
 
 const CONTACT_EMAIL = 'hello@mysite.com'
@@ -53,6 +58,20 @@ export default async function ContactPage({
 
   return (
     <div className="min-h-screen bg-[#f9f9f9] text-[#111] dark:bg-[#111] dark:text-white">
+      <JsonLd
+        data={[
+          webPageJsonLd({
+            title: t('title'),
+            description: t('metadataDescription'),
+            path: '/contact',
+            type: 'ContactPage',
+          }),
+          breadcrumbJsonLd([
+            { name: tCommon('home'), path: '/' },
+            { name: t('title'), path: '/contact' },
+          ]),
+        ]}
+      />
       <div className="magazine-wrap pt-10">
         <nav
           aria-label={tCommon('breadcrumb')}
@@ -73,9 +92,12 @@ export default async function ContactPage({
       </header>
 
       <div className="magazine-wrap pb-12">
-        <img
+        <Image
           src="/media/image-hero1-1400x788.webp"
           alt={t('imageAlt')}
+          width={1400}
+          height={788}
+          sizes="100vw"
           className="h-[240px] w-full object-cover md:h-[400px]"
         />
       </div>
@@ -177,11 +199,13 @@ export default async function ContactPage({
           <div className="grid gap-10 md:grid-cols-3">
             {latestPosts.map((post) => (
               <article key={post.id} className="flex flex-col gap-4">
-                <Link href={post.href} className="block overflow-hidden">
-                  <img
+                <Link href={post.href} className="relative block h-[220px] overflow-hidden">
+                  <Image
                     src={post.image}
                     alt={post.imageAlt}
-                    className="h-[220px] w-full object-cover transition-transform duration-500 hover:scale-[1.03]"
+                    fill
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="object-cover transition-transform duration-500 hover:scale-[1.03]"
                   />
                 </Link>
                 <h3 className="text-[22px] font-semibold leading-7 tracking-[-0.02em]">

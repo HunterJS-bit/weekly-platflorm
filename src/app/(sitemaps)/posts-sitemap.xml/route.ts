@@ -1,23 +1,33 @@
-import { getServerSideSitemap } from 'next-sitemap'
+import { getServerSideSitemap, type ISitemapField } from 'next-sitemap'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
 
+import { getMediaURL } from '@/utilities/seo'
+import { getServerSideURL } from '@/utilities/getURL'
+
 export const dynamic = 'force-dynamic'
 
+type CachedEntry = {
+  loc: string
+  lastmod: string
+  image?: {
+    url: string
+    alt?: string
+  }
+}
+
 const getPostsSitemap = unstable_cache(
-  async () => {
+  async (): Promise<CachedEntry[]> => {
     const payload = await getPayload({ config })
-    const SITE_URL =
-      process.env.NEXT_PUBLIC_SERVER_URL ||
-      process.env.VERCEL_PROJECT_PRODUCTION_URL ||
-      'https://example.com'
+    const SITE_URL = getServerSideURL().replace(/\/$/, '')
+    const dateFallback = new Date().toISOString()
 
     const results = await payload.find({
       collection: 'posts',
       overrideAccess: false,
       draft: false,
-      depth: 0,
+      depth: 1,
       limit: 1000,
       pagination: false,
       where: {
@@ -25,24 +35,33 @@ const getPostsSitemap = unstable_cache(
           equals: 'published',
         },
       },
-      select: {
-        slug: true,
-        updatedAt: true,
-      },
     })
 
-    const dateFallback = new Date().toISOString()
+    return results.docs
+      .filter((post) => Boolean(post?.slug))
+      .map((post) => {
+        const image =
+          post.meta?.image && typeof post.meta.image === 'object'
+            ? post.meta.image
+            : post.heroImage && typeof post.heroImage === 'object'
+              ? post.heroImage
+              : null
 
-    const sitemap = results.docs
-      ? results.docs
-          .filter((post) => Boolean(post?.slug))
-          .map((post) => ({
-            loc: `${SITE_URL}/posts/${post?.slug}`,
-            lastmod: post.updatedAt || dateFallback,
-          }))
-      : []
+        const imageUrl = getMediaURL(image, 'og')
 
-    return sitemap
+        return {
+          loc: `${SITE_URL}/posts/${post.slug}`,
+          lastmod: post.updatedAt || dateFallback,
+          ...(imageUrl
+            ? {
+                image: {
+                  url: imageUrl,
+                  alt: image?.alt || undefined,
+                },
+              }
+            : {}),
+        }
+      })
   },
   ['posts-sitemap'],
   {
@@ -51,7 +70,25 @@ const getPostsSitemap = unstable_cache(
 )
 
 export async function GET() {
-  const sitemap = await getPostsSitemap()
+  const entries = await getPostsSitemap()
+
+  // URL objects are built outside the cache because `unstable_cache`
+  // serializes values and would flatten them.
+  const sitemap: ISitemapField[] = entries.map((entry) => ({
+    loc: entry.loc,
+    lastmod: entry.lastmod,
+    ...(entry.image
+      ? {
+          images: [
+            {
+              loc: new URL(entry.image.url),
+              title: entry.image.alt,
+              caption: entry.image.alt,
+            },
+          ],
+        }
+      : {}),
+  }))
 
   return getServerSideSitemap(sitemap)
 }

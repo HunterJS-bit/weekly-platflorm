@@ -136,7 +136,7 @@ export const MagazineMenu = ({
             >
               <div className="magazine-wrap flex items-start justify-between">
                 <div className="pointer-events-auto">
-                  <p className="font-serif text-4xl text-[#111] dark:text-white">weekly.</p>
+                  <p className="font-serif text-4xl text-[#111] dark:text-white">FrontLine</p>
                   <p className="mt-2 text-sm text-[#888]">{tNav('tagline')}</p>
                 </div>
                 <button

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { ArrowUpRight, Facebook, Globe, Instagram, Linkedin, Twitter } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
@@ -8,7 +9,10 @@ import { cache } from 'react'
 
 import { mapCmsPost } from '@/components/Magazine/fromCms'
 import { CategoryPills, MetaRow } from '@/components/Magazine/MetaRow'
+import { JsonLd } from '@/components/JsonLd'
 import { Link } from '@/i18n/navigation'
+import { buildSeoMetadata, getMediaURL } from '@/utilities/seo'
+import { authorJsonLd, breadcrumbJsonLd } from '@/utilities/structuredData'
 
 const queryAuthor = cache(async (slug: string) => {
   const payload = await getPayload({ config: configPromise })
@@ -54,21 +58,26 @@ type Args = {
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const t = await getTranslations('author')
-  const { slug = '' } = await paramsPromise
+  const { locale = 'sr', slug = '' } = await paramsPromise
   const author = await queryAuthor(slug)
 
   if (!author) {
-    return {
+    return buildSeoMetadata({
       title: t('notFound'),
-    }
+      path: `/author/${slug}`,
+      noindex: true,
+    })
   }
 
   const name = author.name || t('label')
 
-  return {
-    title: `${name} — Weekly`,
-    description: author.bio || undefined,
-  }
+  return buildSeoMetadata({
+    title: name,
+    description: author.bio || t('metadataDescription', { name }),
+    path: `/author/${slug}`,
+    image: getMediaURL(author.meta?.image, 'og') || getMediaURL(author.avatar, 'og'),
+    imageAlt: name,
+  })
 }
 
 export default async function AuthorPage({ params: paramsPromise }: Args) {
@@ -105,6 +114,15 @@ export default async function AuthorPage({ params: paramsPromise }: Args) {
 
   return (
     <div className="min-h-screen bg-[#f9f9f9] text-[#111] dark:bg-[#111] dark:text-white">
+      <JsonLd
+        data={[
+          authorJsonLd({ author, path: `/author/${slug}` }),
+          breadcrumbJsonLd([
+            { name: tCommon('home'), path: '/' },
+            { name, path: `/author/${slug}` },
+          ]),
+        ]}
+      />
       <div className="magazine-wrap pt-10">
         <nav
           aria-label={tCommon('breadcrumb')}
@@ -122,9 +140,12 @@ export default async function AuthorPage({ params: paramsPromise }: Args) {
       <header className="magazine-wrap py-12 md:py-16">
         <div className="flex flex-col items-start gap-8 md:flex-row md:items-center md:gap-12">
           {avatarURL ? (
-            <img
+            <Image
               src={avatarURL}
               alt={avatar?.alt || name}
+              width={184}
+              height={184}
+              sizes="184px"
               className="size-[160px] shrink-0 rounded-full object-cover md:size-[184px]"
             />
           ) : (
@@ -211,14 +232,16 @@ export default async function AuthorPage({ params: paramsPromise }: Args) {
 
                 <Link
                   href={post.href}
-                  className="order-first block overflow-hidden md:order-last"
+                  className="order-first relative block h-[220px] overflow-hidden md:order-last md:h-[210px]"
                   tabIndex={-1}
                   aria-hidden="true"
                 >
-                  <img
+                  <Image
                     src={post.image}
                     alt={post.imageAlt}
-                    className="h-[220px] w-full object-cover transition-transform duration-500 hover:scale-[1.03] md:h-[210px]"
+                    fill
+                    sizes="(min-width: 768px) 40vw, 100vw"
+                    className="object-cover transition-transform duration-500 hover:scale-[1.03]"
                   />
                 </Link>
               </article>

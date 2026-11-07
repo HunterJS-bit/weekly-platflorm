@@ -19,7 +19,7 @@ export const homeStatic: RequiredDataFromCollectionSlug<'pages'> = {
                 format: 0,
                 mode: 'normal',
                 style: '',
-                text: 'Weekly',
+                text: 'FrontLine',
                 version: 1,
               },
             ],
@@ -81,7 +81,7 @@ export const homeStatic: RequiredDataFromCollectionSlug<'pages'> = {
   },
   meta: {
     description: 'Ideje, priče i saveti koji probude radoznalost.',
-    title: 'Weekly',
+    title: 'FrontLine',
   },
   title: 'Home',
   layout: [],

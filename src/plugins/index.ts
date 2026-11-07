@@ -12,6 +12,7 @@ import { beforeSyncWithSearch } from '@/search/beforeSync'
 
 import { Page, Post, Category, User } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
+import { SITE_NAME } from '@/utilities/seo'
 
 type SeoDoc = Post | Page | Category | User
 
@@ -25,7 +26,7 @@ const getDocTitle = (doc: SeoDoc): string | undefined => {
 const generateTitle: GenerateTitle<SeoDoc> = ({ doc }) => {
   const title = doc ? getDocTitle(doc) : undefined
 
-  return title ? `${title} | Weekly` : 'Weekly'
+  return title ? `${title} | ${SITE_NAME}` : SITE_NAME
 }
 
 const generateURL: GenerateURL<SeoDoc> = ({ collectionConfig, doc }) => {

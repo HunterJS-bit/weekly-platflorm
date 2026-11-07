@@ -29,7 +29,7 @@
     "menuLabel": "Glavni meni"
   },
   "footer": {
-    "description": "Dobrodošli u Weekly. Mesto za ideje, priče i savete koji probude radoznalost. Bilo da ste ovde da naučite, dobijete inspiraciju ili uživate u dobrom čitanju, na pravom ste mestu.",
+    "description": "Dobrodošli u FrontLine. Mesto za ideje, priče i savete koji probude radoznalost. Bilo da ste ovde da naučite, dobijete inspiraciju ili uživate u dobrom čitanju, na pravom ste mestu.",
     "categories": "Kategorije",
     "howToFindUs": "Kako da nas nađete",
     "address": "27 Division St, Njujork, NY\n10002, Sjedinjene Američke Države",
@@ -37,7 +37,7 @@
     "newsletterDesc": "Poslaćemo vam lepo pismo jednom nedeljno. Bez spama.",
     "getInTouch": "Kontaktirajte nas",
     "getInTouchDesc": "Hajde da radimo zajedno i gradimo nešto sjajno.",
-    "copyright": "© {year} — Weekly. Sva prava zadržana."
+    "copyright": "© {year} — FrontLine. Sva prava zadržana."
   },
   "home": {
     "featuredPosts": "Istaknuti članci",
@@ -67,7 +67,7 @@
   },
   "category": {
     "title": "Kategorija",
-    "metadataDescription": "Članci iz kategorije {title} na Weekly platformi.",
+    "metadataDescription": "Članci iz kategorije {title} na FrontLine platformi.",
     "label": "Kategorija",
     "notFound": "Kategorija nije pronađena",
     "noPosts": "Još uvek nema članaka u ovoj kategoriji.",
@@ -78,7 +78,7 @@
   },
   "posts": {
     "title": "Članci",
-    "metadataDescription": "Pregledajte najnovije članke, priče i ideje iz redakcije Weekly.",
+    "metadataDescription": "Pregledajte najnovije članke, priče i ideje iz redakcije FrontLine.",
     "postSingular": "članak",
     "postPlural": "članaka",
     "showing": "Prikazano {start} - {end} od {total} {label}",
@@ -105,7 +105,7 @@
   },
   "search": {
     "title": "Pretraga",
-    "metadataDescription": "Pretražite članke, teme i priče na Weekly platformi.",
+    "metadataDescription": "Pretražite članke, teme i priče na FrontLine platformi.",
     "label": "Pretraga",
     "placeholder": "Pretraži članke...",
     "submit": "Pretraži",
@@ -113,7 +113,7 @@
   },
   "author": {
     "label": "Autor",
-    "metadataDescription": "Priče autora {name} na Weekly platformi.",
+    "metadataDescription": "Priče autora {name} na FrontLine platformi.",
     "notFound": "Autor nije pronađen",
     "storiesBy": "Priče autora {name}",
     "storyCount": "{count, plural, one {# priča} few {# priče} other {# priča}}",
@@ -122,9 +122,9 @@
     "website": "Veb sajt"
   },
   "about": {
-    "title": "O Weekly platformi",
+    "title": "O FrontLine platformi",
     "description": "Saznajte više o našoj misiji i timu.",
-    "intro": "Dobrodošli na Weekly platformu, prostor koji zajednica gradi za deljenje ideja, priča i znanja.",
+    "intro": "Dobrodošli na FrontLine platformu, prostor koji zajednica gradi za deljenje ideja, priča i znanja.",
     "missionTitle": "Naša misija",
     "mission": "Verujemo da svako ima priču koju vredi ispričati. Naša platforma pruža jednostavan i elegantan prostor piscima, misliocima i stvaraocima da podele svoje ideje sa svetom.",
     "offerTitle": "Šta nudimo",
@@ -142,8 +142,8 @@
   "contact": {
     "title": "Kontaktirajte nas",
     "description": "Imate pitanje ili želite da radite zajedno? Pošaljite nam poruku.",
-    "metadataTitle": "Kontakt — Weekly",
-    "metadataDescription": "Stupite u kontakt sa timom Weekly. Rado ćemo vas saslušati.",
+    "metadataTitle": "Kontakt",
+    "metadataDescription": "Stupite u kontakt sa timom FrontLine. Rado ćemo vas saslušati.",
     "home": "Početna",
     "emailAddress": "Email adresa",
     "address": "27 Division St, Njujork, NY\n10002, Sjedinjene Američke Države",
@@ -184,8 +184,8 @@
     "projectSingular": "Projekat"
   },
   "register": {
-    "metadataTitle": "Nalozi — Weekly",
-    "metadataDescription": "Naloge na Weekly platformi kreira urednički tim.",
+    "metadataTitle": "Nalozi",
+    "metadataDescription": "Naloge na FrontLine platformi kreira urednički tim.",
     "title": "Nalozi su po pozivu",
     "description": "Javna registracija je zatvorena. Ako vam je potreban nalog, kontaktirajte urednički tim i administrator će ga kreirati.",
     "contact": "Kontaktirajte tim",

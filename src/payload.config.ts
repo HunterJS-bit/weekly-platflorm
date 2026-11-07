@@ -75,23 +75,32 @@ export default buildConfig({
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [
-    s3Storage({
-      collections: {
-        media: {
-          prefix: 'media',
-        },
-      },
-      config: {
-        credentials: {
-          accessKeyId: process.env.R2_ACCESS_KEY_ID || '',
-          secretAccessKey: process.env.R2_SECRET_ACCESS_KEY || '',
-        },
-        region: 'auto',
-        endpoint: process.env.R2_ENDPOINT || 'https://<accountid>.r2.cloudflarestorage.com',
-        forcePathStyle: true,
-      },
-      bucket: process.env.R2_BUCKET_NAME || '',
-    }),
+    // Only use Cloudflare R2 when it is fully configured. Otherwise media is
+    // served from the local filesystem (see `collections/Media.ts`), which is
+    // what development and small self-hosted deployments need.
+    ...(process.env.R2_ACCESS_KEY_ID &&
+    process.env.R2_SECRET_ACCESS_KEY &&
+    process.env.R2_BUCKET_NAME
+      ? [
+          s3Storage({
+            collections: {
+              media: {
+                prefix: 'media',
+              },
+            },
+            config: {
+              credentials: {
+                accessKeyId: process.env.R2_ACCESS_KEY_ID,
+                secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
+              },
+              region: 'auto',
+              endpoint: process.env.R2_ENDPOINT || 'https://<accountid>.r2.cloudflarestorage.com',
+              forcePathStyle: true,
+            },
+            bucket: process.env.R2_BUCKET_NAME,
+          }),
+        ]
+      : []),
     ...plugins,
   ],
   secret: process.env.PAYLOAD_SECRET,

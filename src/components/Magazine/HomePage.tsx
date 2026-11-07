@@ -1,4 +1,5 @@
 import { MessageSquare } from 'lucide-react'
+import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import React from 'react'
 
@@ -18,8 +19,14 @@ const SectionTitle = ({ children }: { children: React.ReactNode }) => (
 
 const FeaturedCard = ({ post, widthClass }: { post: MagazinePost; widthClass: string }) => (
   <article className={widthClass}>
-    <Link href={post.href} className="block overflow-hidden">
-      <img src={post.image} alt={post.imageAlt} className="h-[230px] w-full object-cover" />
+    <Link href={post.href} className="relative block h-[230px] overflow-hidden">
+      <Image
+        src={post.image}
+        alt={post.imageAlt}
+        fill
+        sizes="(min-width: 768px) 370px, 320px"
+        className="object-cover"
+      />
     </Link>
     <h3 className="mt-5 max-w-[18ch] text-[26px] font-semibold leading-8 tracking-[-0.03em] text-[#111] dark:text-white">
       <Link href={post.href}>{post.title}</Link>
@@ -72,8 +79,14 @@ export const MagazineHomePage = async ({
 
       {highlight ? (
         <section className="magazine-wrap grid items-center gap-10 pb-16 lg:grid-cols-2">
-          <Link href={highlight.href} className="block overflow-hidden">
-            <img src={highlight.image} alt={highlight.imageAlt} className="h-[420px] w-full object-cover" />
+          <Link href={highlight.href} className="relative block h-[420px] overflow-hidden">
+            <Image
+              src={highlight.image}
+              alt={highlight.imageAlt}
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
           </Link>
           <div className="max-w-md lg:pl-8">
             <CategoryPills categories={highlight.categories} />
@@ -91,8 +104,14 @@ export const MagazineHomePage = async ({
           <div className="flex flex-col gap-12">
             {popular.map((post) => (
               <article key={post.id} className="grid gap-6 sm:grid-cols-[220px_1fr]">
-                <Link href={post.href} className="block overflow-hidden">
-                  <img src={post.image} alt={post.imageAlt} className="h-[210px] w-full object-cover" />
+                <Link href={post.href} className="relative block h-[210px] overflow-hidden">
+                  <Image
+                    src={post.image}
+                    alt={post.imageAlt}
+                    fill
+                    sizes="(min-width: 640px) 220px, 100vw"
+                    className="object-cover"
+                  />
                 </Link>
                 <div>
                   <h3 className="max-w-[14ch] text-[28px] font-semibold leading-8 tracking-[-0.03em]">
@@ -109,7 +128,13 @@ export const MagazineHomePage = async ({
         <aside className="flex flex-col gap-10">
           {overlay ? (
             <Link href={overlay.href} className="relative block min-h-[280px] overflow-hidden">
-              <img src={overlay.image} alt={overlay.imageAlt} className="absolute inset-0 h-full w-full object-cover" />
+              <Image
+                src={overlay.image}
+                alt={overlay.imageAlt}
+                fill
+                sizes="(min-width: 1024px) 40vw, 100vw"
+                className="object-cover"
+              />
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
               <div className="relative flex h-full min-h-[280px] flex-col justify-end p-6 text-white">
                 <h3 className="text-[26px] font-semibold leading-8">{overlay.title}</h3>
@@ -134,8 +159,14 @@ export const MagazineHomePage = async ({
             <div className="flex flex-col gap-6">
               {recent.map((post) => (
                 <article key={post.id} className="grid grid-cols-[84px_1fr] gap-4">
-                  <Link href={post.href} className="block overflow-hidden">
-                    <img src={post.image} alt={post.imageAlt} className="h-[84px] w-[84px] object-cover" />
+                  <Link href={post.href} className="relative block h-[84px] w-[84px] overflow-hidden">
+                    <Image
+                      src={post.image}
+                      alt={post.imageAlt}
+                      fill
+                      sizes="84px"
+                      className="object-cover"
+                    />
                   </Link>
                   <div>
                     <h3 className="text-[18px] font-semibold leading-6">

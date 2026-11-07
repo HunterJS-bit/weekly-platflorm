@@ -7,6 +7,7 @@ import { getTranslations } from 'next-intl/server'
 import { getPayload } from 'payload'
 import React from 'react'
 import { Search } from '@/search/Component'
+import { buildSeoMetadata } from '@/utilities/seo'
 import PageClient from './page.client'
 
 type Args = {
@@ -18,9 +19,12 @@ type Args = {
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('search')
 
-  return {
-    title: `${t('title')} — Weekly`,
-  }
+  return buildSeoMetadata({
+    title: t('title'),
+    description: t('metadataDescription'),
+    path: '/search',
+    noindex: true,
+  })
 }
 
 export default async function Page({ searchParams: searchParamsPromise }: Args) {

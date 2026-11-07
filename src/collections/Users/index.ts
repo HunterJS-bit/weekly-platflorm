@@ -1,6 +1,15 @@
 import type { CollectionConfig } from 'payload'
 
+import {
+  MetaDescriptionField,
+  MetaImageField,
+  MetaTitleField,
+  OverviewField,
+  PreviewField,
+} from '@payloadcms/plugin-seo/fields'
+
 import { authenticated } from '../../access/authenticated'
+import { revalidateEntity } from '../hooks/revalidateEntity'
 
 const slugify = (value: string) =>
   value
@@ -27,6 +36,7 @@ export const Users: CollectionConfig = {
     useAsTitle: 'name',
   },
   auth: true,
+  hooks: revalidateEntity('/author'),
   fields: [
     {
       name: 'name',
@@ -107,6 +117,30 @@ export const Users: CollectionConfig = {
         { name: 'x', type: 'text' },
         { name: 'instagram', type: 'text' },
         { name: 'linkedin', type: 'text' },
+      ],
+    },
+    {
+      name: 'meta',
+      type: 'group',
+      label: 'SEO',
+      fields: [
+        OverviewField({
+          titlePath: 'meta.title',
+          descriptionPath: 'meta.description',
+          imagePath: 'meta.image',
+        }),
+        MetaTitleField({
+          hasGenerateFn: true,
+        }),
+        MetaImageField({
+          relationTo: 'media',
+        }),
+        MetaDescriptionField({}),
+        PreviewField({
+          hasGenerateFn: true,
+          titlePath: 'meta.title',
+          descriptionPath: 'meta.description',
+        }),
       ],
     },
   ],

@@ -60,13 +60,13 @@ export const mapCmsPost = (post: Post, index: number, locale = 'sr'): MagazinePo
     excerpt:
       post.meta?.description ||
       (locale === 'sr'
-        ? 'Nova priča iz redakcije Weekly.'
-        : 'A new story from the Weekly newsroom.'),
+        ? 'Nova priča iz redakcije FrontLine.'
+        : 'A new story from the FrontLine newsroom.'),
     author:
       post.populatedAuthors
         ?.map((author) => author.name)
         .filter(Boolean)
-        .join(', ') || (locale === 'sr' ? 'Urednici Weeklya' : 'Weekly Editors'),
+        .join(', ') || (locale === 'sr' ? 'Urednici FrontLine-a' : 'FrontLine Editors'),
     authorHref: firstAuthor ? `/author/${firstAuthor.slug || firstAuthor.id}` : undefined,
     date: formatDate(post.publishedAt, locale),
     readTime: locale === 'sr' ? '5 min čitanja' : '5 min read',

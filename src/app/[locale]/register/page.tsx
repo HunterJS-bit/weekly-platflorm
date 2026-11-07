@@ -2,13 +2,17 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 
+import { buildSeoMetadata } from '@/utilities/seo'
+
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('register')
 
-  return {
+  return buildSeoMetadata({
     title: t('metadataTitle'),
     description: t('metadataDescription'),
-  }
+    path: '/register',
+    noindex: true,
+  })
 }
 
 export const dynamic = 'force-dynamic'

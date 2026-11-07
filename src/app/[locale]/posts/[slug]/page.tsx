@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { RelatedPosts } from '@/blocks/RelatedPosts/Component'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import CommentsSection from '@/components/CommentsSection'
+import { JsonLd } from '@/components/JsonLd'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
@@ -13,6 +14,8 @@ import type { Post } from '@/payload-types'
 
 import { PostHero } from '@/heros/PostHero'
 import { generateMeta } from '@/utilities/generateMeta'
+import { localizeCategoryTitle } from '@/utilities/localizeCategory'
+import { articleJsonLd, breadcrumbJsonLd } from '@/utilities/structuredData'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 
@@ -36,8 +39,33 @@ export default async function Post({ params: paramsPromise }: Args) {
 
   if (!post) return <PayloadRedirects url={url} />
 
+  const postPath = `/posts/${post.slug}`
+  const primaryCategory = (post.categories ?? []).find(
+    (category): category is Exclude<typeof category, number> => typeof category === 'object',
+  )
+
+  const breadcrumbs = [
+    { name: 'Početna', path: '/' },
+    { name: 'Članci', path: '/posts' },
+    ...(primaryCategory
+      ? [
+          {
+            name: localizeCategoryTitle(primaryCategory, locale),
+            path: `/category/${primaryCategory.slug}`,
+          },
+        ]
+      : []),
+    { name: post.title, path: postPath },
+  ]
+
   return (
     <article className="pt-16 pb-16">
+      <JsonLd
+        data={[
+          articleJsonLd({ post, path: postPath, locale }),
+          breadcrumbJsonLd(breadcrumbs),
+        ]}
+      />
       <PageClient />
 
       {/* Allows redirects for valid pages too */}
@@ -64,12 +92,19 @@ export default async function Post({ params: paramsPromise }: Args) {
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { slug = '' } = await paramsPromise
+  const { isEnabled: draft } = await draftMode()
+  const { locale = 'sr', slug = '' } = await paramsPromise
   // Decode to support slugs with special characters
   const decodedSlug = decodeURIComponent(slug)
   const post = await queryPostBySlug({ slug: decodedSlug })
 
-  return generateMeta({ doc: post })
+  return generateMeta({
+    doc: post,
+    path: `/posts/${decodedSlug}`,
+    type: 'article',
+    locale,
+    noindex: draft,
+  })
 }
 
 const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {

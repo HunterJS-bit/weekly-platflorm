@@ -83,12 +83,12 @@ export default async function RootLayout({
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
   applicationName: SITE_NAME,
-  title: 'Weekly — Ideje, priče i saveti',
+  title: `${SITE_NAME} — Ideje, priče i saveti`,
   description: DEFAULT_DESCRIPTION,
   openGraph: mergeOpenGraph(),
   twitter: {
     card: 'summary_large_image',
-    title: 'Weekly — Ideje, priče i saveti',
+    title: `${SITE_NAME} — Ideje, priče i saveti`,
     description: DEFAULT_DESCRIPTION,
     images: [absoluteUrl(DEFAULT_OG_IMAGE)],
   },
