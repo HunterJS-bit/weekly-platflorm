@@ -150,7 +150,7 @@ export const authorJsonLd = ({
   path: string
 }): JsonLdObject => {
   const url = absoluteUrl(path)
-  const image = getMediaURL(author.avatar, 'square')
+  const image = getMediaURL(author.avatar, 'medium') || undefined
   const sameAs = [
     author.socials?.website,
     author.socials?.facebook,
