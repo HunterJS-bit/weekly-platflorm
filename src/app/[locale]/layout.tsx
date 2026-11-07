@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 
@@ -8,6 +8,7 @@ import { GeistMono } from 'geist/font/mono'
 import React from 'react'
 
 import { AdminBar } from '@/components/AdminBar'
+import { JsonLd } from '@/components/JsonLd'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
@@ -15,6 +16,8 @@ import { defaultTheme, themeLocalStorageKey } from '@/providers/Theme/shared'
 import type { Theme } from '@/providers/Theme/types'
 import { themeIsValid } from '@/providers/Theme/types'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
+import { DEFAULT_DESCRIPTION, DEFAULT_OG_IMAGE, SITE_NAME, absoluteUrl } from '@/utilities/seo'
+import { organizationJsonLd, websiteJsonLd } from '@/utilities/structuredData'
 import { cookies, draftMode } from 'next/headers'
 
 import './globals.css'
@@ -58,6 +61,7 @@ export default async function RootLayout({
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
       </head>
       <body>
+        <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         <NextIntlClientProvider messages={messages}>
           <Providers theme={theme}>
             <AdminBar
@@ -78,10 +82,23 @@ export default async function RootLayout({
 
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
+  applicationName: SITE_NAME,
   title: 'Weekly — Ideje, priče i saveti',
-  description: 'Ideje, priče i saveti koji probude radoznalost.',
+  description: DEFAULT_DESCRIPTION,
   openGraph: mergeOpenGraph(),
   twitter: {
     card: 'summary_large_image',
+    title: 'Weekly — Ideje, priče i saveti',
+    description: DEFAULT_DESCRIPTION,
+    images: [absoluteUrl(DEFAULT_OG_IMAGE)],
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
+}
+
+export const viewport: Viewport = {
+  colorScheme: 'light dark',
+  themeColor: '#111111',
 }
