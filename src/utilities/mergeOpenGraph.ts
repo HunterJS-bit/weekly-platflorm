@@ -1,16 +1,21 @@
 import type { Metadata } from 'next'
-import { getServerSideURL } from './getURL'
+
+import { DEFAULT_DESCRIPTION, DEFAULT_OG_IMAGE, SITE_NAME, absoluteUrl } from './seo'
 
 const defaultOpenGraph: Metadata['openGraph'] = {
   type: 'website',
-  description: 'Ideje, priče i saveti koji probude radoznalost.',
+  description: DEFAULT_DESCRIPTION,
   images: [
     {
-      url: `${getServerSideURL()}/website-template-OG.webp`,
+      url: absoluteUrl(DEFAULT_OG_IMAGE),
+      width: 1200,
+      height: 630,
+      alt: SITE_NAME,
     },
   ],
-  siteName: 'Weekly',
-  title: 'Weekly',
+  locale: 'sr_RS',
+  siteName: SITE_NAME,
+  title: SITE_NAME,
 }
 
 export const mergeOpenGraph = (og?: Metadata['openGraph']): Metadata['openGraph'] => {
