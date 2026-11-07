@@ -10,17 +10,40 @@ import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
 
-import { Page, Post } from '@/payload-types'
+import { Page, Post, Category, User } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 
-const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
-  return doc?.title ? `${doc.title} | Weekly` : 'Weekly'
+type SeoDoc = Post | Page | Category | User
+
+const getDocTitle = (doc: SeoDoc): string | undefined => {
+  if ('name' in doc && typeof doc.name === 'string') return doc.name
+  if ('title' in doc && typeof doc.title === 'string') return doc.title
+
+  return undefined
 }
 
-const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
-  const url = getServerSideURL()
+const generateTitle: GenerateTitle<SeoDoc> = ({ doc }) => {
+  const title = doc ? getDocTitle(doc) : undefined
 
-  return doc?.slug ? `${url}/${doc.slug}` : url
+  return title ? `${title} | Weekly` : 'Weekly'
+}
+
+const generateURL: GenerateURL<SeoDoc> = ({ collectionConfig, doc }) => {
+  const url = getServerSideURL().replace(/\/$/, '')
+  const slug = doc && 'slug' in doc && typeof doc.slug === 'string' ? doc.slug : undefined
+
+  if (!slug) return url
+
+  switch (collectionConfig?.slug) {
+    case 'categories':
+      return `${url}/category/${slug}`
+    case 'users':
+      return `${url}/author/${slug}`
+    case 'pages':
+      return slug === 'home' ? url : `${url}/${slug}`
+    default:
+      return `${url}/posts/${slug}`
+  }
 }
 
 export const plugins: Plugin[] = [
