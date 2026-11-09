@@ -117,6 +117,8 @@ jobs:
             "R2_BUCKET_NAME"
             "R2_ENDPOINT"
             "R2_PUBLIC_URL"
+            "R2_BACKUP_BUCKET_NAME"
+            "R2_BACKUP_RETENTION_DAYS"
           )
           
           MISSING=()
@@ -153,7 +155,7 @@ jobs:
               -H "Content-Type: application/json" \
               -d "{
                 \"applicationId\": \"$DOKPLOY_APP_ID\",
-                \"env\": \"\nNODE_ENV=production\nDATABASE_URL=${{ secrets.DATABASE_URL }}\nPAYLOAD_SECRET=${{ secrets.PAYLOAD_SECRET }}\nCRON_SECRET=${{ secrets.CRON_SECRET }}\nPREVIEW_SECRET=${{ secrets.PREVIEW_SECRET }}\nNEXT_PUBLIC_SERVER_URL=${{ secrets.NEXT_PUBLIC_SERVER_URL }}\nR2_ACCESS_KEY_ID=${{ secrets.R2_ACCESS_KEY_ID }}\nR2_SECRET_ACCESS_KEY=${{ secrets.R2_SECRET_ACCESS_KEY }}\nR2_BUCKET_NAME=${{ secrets.R2_BUCKET_NAME }}\nR2_ENDPOINT=${{ secrets.R2_ENDPOINT }}\nR2_PUBLIC_URL=${{ secrets.R2_PUBLIC_URL }}\"
+                \"env\": \"\nNODE_ENV=production\nDATABASE_URL=${{ secrets.DATABASE_URL }}\nPAYLOAD_SECRET=${{ secrets.PAYLOAD_SECRET }}\nCRON_SECRET=${{ secrets.CRON_SECRET }}\nPREVIEW_SECRET=${{ secrets.PREVIEW_SECRET }}\nNEXT_PUBLIC_SERVER_URL=${{ secrets.NEXT_PUBLIC_SERVER_URL }}\nR2_ACCESS_KEY_ID=${{ secrets.R2_ACCESS_KEY_ID }}\nR2_SECRET_ACCESS_KEY=${{ secrets.R2_SECRET_ACCESS_KEY }}\nR2_BUCKET_NAME=${{ secrets.R2_BUCKET_NAME }}\nR2_ENDPOINT=${{ secrets.R2_ENDPOINT }}\nR2_PUBLIC_URL=${{ secrets.R2_PUBLIC_URL }}\nR2_BACKUP_BUCKET_NAME=${{ secrets.R2_BACKUP_BUCKET_NAME }}\nR2_BACKUP_RETENTION_DAYS=${{ secrets.R2_BACKUP_RETENTION_DAYS }}\"
               }"
           else
             echo "Error: DOKPLOY_URL, DOKPLOY_API_KEY, or DOKPLOY_APP_ID not configured"
