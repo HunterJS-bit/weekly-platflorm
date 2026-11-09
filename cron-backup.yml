@@ -1,0 +1,30 @@
+# Cron Job Configuration for Automated PostgreSQL Backups
+# This file is for reference. Configure this in Dokploy or your deployment platform.
+
+# Schedule: Weekly on Sunday at 2:00 AM UTC
+schedule: "0 2 * * 0"
+
+# Alternative schedules:
+# - Daily at 2:00 AM UTC: "0 2 * * *"
+# - Weekly on Monday at 2:00 AM UTC: "0 2 * * 1"
+# - Weekly on Tuesday at 2:00 AM UTC: "0 2 * * 2"
+# - Weekly on Wednesday at 2:00 AM UTC: "0 2 * * 3"
+# - Weekly on Thursday at 2:00 AM UTC: "0 2 * * 4"
+# - Weekly on Friday at 2:00 AM UTC: "0 2 * * 5"
+# - Weekly on Saturday at 2:00 AM UTC: "0 2 * * 6"
+
+# Command to run the backup script
+command: "/app/scripts/backup-db.sh"
+
+# Environment variables required (set in deployment platform):
+# - DATABASE_URL
+# - R2_ACCESS_KEY_ID
+# - R2_SECRET_ACCESS_KEY
+# - R2_BACKUP_BUCKET_NAME
+# - R2_ENDPOINT
+# - R2_BACKUP_RETENTION_DAYS (optional, default: 7)
+
+# Retention policy:
+# - Backups older than R2_BACKUP_RETENTION_DAYS are automatically deleted
+# - Default retention: 7 days
+# - For weekly backups, consider increasing to 30 days
