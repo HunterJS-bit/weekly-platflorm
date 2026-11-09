@@ -30,6 +30,7 @@ export type SeedProductionResult = {
   categories: number
   media: number
   posts: number
+  tags: number
 }
 
 type MediaKey = 'post1' | 'post2' | 'post3' | 'hero'
@@ -88,6 +89,24 @@ const categories: RequiredDataFromCollectionSlug<'categories'>[] = [
     slug: 'engineering',
     description: 'Deep dives into systems, architecture and technical decisions.',
     descriptionSr: 'Detaljni uvidi u sisteme, arhitekturu i tehničke odluke.',
+  },
+]
+
+const tags: RequiredDataFromCollectionSlug<'tags'>[] = [
+  {
+    title: 'Vazduhoplovstvo',
+    slug: 'vazduhoplovstvo',
+    description: 'Aviation and aerospace industry news, developments, and insights.',
+  },
+  {
+    title: 'Fudbal',
+    slug: 'fudbal',
+    description: 'Football news, match analysis, and player updates.',
+  },
+  {
+    title: 'Novosti',
+    slug: 'novosti',
+    description: 'Latest news and updates from various fields and industries.',
   },
 ]
 
@@ -225,6 +244,33 @@ const upsertCategory = async (
   })
 }
 
+const upsertTag = async (
+  payload: Payload,
+  tag: RequiredDataFromCollectionSlug<'tags'>,
+) => {
+  const existing = await payload.find({
+    collection: 'tags',
+    limit: 1,
+    overrideAccess: true,
+    where: { slug: { equals: tag.slug } },
+  })
+
+  if (existing.docs[0]) {
+    return payload.update({
+      collection: 'tags',
+      id: existing.docs[0].id,
+      data: { description: tag.description },
+      overrideAccess: true,
+    })
+  }
+
+  return payload.create({
+    collection: 'tags',
+    data: tag,
+    overrideAccess: true,
+  })
+}
+
 const upsertPost = async ({
   payload,
   slug,
@@ -300,6 +346,10 @@ export const seedProduction = async ({
     categories.map((category) => upsertCategory(payload, category)),
   )
   const categoryBySlug = new Map(categoryDocs.map((category) => [category.slug, category]))
+
+  const tagDocs = await Promise.all(
+    tags.map((tag) => upsertTag(payload, tag)),
+  )
 
   const now = Date.now()
   const daysAgo = (days: number) => new Date(now - days * 24 * 60 * 60 * 1000).toISOString()
@@ -425,5 +475,6 @@ export const seedProduction = async ({
     categories: categoryDocs.length,
     media: Object.keys(media).length,
     posts: 3,
+    tags: tagDocs.length,
   }
 }
