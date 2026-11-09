@@ -9,7 +9,7 @@
 
 FROM node:22.23.4-alpine AS base
 
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat postgresql-client aws-cli
 RUN corepack enable && corepack prepare pnpm@12.16.1 --activate
 
 WORKDIR /app
@@ -61,6 +61,7 @@ RUN addgroup --system --gid 1001 nodejs \
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/scripts ./scripts
 
 RUN mkdir -p /app/public/media && chown -R nextjs:nodejs /app/public/media
 
