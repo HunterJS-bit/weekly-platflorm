@@ -84,14 +84,6 @@ export async function Footer({ locale = 'sr' }: { locale?: string }) {
             ))}
           </nav>
         </div>
-
-        <div>
-          <h3 className="mb-5 text-lg font-semibold">{t('howToFindUs')}</h3>
-          <div className="flex flex-col gap-4 text-[#555] dark:text-white/70">
-            <p className="whitespace-pre-line">{t('address')}</p>
-            <a href="tel:88002345234">8 800 2345 234</a>
-          </div>
-        </div>
       </div>
       <div className="magazine-wrap border-t border-[#e8e8e8] py-6 text-center text-sm text-[#8a8a8a] dark:border-white/10">
         {t('copyright', { year: new Date().getFullYear() })}
