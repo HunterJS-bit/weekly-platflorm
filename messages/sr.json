@@ -29,7 +29,7 @@
     "menuLabel": "Glavni meni"
   },
   "footer": {
-    "description": "Dobrodošli u Infotaktik. Mesto za ideje, priße i savete koji probude radoznalost. Bilo da ste ovde da naučite, dobijete inspiraciju ili uživate u dobrom čitanju, na pravom ste mestu.",
+    "description": "Dobrodošli u Infotaktik. Mesto za ideje, priče i savete koji probude radoznalost. Bilo da ste ovde da naučite, dobijete inspiraciju ili uživate u dobrom čitanju, na pravom ste mestu.",
     "categories": "Kategorije",
     "howToFindUs": "Kako da nas nađete",
     "address": "27 Division St, Njujork, NY\n10002, Sjedinjene Američke Države",
@@ -37,7 +37,8 @@
     "newsletterDesc": "Poslaćemo vam lepo pismo jednom nedeljno. Bez spama.",
     "getInTouch": "Kontaktirajte nas",
     "getInTouchDesc": "Hajde da radimo zajedno i gradimo nešto sjajno.",
-    "copyright": "© {year} — Infotaktik. Sva prava zadržana."
+    "copyright": "© {year} — Infotaktik. Sva prava zadržana.",
+    "legal": "Pravne informacije"
   },
   "home": {
     "featuredPosts": "Istaknuti članci",
@@ -122,22 +123,46 @@
     "website": "Veb sajt"
   },
   "about": {
-    "title": "O Infotaktik platformi",
-    "description": "Saznajte više o našoj misiji i timu.",
-    "intro": "Dobrodošli na Infotaktik platformu, prostor koji zajednica gradi za deljenje ideja, priča i znanja.",
+    "eyebrow": "O nama",
+    "title": "Nezavisan magazin za radoznale čitaoce",
+    "description": "Infotaktik je nezavisni internet magazin koji donosi analize, priče i praktične savete iz sveta tehnologije, biznisa, kulture i savremenog života.",
+    "lead": "Verujemo da dobro novinarstvo počinje radoznalošću. Zato svake nedelje tragamo za temama koje objašnjavaju kako svet zaista funkcioniše — bez žurbe, bez senzacionalizma i bez kompromisa.",
+    "introEyebrow": "Ko smo mi",
+    "introTitle": "Redakcija koja veruje u kontekst",
+    "intro": "Infotaktik je nastao iz jednostavne ideje: da čitaocima pružimo mesto gde će pronaći jasne, proverene i temeljno istražene priče. Ne jurimo za klikovima — jurimo za razumevanjem.",
+    "introSecondary": "Naš tim čine urednici, novinari i spoljni saradnici koji temama pristupaju odgovorno. Svaki tekst prolazi kroz uređivačku proveru, a izvore biramo pažljivo i transparentno.",
     "missionTitle": "Naša misija",
-    "mission": "Verujemo da svako ima priču koju vredi ispričati. Naša platforma pruža jednostavan i elegantan prostor piscima, misliocima i stvaraocima da podele svoje ideje sa svetom.",
-    "offerTitle": "Šta nudimo",
+    "missionQuote": "Da svakodnevne teme pretvorimo u jasne priče koje čitaocu daju kontekst, perspektivu i znanje koje može da primeni.",
+    "valuesEyebrow": "Naša načela",
+    "valuesTitle": "Ono što nas vodi",
+    "valuesDescription": "Tri principa oblikuju svaki tekst koji objavimo — od kratke vesti do velike analize.",
+    "value1Title": "Nezavisnost",
+    "value1Description": "Urednička odluka nikada nije na prodaju. Sadržaj oblikujemo prema interesu čitalaca, a ne prema interesima oglašivača.",
+    "value2Title": "Tačnost",
+    "value2Description": "Proveravamo izvore, tražimo više strana priče i ispravljamo greške otvoreno i bez odlaganja.",
+    "value3Title": "Kontekst",
+    "value3Description": "Vest bez konteksta je samo šum. Zato objašnjavamo pozadinu, posledice i veze koje drugi preskaču.",
+    "offerEyebrow": "Šta nudimo",
+    "offerTitle": "Magazin koji se čita bez žurbe",
+    "offerDescription": "Od nedeljnih analiza do praktičnih vodiča — sadržaj je organizovan tako da ga lako pronađete i još lakše razumete.",
     "offerItems": {
       "reading": "Čisto iskustvo čitanja bez odvraćanja pažnje",
       "community": "Uključivanje zajednice kroz komentare i diskusije",
       "categories": "Kategorije koje vam pomažu da otkrijete sadržaj koji volite",
       "writers": "Platforma za afirmisane i nove pisce"
     },
-    "joinTitle": "Pridružite se zajednici",
-    "join": "Bilo da ste ovde da čitate, pišete ili učestvujete u diskusijama, biće nam drago da budete deo priče. Prijavite se danas i započnite svoje putovanje sa nama.",
+    "standardsEyebrow": "Urednička politika",
+    "standardsTitle": "Naši standardi",
+    "standardsDescription": "Transparentnost nije fraza. Ovo su pravila po kojima radimo svakog dana.",
+    "standard1": "Jasno razdvajamo činjenice, analizu i mišljenje autora.",
+    "standard2": "Ispravke objavljujemo javno, uz objašnjenje šta je i zašto izmenjeno.",
+    "standard3": "Sadržaj koji je plaćen ili sponzorisan uvek je jasno označen.",
+    "joinEyebrow": "Pridružite se",
+    "joinTitle": "Budite deo razgovora",
+    "join": "Bilo da čitate, pišete ili jednostavno volite dobru priču, ovde ste dobrodošli. Javite nam se sa predlogom teme, pitanjem ili saradnjom.",
     "getInTouch": "Kontaktirajte nas",
-    "browseArticles": "Pregledajte članke"
+    "browseArticles": "Pregledajte članke",
+    "legalTitle": "Pravne informacije"
   },
   "contact": {
     "title": "Kontaktirajte nas",
@@ -203,5 +228,33 @@
       "tryAgain": "Pokušaj ponovo",
       "backToHome": "Nazad na početnu"
     }
+  },
+  "legal": {
+    "eyebrow": "Pravne informacije",
+    "lastUpdated": "Poslednje ažuriranje",
+    "tocTitle": "Sadržaj",
+    "relatedTitle": "Povezani dokumenti",
+    "contactEyebrow": "Kontakt",
+    "contactTitle": "Imate pitanje?",
+    "contactDescription": "Za pitanja u vezi sa ovim dokumentom obratite se redakciji. Trudimo se da odgovorimo u roku od nekoliko radnih dana.",
+    "contactCta": "Kontaktirajte nas",
+    "impressum": "Impresum",
+    "privacy": "Politika privatnosti",
+    "terms": "Uslovi korišćenja"
+  },
+  "impressum": {
+    "title": "Impresum",
+    "description": "Pravni podaci o izdavaču, redakciji i autorskim pravima internet magazina Infotaktik.",
+    "lead": "Transparentnost je osnova poverenja. Na ovoj stranici objavljujemo osnovne podatke o izdavaču, redakciji i načinu funkcionisanja sajta."
+  },
+  "privacy": {
+    "title": "Politika privatnosti",
+    "description": "Saznajte koje podatke Infotaktik prikuplja, zašto ih obrađuje i koja prava imate kao čitalac.",
+    "lead": "Vaša privatnost nam je važna. Ova politika objašnjava koje podatke prikupljamo, kako ih koristimo i kako možete ostvariti svoja prava."
+  },
+  "terms": {
+    "title": "Uslovi korišćenja",
+    "description": "Uslovi korišćenja sajta Infotaktik, pravila o autorskim pravima i odgovornosti korisnika.",
+    "lead": "Ovi uslovi uređuju korišćenje sajta Infotaktik. Molimo vas da ih pažljivo pročitate pre nego što nastavite da koristite naš sadržaj."
   }
 }

@@ -82,6 +82,9 @@ const getPagesSitemap = unstable_cache(
     add(`${SITE_URL}/posts`)
     add(`${SITE_URL}/about`)
     add(`${SITE_URL}/contact`)
+    add(`${SITE_URL}/impresum`)
+    add(`${SITE_URL}/politika-privatnosti`)
+    add(`${SITE_URL}/uslovi-koriscenja`)
 
     // CMS pages. The `home` page maps to the site root.
     for (const page of pages.docs) {

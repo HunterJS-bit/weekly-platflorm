@@ -37,7 +37,8 @@
     "newsletterDesc": "We'll send you nice letter once per week. No spam.",
     "getInTouch": "Get in Touch",
     "getInTouchDesc": "Let's work together & build something great together.",
-    "copyright": "© {year} — Infotaktik. All rights reserved."
+    "copyright": "© {year} — Infotaktik. All rights reserved.",
+    "legal": "Legal information"
   },
   "home": {
     "featuredPosts": "Featured posts",
@@ -122,22 +123,46 @@
     "website": "Website"
   },
   "about": {
-    "title": "About Infotaktik Platform",
-    "description": "Learn more about our mission and team.",
-    "intro": "Welcome to Infotaktik Platform, a community-driven space for sharing ideas, stories, and knowledge.",
-    "missionTitle": "Our Mission",
-    "mission": "We believe everyone has a story worth telling. Our platform provides a simple, elegant space for writers, thinkers, and creators to share their thoughts with the world.",
-    "offerTitle": "What We Offer",
+    "eyebrow": "About us",
+    "title": "An independent magazine for curious readers",
+    "description": "Infotaktik is an independent online magazine covering technology, business, culture and modern life through analysis, stories and practical advice.",
+    "lead": "We believe good journalism starts with curiosity. Every week we look for the stories that explain how the world really works — without hurry, without sensationalism and without compromise.",
+    "introEyebrow": "Who we are",
+    "introTitle": "An editorial team that believes in context",
+    "intro": "Infotaktik began with a simple idea: to give readers a place where they can find clear, verified and thoroughly researched stories. We do not chase clicks — we chase understanding.",
+    "introSecondary": "Our team is made up of editors, journalists and contributors who treat every topic responsibly. Every article goes through editorial review, and we choose our sources carefully and transparently.",
+    "missionTitle": "Our mission",
+    "missionQuote": "To turn everyday topics into clear stories that give the reader context, perspective and knowledge they can actually use.",
+    "valuesEyebrow": "Our principles",
+    "valuesTitle": "What guides us",
+    "valuesDescription": "Three principles shape every piece we publish — from a short news item to a long-form analysis.",
+    "value1Title": "Independence",
+    "value1Description": "Editorial decisions are never for sale. We shape our coverage around readers’ interests, not advertisers’ interests.",
+    "value2Title": "Accuracy",
+    "value2Description": "We verify sources, seek out more than one side of the story and correct mistakes openly and without delay.",
+    "value3Title": "Context",
+    "value3Description": "News without context is just noise. That is why we explain the background, the consequences and the connections others skip.",
+    "offerEyebrow": "What we offer",
+    "offerTitle": "A magazine to read without hurry",
+    "offerDescription": "From weekly analysis to practical guides — our content is organised so you can find it easily and understand it even more easily.",
     "offerItems": {
       "reading": "A clean, distraction-free reading experience",
       "community": "Community engagement through comments and discussions",
       "categories": "Categories to help you discover content you love",
       "writers": "A platform for both established and emerging writers"
     },
-    "joinTitle": "Join Our Community",
-    "join": "Whether you're here to read, write, or engage in discussions, we'd love to have you. Sign up today to start your journey with us.",
-    "getInTouch": "Get in Touch",
-    "browseArticles": "Browse Articles"
+    "standardsEyebrow": "Editorial policy",
+    "standardsTitle": "Our standards",
+    "standardsDescription": "Transparency is not a slogan. These are the rules we work by every day.",
+    "standard1": "We clearly separate facts, analysis and the author’s opinion.",
+    "standard2": "We publish corrections openly, explaining what changed and why.",
+    "standard3": "Paid or sponsored content is always clearly labelled.",
+    "joinEyebrow": "Join in",
+    "joinTitle": "Be part of the conversation",
+    "join": "Whether you read, write or simply love a good story, you are welcome here. Get in touch with a topic idea, a question or a collaboration.",
+    "getInTouch": "Get in touch",
+    "browseArticles": "Browse articles",
+    "legalTitle": "Legal information"
   },
   "contact": {
     "title": "Contact Us",
@@ -203,5 +228,33 @@
       "tryAgain": "Try Again",
       "backToHome": "Back to Home"
     }
+  },
+  "legal": {
+    "eyebrow": "Legal information",
+    "lastUpdated": "Last updated",
+    "tocTitle": "Contents",
+    "relatedTitle": "Related documents",
+    "contactEyebrow": "Contact",
+    "contactTitle": "Have a question?",
+    "contactDescription": "For questions about this document, contact our editorial team. We aim to reply within a few working days.",
+    "contactCta": "Contact us",
+    "impressum": "Impressum",
+    "privacy": "Privacy policy",
+    "terms": "Terms of use"
+  },
+  "impressum": {
+    "title": "Impressum",
+    "description": "Legal details about the publisher, editorial team and copyright of the Infotaktik online magazine.",
+    "lead": "Transparency is the foundation of trust. This page sets out the basic details about the publisher, the editorial team and how the site operates."
+  },
+  "privacy": {
+    "title": "Privacy policy",
+    "description": "Learn what data Infotaktik collects, why we process it and what rights you have as a reader.",
+    "lead": "Your privacy matters to us. This policy explains what data we collect, how we use it and how you can exercise your rights."
+  },
+  "terms": {
+    "title": "Terms of use",
+    "description": "Terms of use for the Infotaktik website, including rules on copyright and user responsibility.",
+    "lead": "These terms govern your use of the Infotaktik website. Please read them carefully before continuing to use our content."
   }
 }

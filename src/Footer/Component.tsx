@@ -6,6 +6,7 @@ import { getPayload } from 'payload'
 import React from 'react'
 
 import { MagazineLogo } from '@/components/Magazine/Logo'
+import { LEGAL_LINKS } from '@/content/legalLinks'
 import { Link } from '@/i18n/navigation'
 import { localizeCategoryTitle } from '@/utilities/localizeCategory'
 
@@ -17,6 +18,7 @@ const XIcon = () => (
 
 export async function Footer({ locale = 'sr' }: { locale?: string }) {
   const t = await getTranslations('footer')
+  const tLegal = await getTranslations('legal')
   const footerData = await getCachedGlobal('footer', 1)()
   const description = footerData?.description || t('description')
   const socialLinks = footerData?.socialLinks || {}
@@ -84,9 +86,32 @@ export async function Footer({ locale = 'sr' }: { locale?: string }) {
             ))}
           </nav>
         </div>
+
+        <div>
+          <h3 className="mb-5 text-lg font-semibold">{t('legal')}</h3>
+          <nav className="flex flex-col gap-3 text-[#555] dark:text-white/70">
+            {LEGAL_LINKS.map((link) => (
+              <Link key={link.href} href={link.href}>
+                {tLegal(link.key)}
+              </Link>
+            ))}
+            <Link href="/contact">{t('getInTouch')}</Link>
+          </nav>
+        </div>
       </div>
-      <div className="magazine-wrap border-t border-[#e8e8e8] py-6 text-center text-sm text-[#8a8a8a] dark:border-white/10">
-        {t('copyright', { year: new Date().getFullYear() })}
+      <div className="magazine-wrap flex flex-col items-center justify-between gap-4 border-t border-[#e8e8e8] py-6 text-center text-sm text-[#8a8a8a] sm:flex-row sm:text-left dark:border-white/10">
+        <p>{t('copyright', { year: new Date().getFullYear() })}</p>
+        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+          {LEGAL_LINKS.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="hover:text-[#111] dark:hover:text-white"
+            >
+              {tLegal(link.key)}
+            </Link>
+          ))}
+        </div>
       </div>
     </footer>
   )

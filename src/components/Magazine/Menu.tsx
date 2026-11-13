@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import React, { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
+import { LEGAL_LINKS } from '@/content/legalLinks'
 import { Link, usePathname } from '@/i18n/navigation'
 import type { Header as HeaderType } from '@/payload-types'
 
@@ -17,6 +18,7 @@ export const MagazineMenu = ({
 }) => {
   const tNav = useTranslations('nav')
   const tCommon = useTranslations('common')
+  const tLegal = useTranslations('legal')
   const [open, setOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
@@ -136,7 +138,9 @@ export const MagazineMenu = ({
             >
               <div className="magazine-wrap flex items-start justify-between">
                 <div className="pointer-events-auto">
-                  <p className="font-serif text-4xl text-[#111] dark:text-white">FrontLine</p>
+                  <p className="font-serif text-4xl text-[#111] dark:text-white">
+                    {process.env.NEXT_PUBLIC_SITE_NAME || 'Infotaktik'}
+                  </p>
                   <p className="mt-2 text-sm text-[#888]">{tNav('tagline')}</p>
                 </div>
                 <button
@@ -186,6 +190,23 @@ export const MagazineMenu = ({
                         href={`/category/${category.slug || category.title.toLowerCase().replace(/\s+/g, '-')}`}
                       >
                         {category.title}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <p className="mb-4 text-xs tracking-[0.18em] uppercase text-[#999]">
+                    {tLegal('eyebrow')}
+                  </p>
+                  <div className="flex flex-col items-start gap-2 text-lg">
+                    {LEGAL_LINKS.map((link) => (
+                      <Link
+                        key={link.href}
+                        className="pointer-events-auto"
+                        href={link.href}
+                      >
+                        {tLegal(link.key)}
                       </Link>
                     ))}
                   </div>

@@ -8,6 +8,7 @@ import { getPayload } from 'payload'
 import { mapCmsPost } from '@/components/Magazine/fromCms'
 import { MetaRow } from '@/components/Magazine/MetaRow'
 import { JsonLd } from '@/components/JsonLd'
+import { LEGAL_INFO } from '@/content/legal'
 import { Link } from '@/i18n/navigation'
 import { buildSeoMetadata } from '@/utilities/seo'
 import { breadcrumbJsonLd, webPageJsonLd } from '@/utilities/structuredData'
@@ -24,8 +25,9 @@ export async function generateMetadata(): Promise<Metadata> {
   })
 }
 
-const CONTACT_EMAIL = 'hello@mysite.com'
-const CONTACT_PHONE = '8 800 2345 234'
+const CONTACT_EMAIL = LEGAL_INFO.email
+const CONTACT_PHONE = LEGAL_INFO.phone
+const CONTACT_PHONE_HREF = CONTACT_PHONE.replace(/[^\d+]/g, '')
 
 const socials = [
   { href: 'https://facebook.com', label: 'Facebook', Icon: Facebook },
@@ -135,19 +137,23 @@ export default async function ContactPage({
             <p className="text-[11px] tracking-[0.16em] uppercase text-[#999]">
               {t('howToFindUs')}
             </p>
-            <p className="mt-3 whitespace-pre-line text-[16px] leading-7">{t('address')}</p>
+            <p className="mt-3 whitespace-pre-line text-[16px] leading-7">{LEGAL_INFO.address}</p>
           </div>
 
           <div>
             <p className="text-[11px] tracking-[0.16em] uppercase text-[#999]">
               {t('phoneNumber')}
             </p>
-            <a
-              href={`tel:${CONTACT_PHONE.replace(/\s+/g, '')}`}
-              className="mt-3 block text-[16px] leading-7 hover:underline"
-            >
-              {CONTACT_PHONE}
-            </a>
+            {CONTACT_PHONE_HREF ? (
+              <a
+                href={`tel:${CONTACT_PHONE_HREF}`}
+                className="mt-3 block text-[16px] leading-7 hover:underline"
+              >
+                {CONTACT_PHONE}
+              </a>
+            ) : (
+              <p className="mt-3 text-[16px] leading-7">{CONTACT_PHONE}</p>
+            )}
           </div>
 
           <div>
