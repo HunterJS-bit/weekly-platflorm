@@ -30,6 +30,7 @@ jobs:
       packages: write
     env:
       NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL || 'https://example.com' }}
+      NEXT_PUBLIC_SITE_NAME: ${{ secrets.NEXT_PUBLIC_SITE_NAME || 'Infotaktik' }}
 
     steps:
       - name: Checkout code
@@ -89,6 +90,7 @@ jobs:
             ghcr.io/hunterjs-bit/weekly-platflorm:${{ github.sha }}
           build-args: |
             NEXT_PUBLIC_SERVER_URL=${{ secrets.NEXT_PUBLIC_SERVER_URL || 'https://example.com' }}
+            NEXT_PUBLIC_SITE_NAME=${{ secrets.NEXT_PUBLIC_SITE_NAME || 'Infotaktik' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -155,7 +157,7 @@ jobs:
               -H "Content-Type: application/json" \
               -d "{
                 \"applicationId\": \"$DOKPLOY_APP_ID\",
-                \"env\": \"\nNODE_ENV=production\nDATABASE_URL=${{ secrets.DATABASE_URL }}\nPAYLOAD_SECRET=${{ secrets.PAYLOAD_SECRET }}\nCRON_SECRET=${{ secrets.CRON_SECRET }}\nPREVIEW_SECRET=${{ secrets.PREVIEW_SECRET }}\nNEXT_PUBLIC_SERVER_URL=${{ secrets.NEXT_PUBLIC_SERVER_URL }}\nR2_ACCESS_KEY_ID=${{ secrets.R2_ACCESS_KEY_ID }}\nR2_SECRET_ACCESS_KEY=${{ secrets.R2_SECRET_ACCESS_KEY }}\nR2_BUCKET_NAME=${{ secrets.R2_BUCKET_NAME }}\nR2_ENDPOINT=${{ secrets.R2_ENDPOINT }}\nR2_PUBLIC_URL=${{ secrets.R2_PUBLIC_URL }}\nR2_BACKUP_BUCKET_NAME=${{ secrets.R2_BACKUP_BUCKET_NAME }}\nR2_BACKUP_RETENTION_DAYS=${{ secrets.R2_BACKUP_RETENTION_DAYS }}\"
+                \"env\": \"\nNODE_ENV=production\nDATABASE_URL=${{ secrets.DATABASE_URL }}\nPAYLOAD_SECRET=${{ secrets.PAYLOAD_SECRET }}\nCRON_SECRET=${{ secrets.CRON_SECRET }}\nPREVIEW_SECRET=${{ secrets.PREVIEW_SECRET }}\nNEXT_PUBLIC_SERVER_URL=${{ secrets.NEXT_PUBLIC_SERVER_URL }}\nNEXT_PUBLIC_SITE_NAME=${{ secrets.NEXT_PUBLIC_SITE_NAME }}\nR2_ACCESS_KEY_ID=${{ secrets.R2_ACCESS_KEY_ID }}\nR2_SECRET_ACCESS_KEY=${{ secrets.R2_SECRET_ACCESS_KEY }}\nR2_BUCKET_NAME=${{ secrets.R2_BUCKET_NAME }}\nR2_ENDPOINT=${{ secrets.R2_ENDPOINT }}\nR2_PUBLIC_URL=${{ secrets.R2_PUBLIC_URL }}\nR2_BACKUP_BUCKET_NAME=${{ secrets.R2_BACKUP_BUCKET_NAME }}\nR2_BACKUP_RETENTION_DAYS=${{ secrets.R2_BACKUP_RETENTION_DAYS }}\"
               }"
           else
             echo "Error: DOKPLOY_URL, DOKPLOY_API_KEY, or DOKPLOY_APP_ID not configured"

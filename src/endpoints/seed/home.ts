@@ -47,7 +47,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
                   format: 0,
                   mode: 'normal',
                   style: '',
-                  text: 'FrontLine',
+                  text: process.env.NEXT_PUBLIC_SITE_NAME || 'Infotaktik',
                   version: 1,
                 },
               ],

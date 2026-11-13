@@ -410,7 +410,7 @@ export const seed = async ({
     payload.updateGlobal({
       slug: 'footer',
       data: {
-        description: 'Welcome to FrontLine. A place for ideas, stories, and tips that spark curiosity. Whether you\'re here to learn, get inspired, or just enjoy a good read, you\'re in the right place.',
+        description: `Welcome to ${process.env.NEXT_PUBLIC_SITE_NAME || 'Infotaktik'}. A place for ideas, stories, and tips that spark curiosity. Whether you're here to learn, get inspired, or just enjoy a good read, you're in the right place.`,
         socialLinks: {
           facebook: 'https://facebook.com',
           x: 'https://x.com',

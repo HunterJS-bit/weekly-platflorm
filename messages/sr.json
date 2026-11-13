@@ -29,7 +29,7 @@
     "menuLabel": "Glavni meni"
   },
   "footer": {
-    "description": "Dobrodošli u FrontLine. Mesto za ideje, priče i savete koji probude radoznalost. Bilo da ste ovde da naučite, dobijete inspiraciju ili uživate u dobrom čitanju, na pravom ste mestu.",
+    "description": "Dobrodošli u Infotaktik. Mesto za ideje, priße i savete koji probude radoznalost. Bilo da ste ovde da naučite, dobijete inspiraciju ili uživate u dobrom čitanju, na pravom ste mestu.",
     "categories": "Kategorije",
     "howToFindUs": "Kako da nas nađete",
     "address": "27 Division St, Njujork, NY\n10002, Sjedinjene Američke Države",
@@ -37,7 +37,7 @@
     "newsletterDesc": "Poslaćemo vam lepo pismo jednom nedeljno. Bez spama.",
     "getInTouch": "Kontaktirajte nas",
     "getInTouchDesc": "Hajde da radimo zajedno i gradimo nešto sjajno.",
-    "copyright": "© {year} — FrontLine. Sva prava zadržana."
+    "copyright": "© {year} — Infotaktik. Sva prava zadržana."
   },
   "home": {
     "featuredPosts": "Istaknuti članci",
@@ -67,7 +67,7 @@
   },
   "category": {
     "title": "Kategorija",
-    "metadataDescription": "Članci iz kategorije {title} na FrontLine platformi.",
+    "metadataDescription": "Članci iz kategorije {title} na Infotaktik platformi.",
     "label": "Kategorija",
     "notFound": "Kategorija nije pronađena",
     "noPosts": "Još uvek nema članaka u ovoj kategoriji.",
@@ -78,7 +78,7 @@
   },
   "posts": {
     "title": "Članci",
-    "metadataDescription": "Pregledajte najnovije članke, priče i ideje iz redakcije FrontLine.",
+    "metadataDescription": "Pregledajte najnovije članke, priče i ideje iz redakcije Infotaktik.",
     "postSingular": "članak",
     "postPlural": "članaka",
     "showing": "Prikazano {start} - {end} od {total} {label}",
@@ -105,7 +105,7 @@
   },
   "search": {
     "title": "Pretraga",
-    "metadataDescription": "Pretražite članke, teme i priče na FrontLine platformi.",
+    "metadataDescription": "Pretražite članke, teme i priče na Infotaktik platformi.",
     "label": "Pretraga",
     "placeholder": "Pretraži članke...",
     "submit": "Pretraži",
@@ -113,7 +113,7 @@
   },
   "author": {
     "label": "Autor",
-    "metadataDescription": "Priče autora {name} na FrontLine platformi.",
+    "metadataDescription": "Priče autora {name} na Infotaktik platformi.",
     "notFound": "Autor nije pronađen",
     "storiesBy": "Priče autora {name}",
     "storyCount": "{count, plural, one {# priča} few {# priče} other {# priča}}",
@@ -122,9 +122,9 @@
     "website": "Veb sajt"
   },
   "about": {
-    "title": "O FrontLine platformi",
+    "title": "O Infotaktik platformi",
     "description": "Saznajte više o našoj misiji i timu.",
-    "intro": "Dobrodošli na FrontLine platformu, prostor koji zajednica gradi za deljenje ideja, priča i znanja.",
+    "intro": "Dobrodošli na Infotaktik platformu, prostor koji zajednica gradi za deljenje ideja, priča i znanja.",
     "missionTitle": "Naša misija",
     "mission": "Verujemo da svako ima priču koju vredi ispričati. Naša platforma pruža jednostavan i elegantan prostor piscima, misliocima i stvaraocima da podele svoje ideje sa svetom.",
     "offerTitle": "Šta nudimo",
@@ -143,7 +143,7 @@
     "title": "Kontaktirajte nas",
     "description": "Imate pitanje ili želite da radite zajedno? Pošaljite nam poruku.",
     "metadataTitle": "Kontakt",
-    "metadataDescription": "Stupite u kontakt sa timom FrontLine. Rado ćemo vas saslušati.",
+    "metadataDescription": "Stupite u kontakt sa timom Infotaktik. Rado ćemo vas saslušati.",
     "home": "Početna",
     "emailAddress": "Email adresa",
     "address": "27 Division St, Njujork, NY\n10002, Sjedinjene Američke Države",
@@ -185,7 +185,7 @@
   },
   "register": {
     "metadataTitle": "Nalozi",
-    "metadataDescription": "Naloge na FrontLine platformi kreira urednički tim.",
+    "metadataDescription": "Naloge na Infotaktik platformi kreira urednički tim.",
     "title": "Nalozi su po pozivu",
     "description": "Javna registracija je zatvorena. Ako vam je potreban nalog, kontaktirajte urednički tim i administrator će ga kreirati.",
     "contact": "Kontaktirajte tim",

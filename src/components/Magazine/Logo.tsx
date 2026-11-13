@@ -10,10 +10,11 @@ export const MagazineLogo = ({
   tagline?: boolean
 }) => {
   const t = useTranslations('common')
+  const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Infotaktik'
   return (
     <Link href="/" className={`flex items-center gap-4 min-w-0 ${className}`}>
       <span className="font-serif text-[42px] leading-none tracking-tight text-[#111] dark:text-white lowercase">
-        FrontLine
+        {siteName}
       </span>
       {tagline ? (
         <>
