@@ -1,9 +1,27 @@
 import type { Post } from '@/payload-types'
 
 import { localizeCategoryTitle } from '@/utilities/localizeCategory'
+import { SITE_NAME } from '@/utilities/seo'
 
 import { demoImages } from './demoPosts'
 import type { MagazineCategory, MagazinePost } from './types'
+
+/**
+ * The subset of a post that the magazine cards actually render. Queries can
+ * select only these fields without loading full article bodies.
+ */
+export type MagazineSourcePost = Pick<
+  Post,
+  | 'categories'
+  | 'comments'
+  | 'heroImage'
+  | 'id'
+  | 'meta'
+  | 'populatedAuthors'
+  | 'publishedAt'
+  | 'slug'
+  | 'title'
+>
 
 const dateLocale = (locale: string) => (locale === 'sr' ? 'sr-Latn-RS' : 'en-US')
 
@@ -16,7 +34,7 @@ const formatDate = (value: string | null | undefined, locale: string) => {
   })
 }
 
-const getImage = (post: Post, index: number) => {
+const getImage = (post: MagazineSourcePost, index: number) => {
   if (post.heroImage && typeof post.heroImage === 'object' && post.heroImage.url) {
     return {
       src: post.heroImage.url,
@@ -30,7 +48,11 @@ const getImage = (post: Post, index: number) => {
   }
 }
 
-export const mapCmsPost = (post: Post, index: number, locale = 'sr'): MagazinePost => {
+export const mapCmsPost = (
+  post: MagazineSourcePost,
+  index: number,
+  locale = 'sr',
+): MagazinePost => {
   const image = getImage(post, index)
   const categories: MagazineCategory[] = (post.categories ?? []).flatMap(
     (category): MagazineCategory[] => {
@@ -60,13 +82,13 @@ export const mapCmsPost = (post: Post, index: number, locale = 'sr'): MagazinePo
     excerpt:
       post.meta?.description ||
       (locale === 'sr'
-        ? 'Nova priča iz redakcije FrontLine.'
-        : 'A new story from the FrontLine newsroom.'),
+        ? `Nova priča iz redakcije ${SITE_NAME}.`
+        : `A new story from the ${SITE_NAME} newsroom.`),
     author:
       post.populatedAuthors
         ?.map((author) => author.name)
         .filter(Boolean)
-        .join(', ') || (locale === 'sr' ? 'Urednici FrontLine-a' : 'FrontLine Editors'),
+        .join(', ') || (locale === 'sr' ? `Urednici ${SITE_NAME}-a` : `${SITE_NAME} Editors`),
     authorHref: firstAuthor ? `/author/${firstAuthor.slug || firstAuthor.id}` : undefined,
     date: formatDate(post.publishedAt, locale),
     readTime: locale === 'sr' ? '5 min čitanja' : '5 min read',
@@ -74,6 +96,9 @@ export const mapCmsPost = (post: Post, index: number, locale = 'sr'): MagazinePo
   }
 }
 
-export const buildMagazineFeed = (posts: Post[], locale = 'sr'): MagazinePost[] => {
+export const buildMagazineFeed = (
+  posts: MagazineSourcePost[],
+  locale = 'sr',
+): MagazinePost[] => {
   return posts.map((post, index) => mapCmsPost(post, index, locale))
 }

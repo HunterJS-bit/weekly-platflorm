@@ -5,7 +5,6 @@ import { useTranslations } from 'next-intl'
 import React, { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
-import { LEGAL_LINKS } from '@/content/legalLinks'
 import { Link, usePathname } from '@/i18n/navigation'
 import type { Header as HeaderType } from '@/payload-types'
 
@@ -17,8 +16,6 @@ export const MagazineMenu = ({
   categories: { title: string; slug?: string | null }[]
 }) => {
   const tNav = useTranslations('nav')
-  const tCommon = useTranslations('common')
-  const tLegal = useTranslations('legal')
   const [open, setOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
@@ -156,7 +153,7 @@ export const MagazineMenu = ({
 
               <nav
                 onClick={handleNavClick}
-                className={`magazine-wrap mt-12 grid gap-10 transition-all delay-75 duration-500 ease-out md:grid-cols-3 ${
+                className={`magazine-wrap mt-12 grid gap-10 transition-all delay-75 duration-500 ease-out md:grid-cols-2 ${
                   open ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
                 }`}
               >
@@ -164,17 +161,11 @@ export const MagazineMenu = ({
                   <Link className="pointer-events-auto" href="/">
                     {tNav('home')}
                   </Link>
-                  <Link className="pointer-events-auto" href="/posts">
-                    {tNav('posts')}
-                  </Link>
                   <Link className="pointer-events-auto" href="/about">
                     {tNav('about')}
                   </Link>
                   <Link className="pointer-events-auto" href="/contact">
                     {tNav('contact')}
-                  </Link>
-                  <Link className="pointer-events-auto" href="/search">
-                    {tCommon('search')}
                   </Link>
                 </div>
 
@@ -190,23 +181,6 @@ export const MagazineMenu = ({
                         href={`/category/${category.slug || category.title.toLowerCase().replace(/\s+/g, '-')}`}
                       >
                         {category.title}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <p className="mb-4 text-xs tracking-[0.18em] uppercase text-[#999]">
-                    {tLegal('eyebrow')}
-                  </p>
-                  <div className="flex flex-col items-start gap-2 text-lg">
-                    {LEGAL_LINKS.map((link) => (
-                      <Link
-                        key={link.href}
-                        className="pointer-events-auto"
-                        href={link.href}
-                      >
-                        {tLegal(link.key)}
                       </Link>
                     ))}
                   </div>

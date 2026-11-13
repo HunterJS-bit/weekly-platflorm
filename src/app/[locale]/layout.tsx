@@ -9,6 +9,7 @@ import React from 'react'
 
 import { AdminBar } from '@/components/AdminBar'
 import { JsonLd } from '@/components/JsonLd'
+import { TermsConsent } from '@/components/TermsConsent'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
@@ -73,6 +74,7 @@ export default async function RootLayout({
             <Header locale={locale} />
             {children}
             <Footer locale={locale} />
+            <TermsConsent />
           </Providers>
         </NextIntlClientProvider>
       </body>

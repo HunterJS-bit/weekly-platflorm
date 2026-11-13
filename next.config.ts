@@ -14,6 +14,7 @@ const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  poweredByHeader: false,
   // Temporarily required on Windows until Next.js fixes Turbopack Sass resolution.
   // See: https://github.com/vercel/next.js/issues/86431
   sassOptions: {
@@ -29,6 +30,9 @@ const nextConfig: NextConfig = {
       },
     ],
     qualities: [75, 90],
+    // CMS uploads get a new filename on replacement, so optimized variants are
+    // safe to cache for a long time.
+    minimumCacheTTL: 2592000,
     remotePatterns: [
       ...['https://images.unsplash.com', NEXT_PUBLIC_SERVER_URL].map((item) => {
         const url = new URL(item)

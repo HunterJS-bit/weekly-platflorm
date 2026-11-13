@@ -6,7 +6,7 @@ import { revalidatePath, revalidateTag } from 'next/cache'
  * Revalidates the public page for a collection entry and the pages sitemap
  * whenever a category or author changes.
  */
-export const revalidateEntity = (pathPrefix: string) => {
+export const revalidateEntity = (pathPrefix: string, cacheTags: string[] = []) => {
   const afterChange: CollectionAfterChangeHook = ({
     doc,
     previousDoc,
@@ -22,6 +22,7 @@ export const revalidateEntity = (pathPrefix: string) => {
       }
 
       revalidateTag('pages-sitemap', 'max')
+      cacheTags.forEach((tag) => revalidateTag(tag, 'max'))
     }
 
     return doc
@@ -34,6 +35,7 @@ export const revalidateEntity = (pathPrefix: string) => {
       }
 
       revalidateTag('pages-sitemap', 'max')
+      cacheTags.forEach((tag) => revalidateTag(tag, 'max'))
     }
 
     return doc

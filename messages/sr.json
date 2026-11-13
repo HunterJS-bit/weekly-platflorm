@@ -256,5 +256,13 @@
     "title": "Uslovi korišćenja",
     "description": "Uslovi korišćenja sajta Infotaktik, pravila o autorskim pravima i odgovornosti korisnika.",
     "lead": "Ovi uslovi uređuju korišćenje sajta Infotaktik. Molimo vas da ih pažljivo pročitate pre nego što nastavite da koristite naš sadržaj."
+  },
+  "termsConsent": {
+    "eyebrow": "Uslovi korišćenja",
+    "title": "Pre nego što nastavite",
+    "description": "Korišćenjem sajta Infotaktik prihvatate naše uslove korišćenja i potvrđujete da ste upoznati sa politikom privatnosti.",
+    "accept": "Prihvatam i nastavljam",
+    "termsLink": "Uslovi korišćenja",
+    "privacyLink": "Politika privatnosti"
   }
 }

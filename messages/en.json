@@ -256,5 +256,13 @@
     "title": "Terms of use",
     "description": "Terms of use for the Infotaktik website, including rules on copyright and user responsibility.",
     "lead": "These terms govern your use of the Infotaktik website. Please read them carefully before continuing to use our content."
+  },
+  "termsConsent": {
+    "eyebrow": "Terms of use",
+    "title": "Before you continue",
+    "description": "By using the Infotaktik website you accept our terms of use and confirm that you are familiar with our privacy policy.",
+    "accept": "Accept and continue",
+    "termsLink": "Terms of use",
+    "privacyLink": "Privacy policy"
   }
 }

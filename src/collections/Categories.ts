@@ -22,7 +22,7 @@ export const Categories: CollectionConfig = {
   access: {
     read: () => true,
   },
-  hooks: revalidateEntity('/category'),
+  hooks: revalidateEntity('/category', ['categories']),
   fields: [
     {
       name: 'title',

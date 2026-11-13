@@ -1,8 +1,7 @@
+import { getCachedCategories } from '@/utilities/getCategories'
 import { getCachedGlobal } from '@/utilities/getGlobals'
-import configPromise from '@payload-config'
-import { Facebook, Instagram, Linkedin, Youtube } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
-import { getPayload } from 'payload'
+import { Facebook, Instagram, Linkedin, Youtube } from 'lucide-react'
 import React from 'react'
 
 import { MagazineLogo } from '@/components/Magazine/Logo'
@@ -19,25 +18,18 @@ const XIcon = () => (
 export async function Footer({ locale = 'sr' }: { locale?: string }) {
   const t = await getTranslations('footer')
   const tLegal = await getTranslations('legal')
-  const footerData = await getCachedGlobal('footer', 1)()
+  const [footerData, categories] = await Promise.all([
+    getCachedGlobal('footer', 1)(),
+    getCachedCategories(),
+  ])
   const description = footerData?.description || t('description')
   const socialLinks = footerData?.socialLinks || {}
 
-  let footerCategories: { title: string; titleSr?: string | null; slug: string }[] = []
-  const payload = await getPayload({ config: configPromise })
-  const result = await payload.find({
-    collection: 'categories',
-    limit: 6,
-    overrideAccess: false,
-    sort: 'title',
-  })
-  if (result.docs.length) {
-    footerCategories = result.docs.map((category) => ({
-      title: category.title,
-      titleSr: category.titleSr,
-      slug: category.slug,
-    }))
-  }
+  const footerCategories = categories.slice(0, 6).map((category) => ({
+    title: category.title,
+    titleSr: category.titleSr,
+    slug: category.slug ?? '',
+  }))
 
   return (
     <footer className="mt-auto bg-[#f9f9f9] text-[#111] dark:bg-[#111] dark:text-white">
