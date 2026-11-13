@@ -89,7 +89,6 @@ export async function Footer({ locale = 'sr' }: { locale?: string }) {
           <h3 className="mb-5 text-lg font-semibold">{t('howToFindUs')}</h3>
           <div className="flex flex-col gap-4 text-[#555] dark:text-white/70">
             <p className="whitespace-pre-line">{t('address')}</p>
-            <a href="mailto:hello@mysite.com">hello@mysite.com</a>
             <a href="tel:88002345234">8 800 2345 234</a>
           </div>
         </div>

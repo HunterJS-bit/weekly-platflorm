@@ -91,9 +91,35 @@ export default async function ContactPage({
         </h1>
       </header>
 
+      {/* Contact form */}
+      <section className="magazine-wrap pb-20">
+        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+          <div>
+            <p className="text-xs tracking-[0.18em] uppercase text-[#999]">{t('getInTouch')}</p>
+            <h2 className="mt-4 text-[36px] font-semibold leading-[1.1] tracking-[-0.03em] md:text-[44px]">
+              {t('formTitle')}
+            </h2>
+            <p className="mt-5 max-w-[34ch] text-[16px] leading-7 text-[#8d8d8d]">
+              {t('formDescription')}
+            </p>
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="mt-6 inline-flex items-center gap-2 text-sm font-medium hover:underline"
+            >
+              <Mail className="size-4" />
+              {CONTACT_EMAIL}
+            </a>
+          </div>
+
+          <div>
+            <ContactForm />
+          </div>
+        </div>
+      </section>
+
       <div className="magazine-wrap pb-12">
         <Image
-          src="/media/image-hero1-1400x788.webp"
+          src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1400&h=788&fit=crop"
           alt={t('imageAlt')}
           width={1400}
           height={788}
@@ -105,18 +131,6 @@ export default async function ContactPage({
       {/* Contact details */}
       <section className="magazine-wrap pb-16">
         <div className="grid gap-10 border-y border-[#ececec] py-12 sm:grid-cols-2 lg:grid-cols-4 dark:border-white/10">
-          <div>
-            <p className="text-[11px] tracking-[0.16em] uppercase text-[#999]">
-              {t('emailAddress')}
-            </p>
-            <a
-              href={`mailto:${CONTACT_EMAIL}`}
-              className="mt-3 block text-[16px] leading-7 hover:underline"
-            >
-              {CONTACT_EMAIL}
-            </a>
-          </div>
-
           <div>
             <p className="text-[11px] tracking-[0.16em] uppercase text-[#999]">
               {t('howToFindUs')}
@@ -153,32 +167,6 @@ export default async function ContactPage({
                 </a>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact form */}
-      <section className="magazine-wrap pb-20">
-        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
-          <div>
-            <p className="text-xs tracking-[0.18em] uppercase text-[#999]">{t('getInTouch')}</p>
-            <h2 className="mt-4 text-[36px] font-semibold leading-[1.1] tracking-[-0.03em] md:text-[44px]">
-              {t('formTitle')}
-            </h2>
-            <p className="mt-5 max-w-[34ch] text-[16px] leading-7 text-[#8d8d8d]">
-              {t('formDescription')}
-            </p>
-            <a
-              href={`mailto:${CONTACT_EMAIL}`}
-              className="mt-6 inline-flex items-center gap-2 text-sm font-medium hover:underline"
-            >
-              <Mail className="size-4" />
-              {CONTACT_EMAIL}
-            </a>
-          </div>
-
-          <div>
-            <ContactForm />
           </div>
         </div>
       </section>
