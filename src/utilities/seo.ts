@@ -4,7 +4,7 @@ import type { Media } from '@/payload-types'
 
 import { getServerSideURL } from './getURL'
 
-export const SITE_NAME = 'FrontLine'
+export const SITE_NAME = 'InfoTaktik'
 export const DEFAULT_DESCRIPTION = 'Vaš nedeljni nezavisni internet magazin. Donosimo vam analize, priče i perspektive iz prvih redova, bez kompromisa. Informišite se drugačije.'
 
 export const DEFAULT_OG_IMAGE = '/og-default.jpg'
