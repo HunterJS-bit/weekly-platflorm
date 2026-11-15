@@ -8,15 +8,11 @@ import { SITE_NAME } from '@/utilities/seo'
  */
 export const LEGAL_INFO = {
   siteName: SITE_NAME,
-  publisher: '[Naziv izdavača / pravno lice]',
-  address: '[Ulica i broj], [Poštanski broj] [Grad], Srbija',
+  publisher: '',
+  address: 'Beograd, Srbija',
   email: 'redakcija@infotaktik.rs',
-  phone: '[Telefon redakcije]',
-  editorInChief: '[Ime i prezime glavnog i odgovornog urednika]',
-  registrationNumber: '[Matični broj]',
-  taxId: '[PIB]',
-  registrationAuthority: '[Naziv registra / APR]',
-  hosting: '[Naziv i adresa hosting provajdera]',
+  phone: '',
+  editorInChief: 'Vuk Kostic',
   lastUpdated: '13. novembar 2026.',
 } as const
 
@@ -36,14 +32,7 @@ export const IMPRESSUM_SECTIONS: LegalSection[] = [
     id: 'izdavac',
     title: 'Izdavač',
     paragraphs: [
-      `${LEGAL_INFO.siteName} je elektronski medij koji izdaje ${LEGAL_INFO.publisher}.`,
-    ],
-    list: [
-      `Izdavač: ${LEGAL_INFO.publisher}`,
-      `Sedište: ${LEGAL_INFO.address}`,
-      `Matični broj: ${LEGAL_INFO.registrationNumber}`,
-      `PIB: ${LEGAL_INFO.taxId}`,
-      `Registracija: ${LEGAL_INFO.registrationAuthority}`,
+      `${LEGAL_INFO.siteName} je elektronski medij`,
     ],
   },
   {
@@ -54,8 +43,6 @@ export const IMPRESSUM_SECTIONS: LegalSection[] = [
     ],
     list: [
       `Glavni i odgovorni urednik: ${LEGAL_INFO.editorInChief}`,
-      `Email: ${LEGAL_INFO.email}`,
-      `Telefon: ${LEGAL_INFO.phone}`,
       'Radno vreme redakcije: radnim danima od 09.00 do 17.00 časova.',
     ],
   },
@@ -75,11 +62,6 @@ export const IMPRESSUM_SECTIONS: LegalSection[] = [
       'Zabranjeno je kopiranje, reprodukovanje, distribucija, objavljivanje ili bilo kakvo drugo korišćenje sadržaja bez prethodne pismene dozvole izdavača, osim u slučajevima dozvoljenim zakonom.',
     ],
     note: 'Kratki citati uz jasno naveden izvor i link ka originalnom članku su dozvoljeni.',
-  },
-  {
-    id: 'hosting',
-    title: 'Hosting i tehnički podaci',
-    paragraphs: [`Sajt je hostovan kod pružaoca usluga: ${LEGAL_INFO.hosting}.`],
   },
   {
     id: 'odgovornost',

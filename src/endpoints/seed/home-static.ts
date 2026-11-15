@@ -81,7 +81,7 @@ export const homeStatic: RequiredDataFromCollectionSlug<'pages'> = {
   },
   meta: {
     description: 'Ideje, priče i saveti koji probude radoznalost.',
-    title: 'FrontLine',
+    title: 'InfoTaktik',
   },
   title: 'Home',
   layout: [],
