@@ -13,7 +13,10 @@ export const getMediaUrl = (url: string | null | undefined, cacheTag?: string | 
 
   if (cacheTag && cacheTag !== '') {
     cacheTag = encodeURIComponent(cacheTag)
+    // Use & if URL already has query parameters, otherwise use ?
+    const separator = url.includes('?') ? '&' : '?'
+    return `${url}${separator}${cacheTag}`
   }
 
-  return cacheTag ? `${url}?${cacheTag}` : url
+  return url
 }

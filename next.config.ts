@@ -34,14 +34,14 @@ const nextConfig: NextConfig = {
     // safe to cache for a long time.
     minimumCacheTTL: 2592000,
     remotePatterns: [
-      ...['https://images.unsplash.com', NEXT_PUBLIC_SERVER_URL].map((item) => {
-        const url = new URL(item)
-
-        return {
-          hostname: url.hostname,
-          protocol: url.protocol.replace(':', '') as 'http' | 'https',
-        }
-      }),
+      {
+        hostname: 'images.unsplash.com',
+        protocol: 'https',
+      },
+      {
+        hostname: new URL(NEXT_PUBLIC_SERVER_URL).hostname,
+        protocol: 'https',
+      },
     ],
   },
   webpack: (webpackConfig) => {
