@@ -3,9 +3,8 @@ import type { Metadata } from 'next'
 import { JsonLd } from '@/components/JsonLd'
 import { MagazineHomePage } from '@/components/Magazine/HomePage'
 import { buildMagazineFeed } from '@/components/Magazine/fromCms'
-import { getCachedCategories } from '@/utilities/getCategories'
+import { getCachedPopularTags } from '@/utilities/getPopularTags'
 import { getCachedLatestPosts } from '@/utilities/getLatestPosts'
-import { localizeCategoryTitle } from '@/utilities/localizeCategory'
 import { DEFAULT_DESCRIPTION, SITE_NAME, buildSeoMetadata } from '@/utilities/seo'
 import { webPageJsonLd } from '@/utilities/structuredData'
 import React from 'react'
@@ -21,15 +20,15 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function HomePage({ params }: { params: Promise<{ locale?: string }> }) {
   const { locale = 'sr' } = await params
 
-  const [posts, categories] = await Promise.all([
+  const [posts, tags] = await Promise.all([
     getCachedLatestPosts(),
-    getCachedCategories(),
+    getCachedPopularTags(),
   ])
 
   const feed = buildMagazineFeed(posts, locale)
-  const tags = categories.map((category) => ({
-    title: localizeCategoryTitle(category, locale),
-    slug: category.slug || undefined,
+  const tagList = tags.map((tag) => ({
+    title: tag.title,
+    slug: tag.slug || undefined,
   }))
 
   return (
@@ -41,7 +40,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale?: 
           path: '/',
         })}
       />
-      <MagazineHomePage posts={feed} tags={tags} />
+      <MagazineHomePage posts={feed} tags={tagList} />
     </>
   )
 }
