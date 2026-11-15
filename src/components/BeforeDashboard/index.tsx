@@ -7,6 +7,9 @@ import './index.scss'
 const baseClass = 'before-dashboard'
 
 const BeforeDashboard: React.FC = () => {
+  // Temporarily hidden dashboard instructions
+  return null
+
   return (
     <div className={baseClass}>
       <Banner className={`${baseClass}__banner`} type="success">
