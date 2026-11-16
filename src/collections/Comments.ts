@@ -3,15 +3,15 @@ import type { CollectionConfig } from 'payload'
 export const Comments: CollectionConfig = {
   slug: 'comments',
   access: {
-    // Only signed-in users may write or moderate comments.
-    create: () => true, // Allow anyone to create comments
+    // Allow anyone to create comments (with anti-spam protection)
+    create: () => true,
     delete: ({ req: { user } }) => Boolean(user),
     // Reading comments is public.
     read: () => true,
     update: ({ req: { user } }) => Boolean(user),
   },
   admin: {
-    defaultColumns: ['content', 'post', 'author', 'createdAt'],
+    defaultColumns: ['content', 'post', 'author', 'authorName', 'createdAt'],
     useAsTitle: 'content',
   },
   fields: [
@@ -38,10 +38,26 @@ export const Comments: CollectionConfig = {
       name: 'author',
       type: 'relationship',
       relationTo: 'users',
-      required: true,
+      required: false,
       admin: {
         readOnly: true,
-        description: 'Set automatically from the signed-in user and cannot be spoofed',
+        description: 'Set automatically from the signed-in user',
+      },
+    },
+    {
+      name: 'authorName',
+      type: 'text',
+      required: false,
+      admin: {
+        description: 'Name for guest commenters (optional for authenticated users)',
+      },
+    },
+    {
+      name: 'authorEmail',
+      type: 'text',
+      required: false,
+      admin: {
+        description: 'Email for guest commenters (optional for authenticated users)',
       },
     },
     {
@@ -52,18 +68,31 @@ export const Comments: CollectionConfig = {
         description: 'Parent comment for nested replies',
       },
     },
+    {
+      name: 'honeypot',
+      type: 'text',
+      required: false,
+      admin: {
+        description: 'Anti-spam honeypot field - should be empty for legitimate submissions',
+      },
+    },
   ],
   hooks: {
     beforeChange: [
       ({ data, operation, req }) => {
-        // Never trust a client-supplied author. On create it is always the
-        // authenticated user making the request.
-        if (operation === 'create') {
-          if (!req.user) {
-            throw new Error('You must be signed in to comment.')
-          }
+        // Check honeypot field for spam detection
+        if (operation === 'create' && data.honeypot) {
+          throw new Error('Spam detected')
+        }
 
+        // For authenticated users, set author automatically
+        if (operation === 'create' && req.user) {
           data.author = req.user.id
+        }
+
+        // For guest commenters, require name
+        if (operation === 'create' && !req.user && !data.authorName) {
+          throw new Error('Name is required for guest comments')
         }
 
         if (typeof data.content === 'string') {

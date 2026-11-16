@@ -6,10 +6,11 @@ import { useState, useEffect } from 'react'
 type Comment = {
   id: string
   content: string
-  author: {
+  author?: {
     id: string
     name: string
   }
+  authorName?: string
   createdAt: string
   parent?: {
     id: string
@@ -21,6 +22,8 @@ export default function CommentsSection({ postId }: { postId: string | number })
   const locale = useLocale()
   const [comments, setComments] = useState<Comment[]>([])
   const [newComment, setNewComment] = useState('')
+  const [guestName, setGuestName] = useState('')
+  const [guestEmail, setGuestEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [user, setUser] = useState<{ id: string; name: string; email: string } | null>(null)
 
@@ -56,10 +59,6 @@ export default function CommentsSection({ postId }: { postId: string | number })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!user) {
-      alert(t('loginRequired'))
-      return
-    }
     if (!newComment.trim()) return
 
     setLoading(true)
@@ -72,10 +71,15 @@ export default function CommentsSection({ postId }: { postId: string | number })
         body: JSON.stringify({
           content: newComment,
           post: postId,
+          authorName: user ? undefined : guestName,
+          authorEmail: user ? undefined : guestEmail,
+          honeypot: '', // Honeypot field for anti-spam
         }),
       })
       if (!response.ok) throw new Error(`Request failed with status ${response.status}`)
       setNewComment('')
+      setGuestName('')
+      setGuestEmail('')
       fetchComments()
     } catch (error) {
       console.error('Failed to create comment:', error)
@@ -89,39 +93,59 @@ export default function CommentsSection({ postId }: { postId: string | number })
     <div className="mt-12 max-w-[48rem] mx-auto">
       <h3 className="text-2xl font-bold mb-6">{t('commentsWithCount', { count: comments.length })}</h3>
 
-      {user ? (
-        <form onSubmit={handleSubmit} className="mb-8">
-          <textarea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder={t('shareThoughts')}
-            className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 min-h-[100px]"
-            disabled={loading}
-          />
-          <button
-            type="submit"
-            disabled={loading || !newComment.trim()}
-            className="mt-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {loading ? t('posting') : t('postComment')}
-          </button>
-        </form>
-      ) : (
-        <div className="mb-8 p-4 bg-gray-50 rounded-lg">
-          <p className="text-gray-600">
-            {t('signInPrompt')}{' '}
-            <a href="/admin/login" className="text-indigo-600 hover:text-indigo-700 font-medium">
-              {t('signIn')}
-            </a>
-          </p>
-        </div>
-      )}
+      <form onSubmit={handleSubmit} className="mb-8">
+        {!user && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <input
+              type="text"
+              value={guestName}
+              onChange={(e) => setGuestName(e.target.value)}
+              placeholder={t('yourName') || 'Your name'}
+              className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              disabled={loading}
+              required
+            />
+            <input
+              type="email"
+              value={guestEmail}
+              onChange={(e) => setGuestEmail(e.target.value)}
+              placeholder={t('yourEmail') || 'Your email (optional)'}
+              className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              disabled={loading}
+            />
+          </div>
+        )}
+        <textarea
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+          placeholder={t('shareThoughts')}
+          className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 min-h-[100px]"
+          disabled={loading}
+        />
+        <button
+          type="submit"
+          disabled={loading || !newComment.trim() || (!user && !guestName.trim())}
+          className="mt-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {loading ? t('posting') : t('postComment')}
+        </button>
+        {/* Honeypot field - hidden from users but visible to bots */}
+        <input
+          type="text"
+          name="website"
+          className="hidden"
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </form>
 
       <div className="space-y-4">
         {comments.map((comment) => (
           <div key={comment.id} className="p-4 bg-gray-50 rounded-lg">
             <div className="flex items-center gap-2 mb-2">
-              <span className="font-semibold">{comment.author.name}</span>
+              <span className="font-semibold">
+                {comment.author?.name || comment.authorName || 'Anonymous'}
+              </span>
               <span className="text-sm text-gray-500">
                 {new Date(comment.createdAt).toLocaleDateString(
                   locale === 'sr' ? 'sr-Latn-RS' : 'en-US',

@@ -102,7 +102,9 @@
     "signInPrompt": "Komentarisanje je dostupno prijavljenim korisnicima. Naloge kreira urednički tim.",
     "noComments": "Još uvek nema komentara. Budite prvi!",
     "loginRequired": "Prijavite se da biste komentarisali",
-    "postFailed": "Slanje komentara nije uspelo"
+    "postFailed": "Slanje komentara nije uspelo",
+    "yourName": "Vaše ime",
+    "yourEmail": "Vaša email adresa (opciono)"
   },
   "search": {
     "title": "Pretraga",

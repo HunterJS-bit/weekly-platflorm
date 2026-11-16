@@ -102,7 +102,9 @@
     "signInPrompt": "Commenting is available to signed-in users. Accounts are created by the editorial team.",
     "noComments": "No comments yet. Be the first to comment!",
     "loginRequired": "Please log in to comment",
-    "postFailed": "Failed to post comment"
+    "postFailed": "Failed to post comment",
+    "yourName": "Your name",
+    "yourEmail": "Your email (optional)"
   },
   "search": {
     "title": "Search",
