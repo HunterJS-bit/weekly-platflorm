@@ -90,9 +90,33 @@ export const Comments: CollectionConfig = {
           data.author = req.user.id
         }
 
-        // For guest commenters, require name
-        if (operation === 'create' && !req.user && !data.authorName) {
-          throw new Error('Name is required for guest comments')
+        // For guest commenters, require name and validate/sanitize inputs
+        if (operation === 'create' && !req.user) {
+          if (!data.authorName) {
+            throw new Error('Name is required for guest comments')
+          }
+
+          // Trim and validate name
+          if (typeof data.authorName === 'string') {
+            data.authorName = data.authorName.trim()
+            if (data.authorName.length === 0) {
+              throw new Error('Name cannot be empty')
+            }
+            if (data.authorName.length > 100) {
+              throw new Error('Name is too long (maximum 100 characters)')
+            }
+          }
+
+          // Trim and validate email if provided
+          if (typeof data.authorEmail === 'string' && data.authorEmail.trim()) {
+            data.authorEmail = data.authorEmail.trim()
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+            if (!emailRegex.test(data.authorEmail)) {
+              throw new Error('Invalid email address')
+            }
+          } else {
+            data.authorEmail = ''
+          }
         }
 
         if (typeof data.content === 'string') {
