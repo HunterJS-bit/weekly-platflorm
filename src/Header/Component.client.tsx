@@ -56,7 +56,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, categories = [
             <Link
               key={category.title}
               href={`/category/${category.slug || category.title.toLowerCase().replace(/\s+/g, '-')}`}
-              className="hover:text-[#111] dark:hover:text-white"
+              className="hover:text-[#111] dark:hover:text-white transition-colors"
             >
               {category.title}
             </Link>

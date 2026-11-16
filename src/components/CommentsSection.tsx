@@ -125,7 +125,7 @@ export default function CommentsSection({ postId }: { postId: string | number })
         <button
           type="submit"
           disabled={loading || !newComment.trim() || (!user && !guestName.trim())}
-          className="mt-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="mt-2 px-4 py-2 bg-[#111] text-white rounded-full hover:bg-black dark:bg-white dark:text-[#111] dark:hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? t('posting') : t('postComment')}
         </button>

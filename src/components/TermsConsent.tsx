@@ -22,7 +22,8 @@ export const TermsConsent = () => {
     let accepted = false
 
     try {
-      accepted = window.localStorage.getItem(STORAGE_KEY) === '1'
+      const storedValue = window.localStorage.getItem(STORAGE_KEY)
+      accepted = storedValue === '1' || storedValue === 'declined'
     } catch {
       accepted = false
     }
@@ -85,6 +86,16 @@ export const TermsConsent = () => {
     setVisible(false)
   }
 
+  const decline = () => {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, 'declined')
+    } catch {
+      // Storage can be unavailable in private mode; decline for this session.
+    }
+
+    setVisible(false)
+  }
+
   return (
     <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/45 p-4 sm:items-center">
       <div
@@ -130,14 +141,23 @@ export const TermsConsent = () => {
           </Link>
         </div>
 
-        <button
-          ref={acceptRef}
-          type="button"
-          onClick={accept}
-          className="mt-7 inline-flex w-full items-center justify-center bg-[#111] px-6 py-3 text-[13px] font-medium tracking-[0.08em] uppercase text-white transition-opacity hover:opacity-80 dark:bg-white dark:text-[#111]"
-        >
-          {t('accept')}
-        </button>
+        <div className="mt-7 flex gap-3">
+          <button
+            type="button"
+            onClick={decline}
+            className="flex-1 inline-flex items-center justify-center border border-[#e4e4e4] px-6 py-3 text-[13px] font-medium tracking-[0.08em] uppercase text-[#111] transition-opacity hover:opacity-70 dark:border-white/15 dark:text-white"
+          >
+            {t('decline')}
+          </button>
+          <button
+            ref={acceptRef}
+            type="button"
+            onClick={accept}
+            className="flex-1 inline-flex items-center justify-center bg-[#111] px-6 py-3 text-[13px] font-medium tracking-[0.08em] uppercase text-white transition-opacity hover:opacity-80 dark:bg-white dark:text-[#111]"
+          >
+            {t('accept')}
+          </button>
+        </div>
       </div>
     </div>
   )
