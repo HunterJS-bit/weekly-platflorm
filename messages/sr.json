@@ -264,6 +264,7 @@
     "title": "Pre nego što nastavite",
     "description": "Korišćenjem sajta Infotaktik prihvatate naše uslove korišćenja i potvrđujete da ste upoznati sa politikom privatnosti.",
     "accept": "Prihvatam i nastavljam",
+    "decline": "Odbijam",
     "termsLink": "Uslovi korišćenja",
     "privacyLink": "Politika privatnosti"
   }

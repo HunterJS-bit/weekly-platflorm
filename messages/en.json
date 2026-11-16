@@ -264,6 +264,7 @@
     "title": "Before you continue",
     "description": "By using the Infotaktik website you accept our terms of use and confirm that you are familiar with our privacy policy.",
     "accept": "Accept and continue",
+    "decline": "Decline",
     "termsLink": "Terms of use",
     "privacyLink": "Privacy policy"
   }
