@@ -39,6 +39,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, categories = [
   return (
     <header
       className="sticky top-0 z-30 border-b border-[#ececec] bg-white/95 backdrop-blur-sm dark:border-white/10 dark:bg-[#111]/95"
+      style={{
+        backgroundColor: theme === 'dark' ? '#111' : '',
+        borderColor: theme === 'dark' ? 'rgba(255,255,255,0.1)' : '',
+      }}
       {...(theme ? { 'data-theme': theme } : {})}
     >
       <div className="magazine-wrap flex items-center justify-between py-4">
