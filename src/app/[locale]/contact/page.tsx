@@ -7,6 +7,7 @@ import { getPayload } from 'payload'
 
 import { mapCmsPost } from '@/components/Magazine/fromCms'
 import { MetaRow } from '@/components/Magazine/MetaRow'
+import { PostImage } from '@/components/Magazine/PostImage'
 import { JsonLd } from '@/components/JsonLd'
 import { LEGAL_INFO } from '@/content/legal'
 import { Link } from '@/i18n/navigation'
@@ -93,6 +94,17 @@ export default async function ContactPage({
         </h1>
       </header>
 
+      <div className="magazine-wrap pb-12">
+        <Image
+          src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=1400&h=788&fit=crop"
+          alt={t('imageAlt')}
+          width={1400}
+          height={788}
+          sizes="100vw"
+          className="h-[240px] w-full object-cover md:h-[400px]"
+        />
+      </div>
+
       {/* Contact form */}
       <section className="magazine-wrap pb-20">
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
@@ -118,17 +130,6 @@ export default async function ContactPage({
           </div>
         </div>
       </section>
-
-      <div className="magazine-wrap pb-12">
-        <Image
-          src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1400&h=788&fit=crop"
-          alt={t('imageAlt')}
-          width={1400}
-          height={788}
-          sizes="100vw"
-          className="h-[240px] w-full object-cover md:h-[400px]"
-        />
-      </div>
 
       {/* Contact details */}
       <section className="magazine-wrap pb-16">
@@ -194,7 +195,7 @@ export default async function ContactPage({
             {latestPosts.map((post) => (
               <article key={post.id} className="flex flex-col gap-4">
                 <Link href={post.href} className="relative block h-[220px] overflow-hidden">
-                  <Image
+                  <PostImage
                     src={post.image}
                     alt={post.imageAlt}
                     fill
