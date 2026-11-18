@@ -10,7 +10,7 @@ export const LEGAL_INFO = {
   siteName: SITE_NAME,
   publisher: '',
   address: 'Beograd, Srbija',
-  email: 'redakcija@infotaktik.rs',
+  email: 'redakcija@infotaktik.com',
   phone: '',
   editorInChief: 'Vuk Kostic',
   lastUpdated: '13. novembar 2026.',
