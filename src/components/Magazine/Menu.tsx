@@ -100,7 +100,7 @@ export const MagazineMenu = ({
         aria-expanded={open}
         aria-controls="magazine-menu"
         onClick={() => setOpen(true)}
-        className="flex size-10 items-center justify-center rounded-full text-[#111] transition-colors hover:bg-[#f1f1f1] dark:text-white dark:hover:bg-white/10"
+        className="flex size-10 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10"
       >
         <Menu className="size-6" />
       </button>

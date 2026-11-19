@@ -4,8 +4,9 @@ import type { StaticImageData } from 'next/image'
 
 import { cn } from '@/utilities/ui'
 import NextImage from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 
+import { ImageLoadingOverlay } from '../LoadingOverlay'
 import type { Props as MediaProps } from '../types'
 
 import { cssVariables } from '@/cssVariables'
@@ -75,6 +76,10 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     src = getMediaUrl(url, cacheTag)
   }
 
+  const srcKey = typeof src === 'string' ? src : JSON.stringify(src)
+  const [loadedSrc, setLoadedSrc] = useState<string | null>(null)
+  const loaded = loadedSrc === srcKey
+
   const loading = loadingFromProps || (!priority ? 'lazy' : undefined)
 
   // NOTE: this is used by the browser to determine which image to download at different screen sizes
@@ -85,10 +90,15 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         .join(', ')
 
   return (
-    <picture className={cn(pictureClassName)}>
+    <picture className={cn(pictureClassName, !fill && 'relative')}>
+      {!loaded && <ImageLoadingOverlay />}
       <NextImage
         alt={alt || ''}
-        className={cn(imgClassName)}
+        className={cn(
+          'transition-opacity duration-300',
+          loaded ? 'opacity-100' : 'opacity-0',
+          imgClassName,
+        )}
         fill={fill}
         height={!fill ? height : undefined}
         placeholder="blur"
@@ -99,6 +109,8 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         sizes={sizes}
         src={src}
         width={!fill ? width : undefined}
+        onLoad={() => setLoadedSrc(srcKey)}
+        onError={() => setLoadedSrc(srcKey)}
       />
     </picture>
   )

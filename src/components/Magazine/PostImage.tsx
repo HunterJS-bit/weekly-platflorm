@@ -1,10 +1,9 @@
 'use client'
 
-import { LoaderCircle } from 'lucide-react'
 import Image, { type ImageProps } from 'next/image'
-import { useTranslations } from 'next-intl'
 import React, { useState } from 'react'
 
+import { ImageLoadingOverlay } from '@/components/Media/LoadingOverlay'
 import { cn } from '@/utilities/ui'
 
 /**
@@ -13,27 +12,13 @@ import { cn } from '@/utilities/ui'
  * ready — including when the browser serves it from cache.
  */
 export const PostImage = ({ className, onLoad, onError, src, alt, ...props }: ImageProps) => {
-  const t = useTranslations('common')
   const srcKey = typeof src === 'string' ? src : JSON.stringify(src)
   const [loadedSrc, setLoadedSrc] = useState<string | null>(null)
   const loaded = loadedSrc === srcKey
 
   return (
     <>
-      {!loaded && (
-        <>
-          <span
-            aria-hidden="true"
-            className="absolute inset-0 z-0 animate-pulse bg-[#ececec] dark:bg-white/10"
-          />
-          <span aria-hidden="true" className="absolute inset-0 z-0 flex items-center justify-center">
-            <LoaderCircle className="size-5 animate-spin text-[#b5b5b5] dark:text-white/50" />
-          </span>
-          <span role="status" className="sr-only">
-            {t('loading')}
-          </span>
-        </>
-      )}
+      {!loaded && <ImageLoadingOverlay />}
       <Image
         {...props}
         src={src}
