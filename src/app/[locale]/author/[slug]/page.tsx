@@ -9,6 +9,7 @@ import { cache } from 'react'
 
 import { mapCmsPost } from '@/components/Magazine/fromCms'
 import { CategoryPills, MetaRow } from '@/components/Magazine/MetaRow'
+import { PostImage } from '@/components/Magazine/PostImage'
 import { JsonLd } from '@/components/JsonLd'
 import { Link } from '@/i18n/navigation'
 import { buildSeoMetadata, getMediaURL } from '@/utilities/seo'
@@ -236,7 +237,7 @@ export default async function AuthorPage({ params: paramsPromise }: Args) {
                   tabIndex={-1}
                   aria-hidden="true"
                 >
-                  <Image
+                  <PostImage
                     src={post.image}
                     alt={post.imageAlt}
                     fill

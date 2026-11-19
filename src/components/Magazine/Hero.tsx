@@ -1,13 +1,13 @@
 'use client'
 
 import { ArrowLeft, ArrowRight } from 'lucide-react'
-import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import React, { useState } from 'react'
 
 import { Link } from '@/i18n/navigation'
 
 import { CategoryPills, MetaRow } from './MetaRow'
+import { PostImage } from './PostImage'
 import type { MagazinePost } from './types'
 
 export const Hero = ({ posts }: { posts: MagazinePost[] }) => {
@@ -53,7 +53,7 @@ export const Hero = ({ posts }: { posts: MagazinePost[] }) => {
         </div>
       </div>
       <Link href={post.href} className="relative block h-[420px] overflow-hidden md:h-[520px]">
-        <Image
+        <PostImage
           src={post.image}
           alt={post.imageAlt}
           fill

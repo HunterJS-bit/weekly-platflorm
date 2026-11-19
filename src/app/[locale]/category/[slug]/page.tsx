@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import { buildMagazineFeed } from '@/components/Magazine/fromCms'
+import { PostImage } from '@/components/Magazine/PostImage'
 import { JsonLd } from '@/components/JsonLd'
 import configPromise from '@payload-config'
 import { getTranslations } from 'next-intl/server'
@@ -82,6 +82,7 @@ export default async function CategoryPage({
   searchParams: searchParamsPromise,
 }: Args) {
   const t = await getTranslations('category')
+  const tPost = await getTranslations('post')
   const { locale = 'sr', slug = '' } = await paramsPromise
   const { page: pageParam = '1' } = await searchParamsPromise
   const currentPage = parseInt(pageParam, 10) || 1
@@ -150,7 +151,7 @@ export default async function CategoryPage({
             {feed.map((post) => (
               <article key={post.id} className="flex flex-col gap-4">
                 <Link href={post.href} className="relative block h-[280px] overflow-hidden">
-                  <Image
+                  <PostImage
                     src={post.image}
                     alt={post.imageAlt}
                     fill
@@ -177,7 +178,9 @@ export default async function CategoryPage({
                     <span>•</span>
                     <span>{post.date}</span>
                     <span>•</span>
-                    <span>{post.readTime}</span>
+                    <span>
+                      {post.readTimeMinutes} {tPost('readTime')}
+                    </span>
                   </div>
                   <p className="mt-4 text-[16px] leading-7 text-[#8d8d8d] line-clamp-3">
                     {post.excerpt}

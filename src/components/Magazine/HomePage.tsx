@@ -1,5 +1,4 @@
 import { MessageSquare } from 'lucide-react'
-import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import React from 'react'
 
@@ -8,6 +7,7 @@ import { Link } from '@/i18n/navigation'
 import { Carousel } from './Carousel'
 import { Hero } from './Hero'
 import { CategoryPills, MetaRow } from './MetaRow'
+import { PostImage } from './PostImage'
 import { SubscribeForm } from './Subscribe'
 import type { MagazineCategory, MagazinePost } from './types'
 
@@ -20,7 +20,7 @@ const SectionTitle = ({ children }: { children: React.ReactNode }) => (
 const FeaturedCard = ({ post, widthClass }: { post: MagazinePost; widthClass: string }) => (
   <article className={widthClass}>
     <Link href={post.href} className="relative block h-[230px] overflow-hidden">
-      <Image
+      <PostImage
         src={post.image}
         alt={post.imageAlt}
         fill
@@ -101,7 +101,7 @@ export const MagazineHomePage = async ({
       {highlight ? (
         <section className="magazine-wrap grid items-center gap-10 pb-16 lg:grid-cols-2">
           <Link href={highlight.href} className="relative block h-[420px] overflow-hidden">
-            <Image
+            <PostImage
               src={highlight.image}
               alt={highlight.imageAlt}
               fill
@@ -126,7 +126,7 @@ export const MagazineHomePage = async ({
             {popular.map((post) => (
               <article key={post.id} className="grid gap-6 sm:grid-cols-[220px_1fr]">
                 <Link href={post.href} className="relative block h-[210px] overflow-hidden">
-                  <Image
+                  <PostImage
                     src={post.image}
                     alt={post.imageAlt}
                     fill
@@ -149,7 +149,7 @@ export const MagazineHomePage = async ({
         <aside className="flex flex-col gap-10">
           {overlay ? (
             <Link href={overlay.href} className="relative block min-h-[280px] overflow-hidden">
-              <Image
+              <PostImage
                 src={overlay.image}
                 alt={overlay.imageAlt}
                 fill
@@ -181,7 +181,7 @@ export const MagazineHomePage = async ({
               {recent.map((post) => (
                 <article key={post.id} className="grid grid-cols-[84px_1fr] gap-4">
                   <Link href={post.href} className="relative block h-[84px] w-[84px] overflow-hidden">
-                    <Image
+                    <PostImage
                       src={post.image}
                       alt={post.imageAlt}
                       fill
