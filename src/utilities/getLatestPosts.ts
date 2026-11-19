@@ -27,6 +27,7 @@ export const getCachedLatestPosts = unstable_cache(
         authors: true,
         categories: true,
         comments: true,
+        content: true,
         heroImage: true,
         meta: true,
         populatedAuthors: true,
@@ -38,7 +39,7 @@ export const getCachedLatestPosts = unstable_cache(
 
     return result.docs
   },
-  ['home-posts'],
+  ['home-posts-with-content'],
   {
     tags: ['posts'],
   },

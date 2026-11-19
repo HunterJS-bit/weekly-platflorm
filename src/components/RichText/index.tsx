@@ -59,10 +59,11 @@ type Props = {
   data: DefaultTypedEditorState
   enableGutter?: boolean
   enableProse?: boolean
+  proseSize?: 'base' | 'md' | 'lg' | 'xl'
 } & React.HTMLAttributes<HTMLDivElement>
 
 export default function RichText(props: Props) {
-  const { className, enableProse = true, enableGutter = true, ...rest } = props
+  const { className, enableProse = true, enableGutter = true, proseSize = 'md', ...rest } = props
   return (
     <ConvertRichText
       converters={jsxConverters}
@@ -71,8 +72,8 @@ export default function RichText(props: Props) {
         {
           container: enableGutter,
           'max-w-none': !enableGutter,
-          'mx-auto prose md:prose-md dark:prose-invert': enableProse,
         },
+        enableProse && ['mx-auto prose dark:prose-invert', `md:prose-${proseSize}`],
         className,
       )}
       {...rest}
