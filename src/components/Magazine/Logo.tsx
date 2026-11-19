@@ -6,9 +6,11 @@ import React, { useEffect, useState } from 'react'
 export const MagazineLogo = ({
   className = '',
   tagline = true,
+  light = false,
 }: {
   className?: string
   tagline?: boolean
+  light?: boolean
 }) => {
   const t = useTranslations('common')
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Infotaktik'
@@ -30,15 +32,23 @@ export const MagazineLogo = ({
     return () => observer.disconnect()
   }, [])
 
+  const useLightText = light || isDarkHeader
+
   return (
     <Link href="/" className={`flex items-center gap-4 min-w-0 ${className}`}>
-      <span className={`font-serif text-[42px] leading-none tracking-tight ${isDarkHeader ? 'text-white' : 'text-[#111]'}`}>
+      <span
+        className={`font-serif text-[42px] leading-none tracking-tight ${useLightText ? 'text-white' : 'text-[#111]'}`}
+      >
         {siteName}
       </span>
       {tagline ? (
         <>
-          <span className="hidden sm:block w-px h-10 bg-[#e4e4e4] dark:bg-white/20" />
-          <span className="hidden sm:block text-[10px] leading-tight tracking-[0.18em] uppercase text-[#9a9a9a]">
+          <span
+            className={`hidden sm:block w-px h-10 ${useLightText ? 'bg-white/20' : 'bg-[#e4e4e4]'}`}
+          />
+          <span
+            className={`hidden sm:block text-[10px] leading-tight tracking-[0.18em] uppercase ${useLightText ? 'text-white/60' : 'text-[#9a9a9a]'}`}
+          >
             {t('taglineTop')}
             <br />
             {t('taglineBottom')}

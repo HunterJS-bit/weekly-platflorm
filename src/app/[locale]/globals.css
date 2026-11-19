@@ -211,7 +211,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-[#f9f9f9] text-foreground min-h-[100vh] flex flex-col;
+    @apply bg-[#f9f9f9] text-foreground min-h-[100vh] flex flex-col dark:bg-[#111];
   }
 }
 

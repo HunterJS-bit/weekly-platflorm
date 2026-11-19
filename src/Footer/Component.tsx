@@ -32,14 +32,12 @@ export async function Footer({ locale = 'sr' }: { locale?: string }) {
   }))
 
   return (
-    <footer className="mt-auto bg-[#f9f9f9] text-[#111] dark:bg-[#111] dark:text-white">
+    <footer className="mt-auto border-t border-white/10 bg-[#111] text-white">
       <div className="magazine-wrap grid gap-12 py-16 md:grid-cols-[1.4fr_0.8fr_0.8fr]">
         <div>
-          <MagazineLogo />
-          <p className="mt-6 max-w-[42ch] text-[16px] leading-7 text-[#737373]">
-            {description}
-          </p>
-          <div className="mt-6 flex items-center gap-4 text-[#444] dark:text-white">
+          <MagazineLogo light />
+          <p className="mt-6 max-w-[42ch] text-[16px] leading-7 text-white/60">{description}</p>
+          <div className="mt-6 flex items-center gap-4 text-white">
             {socialLinks.facebook && (
               <a href={socialLinks.facebook} aria-label="Facebook" className="hover:opacity-70">
                 <Facebook className="size-4" />
@@ -70,9 +68,13 @@ export async function Footer({ locale = 'sr' }: { locale?: string }) {
 
         <div>
           <h3 className="mb-5 text-lg font-semibold">{t('categories')}</h3>
-          <nav className="flex flex-col gap-3 text-[#555] dark:text-white/70">
+          <nav className="flex flex-col gap-3 text-white/70">
             {footerCategories.map((category) => (
-              <Link key={category.slug} href={`/category/${category.slug}`}>
+              <Link
+                key={category.slug}
+                href={`/category/${category.slug}`}
+                className="hover:text-white"
+              >
                 {localizeCategoryTitle(category, locale)}
               </Link>
             ))}
@@ -81,24 +83,26 @@ export async function Footer({ locale = 'sr' }: { locale?: string }) {
 
         <div>
           <h3 className="mb-5 text-lg font-semibold">{t('legal')}</h3>
-          <nav className="flex flex-col gap-3 text-[#555] dark:text-white/70">
+          <nav className="flex flex-col gap-3 text-white/70">
             {LEGAL_LINKS.map((link) => (
-              <Link key={link.href} href={link.href}>
+              <Link key={link.href} href={link.href} className="hover:text-white">
                 {tLegal(link.key)}
               </Link>
             ))}
-            <Link href="/contact">{t('getInTouch')}</Link>
+            <Link href="/contact" className="hover:text-white">
+              {t('getInTouch')}
+            </Link>
           </nav>
         </div>
       </div>
-      <div className="magazine-wrap flex flex-col items-center justify-between gap-4 border-t border-[#e8e8e8] py-6 text-center text-sm text-[#8a8a8a] sm:flex-row sm:text-left dark:border-white/10">
+      <div className="magazine-wrap flex flex-col items-center justify-between gap-4 border-t border-white/10 py-6 text-center text-sm text-white/60 sm:flex-row sm:text-left">
         <p>{t('copyright', { year: new Date().getFullYear() })}</p>
         <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
           {LEGAL_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="hover:text-[#111] dark:hover:text-white"
+              className="hover:text-white"
             >
               {tLegal(link.key)}
             </Link>
