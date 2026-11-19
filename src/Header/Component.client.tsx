@@ -1,7 +1,5 @@
 'use client'
-import { useHeaderTheme } from '@/providers/HeaderTheme'
-import { usePathname } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import type { Header } from '@/payload-types'
 
@@ -18,49 +16,29 @@ interface HeaderClientProps {
 }
 
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data, categories = [], locale = 'sr' }) => {
-  const [theme, setTheme] = useState<string | null>(null)
-  const { headerTheme, setHeaderTheme } = useHeaderTheme()
-  const pathname = usePathname()
   const navCategories = categories.map((cat) => ({
     title: localizeCategoryTitle(cat, locale),
     slug: cat.slug,
   }))
 
-  useEffect(() => {
-    setHeaderTheme(null)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname])
-
-  useEffect(() => {
-    if (headerTheme && headerTheme !== theme) setTheme(headerTheme)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [headerTheme])
-
   return (
-    <header
-      className="sticky top-0 z-30 border-b border-[#ececec] bg-white/95 backdrop-blur-sm dark:border-white/10 dark:bg-[#111]/95"
-      style={{
-        backgroundColor: theme === 'dark' ? '#111' : '',
-        borderColor: theme === 'dark' ? 'rgba(255,255,255,0.1)' : '',
-      }}
-      {...(theme ? { 'data-theme': theme } : {})}
-    >
+    <header className="sticky top-0 z-30 border-b border-white/10 bg-[#111] text-white">
       <div className="magazine-wrap flex items-center justify-between py-4">
-        <MagazineLogo />
+        <MagazineLogo light />
         <div className="flex items-center gap-2 sm:gap-3">
-          <div className="flex items-center gap-1 rounded-full border border-[#ececec] bg-white/70 p-1 dark:border-white/10 dark:bg-white/5">
+          <div className="flex items-center gap-1 rounded-full border border-white/10 bg-white/5 p-1">
             <ThemeToggle />
           </div>
           <MagazineMenu data={data} categories={navCategories} />
         </div>
       </div>
-      <nav className="border-t border-[#f0f0f0] dark:border-white/10">
-        <div className="magazine-wrap flex gap-8 overflow-x-auto py-3 text-[12px] tracking-[0.18em] uppercase text-[#8a8a8a] scrollbar-none">
+      <nav className="border-t border-white/10">
+        <div className="magazine-wrap flex gap-8 overflow-x-auto py-3 text-[12px] tracking-[0.18em] uppercase text-white/60 scrollbar-none">
           {navCategories.map((category) => (
             <Link
               key={category.title}
               href={`/category/${category.slug || category.title.toLowerCase().replace(/\s+/g, '-')}`}
-              className="hover:text-[#111] dark:hover:text-white transition-colors"
+              className="hover:text-white transition-colors"
             >
               {category.title}
             </Link>

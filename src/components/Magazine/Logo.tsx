@@ -1,7 +1,9 @@
 'use client'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+
+import { useTheme } from '@/providers/Theme'
 
 export const MagazineLogo = ({
   className = '',
@@ -13,26 +15,9 @@ export const MagazineLogo = ({
   light?: boolean
 }) => {
   const t = useTranslations('common')
+  const { theme } = useTheme()
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Infotaktik'
-  const [isDarkHeader, setIsDarkHeader] = useState(false)
-
-  useEffect(() => {
-    const checkHeaderTheme = () => {
-      const header = document.querySelector('header[data-theme="dark"]')
-      setIsDarkHeader(!!header)
-    }
-
-    checkHeaderTheme()
-    const observer = new MutationObserver(checkHeaderTheme)
-    const header = document.querySelector('header')
-    if (header) {
-      observer.observe(header, { attributes: true, attributeFilter: ['data-theme'] })
-    }
-
-    return () => observer.disconnect()
-  }, [])
-
-  const useLightText = light || isDarkHeader
+  const useLightText = light || theme === 'dark'
 
   return (
     <Link href="/" className={`flex items-center gap-4 min-w-0 ${className}`}>
