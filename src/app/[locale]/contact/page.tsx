@@ -7,7 +7,7 @@ import { getPayload } from 'payload'
 
 import { mapCmsPost } from '@/components/Magazine/fromCms'
 import { MetaRow } from '@/components/Magazine/MetaRow'
-import { PostImage } from '@/components/Magazine/PostImage'
+// import { PostImage } from '@/components/Magazine/PostImage'
 import { JsonLd } from '@/components/JsonLd'
 import { LEGAL_INFO } from '@/content/legal'
 import { Link } from '@/i18n/navigation'
@@ -195,7 +195,7 @@ export default async function ContactPage({
             {latestPosts.map((post) => (
               <article key={post.id} className="flex flex-col gap-4">
                 <Link href={post.href} className="relative block h-[220px] overflow-hidden">
-                  <PostImage
+                  <Image
                     src={post.image}
                     alt={post.imageAlt}
                     fill
