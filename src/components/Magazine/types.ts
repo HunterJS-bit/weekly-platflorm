@@ -14,6 +14,6 @@ export type MagazinePost = {
   author: string
   authorHref?: string
   date: string
-  readTime: string
+  readTimeMinutes: number
   comments: number
 }

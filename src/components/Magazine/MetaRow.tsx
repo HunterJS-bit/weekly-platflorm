@@ -34,7 +34,7 @@ export const MetaRow = ({
       <span>•</span>
       <span className="inline-flex items-center gap-1">
         <Clock className="size-3.5" />
-        {post.readTime}
+        {post.readTimeMinutes} {t('readTime')}
       </span>
       <span>•</span>
       <span className="inline-flex items-center gap-1">

@@ -1,6 +1,7 @@
 import type { Post } from '@/payload-types'
 
 import { localizeCategoryTitle } from '@/utilities/localizeCategory'
+import { getReadingMinutes } from '@/utilities/readingTime'
 import { SITE_NAME } from '@/utilities/seo'
 
 import { demoImages } from './demoPosts'
@@ -14,6 +15,7 @@ export type MagazineSourcePost = Pick<
   Post,
   | 'categories'
   | 'comments'
+  | 'content'
   | 'heroImage'
   | 'id'
   | 'meta'
@@ -91,7 +93,7 @@ export const mapCmsPost = (
         .join(', ') || (locale === 'sr' ? `Urednici ${SITE_NAME}-a` : `${SITE_NAME} Editors`),
     authorHref: firstAuthor ? `/author/${firstAuthor.slug || firstAuthor.id}` : undefined,
     date: formatDate(post.publishedAt, locale),
-    readTime: locale === 'sr' ? '5 min čitanja' : '5 min read',
+    readTimeMinutes: getReadingMinutes(post.content),
     comments: commentsCount,
   }
 }
