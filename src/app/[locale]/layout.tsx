@@ -25,13 +25,13 @@ import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 
 const archivo = Archivo({
-  subsets: ['latin'],
+  subsets: ['latin', 'latin-ext'],
   variable: '--font-archivo',
   display: 'swap',
 })
 
 const fraunces = Fraunces({
-  subsets: ['latin'],
+  subsets: ['latin', 'latin-ext'],
   variable: '--font-fraunces',
   display: 'swap',
 })
