@@ -30,7 +30,7 @@ jobs:
       packages: write
     env:
       NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL || 'https://example.com' }}
-      NEXT_PUBLIC_SITE_NAME: ${{ secrets.NEXT_PUBLIC_SITE_NAME || 'Infotaktik' }}
+      NEXT_PUBLIC_SITE_NAME: ${{ secrets.NEXT_PUBLIC_SITE_NAME || 'InfoTaktik' }}
 
     steps:
       - name: Checkout code
