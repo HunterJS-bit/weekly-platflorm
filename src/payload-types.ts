@@ -484,13 +484,25 @@ export interface Comment {
    */
   post: number | Post;
   /**
-   * Set automatically from the signed-in user and cannot be spoofed
+   * Set automatically from the signed-in user
    */
-  author: number | User;
+  author?: (number | null) | User;
+  /**
+   * Name for guest commenters (optional for authenticated users)
+   */
+  authorName?: string | null;
+  /**
+   * Email for guest commenters (optional for authenticated users)
+   */
+  authorEmail?: string | null;
   /**
    * Parent comment for nested replies
    */
   parent?: (number | null) | Comment;
+  /**
+   * Anti-spam honeypot field - should be empty for legitimate submissions
+   */
+  honeypot?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1549,7 +1561,10 @@ export interface CommentsSelect<T extends boolean = true> {
   content?: T;
   post?: T;
   author?: T;
+  authorName?: T;
+  authorEmail?: T;
   parent?: T;
+  honeypot?: T;
   updatedAt?: T;
   createdAt?: T;
 }
