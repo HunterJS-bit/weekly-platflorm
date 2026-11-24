@@ -1,8 +1,16 @@
 import type { Metadata } from 'next'
 
-import { DEFAULT_DESCRIPTION, DEFAULT_OG_IMAGE, SITE_NAME, absoluteUrl } from './seo'
+import { defaultLocale } from '@/i18n/config'
 
-const defaultOpenGraph: Metadata['openGraph'] = {
+import {
+  DEFAULT_DESCRIPTION,
+  DEFAULT_OG_IMAGE,
+  SITE_NAME,
+  absoluteUrl,
+} from './seo'
+import { localeOg, normalizeLocale } from './locale'
+
+const buildDefaultOpenGraph = (localeValue: string): NonNullable<Metadata['openGraph']> => ({
   type: 'website',
   description: DEFAULT_DESCRIPTION,
   images: [
@@ -13,12 +21,17 @@ const defaultOpenGraph: Metadata['openGraph'] = {
       alt: SITE_NAME,
     },
   ],
-  locale: 'sr_RS',
+  locale: localeOg(normalizeLocale(localeValue)),
   siteName: SITE_NAME,
   title: SITE_NAME,
-}
+})
 
-export const mergeOpenGraph = (og?: Metadata['openGraph']): Metadata['openGraph'] => {
+export const mergeOpenGraph = (
+  og?: Metadata['openGraph'],
+  locale: string = defaultLocale,
+): Metadata['openGraph'] => {
+  const defaultOpenGraph = buildDefaultOpenGraph(locale)
+
   return {
     ...defaultOpenGraph,
     ...og,

@@ -1,26 +1,31 @@
 import canUseDOM from './canUseDOM'
 
-export const getServerSideURL = () => {
-  return (
-    process.env.NEXT_PUBLIC_SERVER_URL ||
-    (process.env.VERCEL_PROJECT_PRODUCTION_URL
-      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-      : 'http://localhost:3000')
-  )
+const normalizeOrigin = (value?: string | null): string | null => {
+  if (!value) return null
+
+  const trimmed = value.trim()
+  if (!trimmed) return null
+
+  const withProtocol = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`
+
+  try {
+    return new URL(withProtocol).origin
+  } catch {
+    return null
+  }
 }
 
-export const getClientSideURL = () => {
-  if (canUseDOM) {
-    const protocol = window.location.protocol
-    const domain = window.location.hostname
-    const port = window.location.port
+/**
+ * Single source of truth for absolute, production-facing URLs.
+ * Accepts origins with or without an explicit protocol.
+ */
+export const getServerSideURL = (): string =>
+  normalizeOrigin(process.env.NEXT_PUBLIC_SERVER_URL) ||
+  normalizeOrigin(process.env.VERCEL_PROJECT_PRODUCTION_URL) ||
+  'http://localhost:3000'
 
-    return `${protocol}//${domain}${port ? `:${port}` : ''}`
-  }
+export const getClientSideURL = (): string => {
+  if (canUseDOM) return window.location.origin
 
-  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  }
-
-  return process.env.NEXT_PUBLIC_SERVER_URL || ''
+  return getServerSideURL()
 }

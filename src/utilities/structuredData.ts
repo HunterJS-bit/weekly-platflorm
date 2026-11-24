@@ -1,5 +1,8 @@
 import type { Category, Post, User } from '@/payload-types'
 
+import { defaultLocale } from '@/i18n/config'
+
+import { localeBcp47, normalizeLocale } from './locale'
 import { localizeCategoryDescription, localizeCategoryTitle } from './localizeCategory'
 import {
   DEFAULT_DESCRIPTION,
@@ -26,14 +29,14 @@ export const organizationJsonLd = (): JsonLdObject => ({
   },
 })
 
-export const websiteJsonLd = (): JsonLdObject => ({
+export const websiteJsonLd = ({ locale }: { locale?: string } = {}): JsonLdObject => ({
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   '@id': WEBSITE_ID,
   name: SITE_NAME,
   url: absoluteUrl('/'),
   description: DEFAULT_DESCRIPTION,
-  inLanguage: 'sr-Latn-RS',
+  inLanguage: localeBcp47(normalizeLocale(locale ?? defaultLocale)),
   publisher: {
     '@id': ORGANIZATION_ID,
   },
@@ -103,7 +106,7 @@ export const articleJsonLd = ({
     },
     articleSection: categories[0] || undefined,
     keywords: tags.length ? tags.join(', ') : undefined,
-    inLanguage: 'sr-Latn-RS',
+    inLanguage: localeBcp47(normalizeLocale(locale)),
   }
 }
 
@@ -136,7 +139,7 @@ export const categoryJsonLd = ({
     url,
     name: localizeCategoryTitle(category, locale),
     description: localizeCategoryDescription(category, locale) || undefined,
-    inLanguage: 'sr-Latn-RS',
+    inLanguage: localeBcp47(normalizeLocale(locale)),
     isPartOf: {
       '@id': WEBSITE_ID,
     },
@@ -146,9 +149,11 @@ export const categoryJsonLd = ({
 export const authorJsonLd = ({
   author,
   path,
+  locale = defaultLocale,
 }: {
   author: Partial<User>
   path: string
+  locale?: string
 }): JsonLdObject => {
   const url = absoluteUrl(path)
   const image = getMediaURL(author.avatar, 'medium') || undefined
@@ -165,7 +170,7 @@ export const authorJsonLd = ({
     '@type': 'ProfilePage',
     '@id': `${url}#profile`,
     url,
-    inLanguage: 'sr-Latn-RS',
+    inLanguage: localeBcp47(normalizeLocale(locale)),
     mainEntity: {
       '@type': 'Person',
       name: author.name || SITE_NAME,
@@ -181,11 +186,13 @@ export const webPageJsonLd = ({
   title,
   description,
   path,
+  locale = defaultLocale,
   type = 'WebPage',
 }: {
   title: string
   description?: string | null
   path: string
+  locale?: string
   type?: 'WebPage' | 'AboutPage' | 'ContactPage' | 'CollectionPage'
 }): JsonLdObject => {
   const url = absoluteUrl(path)
@@ -197,7 +204,7 @@ export const webPageJsonLd = ({
     url,
     name: title,
     description: description || undefined,
-    inLanguage: 'sr-Latn-RS',
+    inLanguage: localeBcp47(normalizeLocale(locale)),
     isPartOf: {
       '@id': WEBSITE_ID,
     },

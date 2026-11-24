@@ -3,6 +3,12 @@ import type { Metadata } from 'next'
 import type { Media } from '@/payload-types'
 
 import { getServerSideURL } from './getURL'
+import {
+  localeAlternates,
+  localeOg,
+  localizedPath,
+  normalizeLocale,
+} from './locale'
 
 export const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'Infotaktik'
 export const DEFAULT_DESCRIPTION = 'Vaš nedeljni nezavisni internet magazin. Donosimo vam analize, priče i perspektive iz prvih redova, bez kompromisa. Informišite se drugačije.'
@@ -49,6 +55,7 @@ type SeoMetadataArgs = {
   authors?: string[]
   section?: string | null
   tags?: string[]
+  locale?: string
   noindex?: boolean
 }
 
@@ -64,9 +71,11 @@ export const buildSeoMetadata = ({
   authors,
   section,
   tags,
+  locale,
   noindex = false,
 }: SeoMetadataArgs): Metadata => {
-  const canonical = absoluteUrl(path)
+  const resolvedLocale = normalizeLocale(locale)
+  const canonical = absoluteUrl(localizedPath(resolvedLocale, path))
   const resolvedTitle = buildSeoTitle(title)
   const resolvedDescription = description || DEFAULT_DESCRIPTION
   const resolvedImage = image || absoluteUrl(DEFAULT_OG_IMAGE)
@@ -77,7 +86,7 @@ export const buildSeoMetadata = ({
     title: resolvedTitle,
     description: resolvedDescription,
     siteName: SITE_NAME,
-    locale: 'sr_RS',
+    locale: localeOg(resolvedLocale),
     images: [
       {
         url: resolvedImage,
@@ -102,6 +111,7 @@ export const buildSeoMetadata = ({
     description: resolvedDescription,
     alternates: {
       canonical,
+      languages: localeAlternates(resolvedLocale, canonical),
     },
     openGraph,
     twitter: {

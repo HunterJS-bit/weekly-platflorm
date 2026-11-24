@@ -51,6 +51,7 @@ export const generateMeta = async (args: {
     authors,
     section: categories[0],
     tags,
+    locale,
     noindex,
   })
 }
