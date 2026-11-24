@@ -1,8 +1,10 @@
 import configPromise from '@payload-config'
+import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
+
 import type { Tag } from '@/payload-types'
 
-export const getCachedPopularTags = async (): Promise<Tag[]> => {
+const fetchPopularTags = async (): Promise<Tag[]> => {
   const payload = await getPayload({ config: configPromise })
 
   const tags = await payload.find({
@@ -14,3 +16,8 @@ export const getCachedPopularTags = async (): Promise<Tag[]> => {
 
   return tags.docs
 }
+
+export const getCachedPopularTags = unstable_cache(fetchPopularTags, ['popular-tags'], {
+  tags: ['tags'],
+  revalidate: 3600,
+})

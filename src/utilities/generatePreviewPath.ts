@@ -1,9 +1,10 @@
 import { PreviewSearchParams } from '@/app/[locale]/next/preview/route'
 import { PayloadRequest, CollectionSlug } from 'payload'
 
+// Preview lives behind its own dynamic route so public pages stay cacheable.
 const collectionPrefixMap: Partial<Record<CollectionSlug, string>> = {
-  posts: '/posts',
-  pages: '',
+  posts: '/preview/posts',
+  pages: '/preview',
 }
 
 type Props = {
