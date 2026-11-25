@@ -7,8 +7,7 @@ const intlMiddleware = createMiddleware({
   locales,
   defaultLocale,
   localePrefix,
-  // The public site is Serbian-only for now. Without this, a browser that
-  // prefers English would be redirected to /en on the unprefixed homepage.
+  // Only Serbian is published, so never negotiate a locale from the browser.
   localeDetection: false,
 })
 
@@ -45,12 +44,10 @@ export function proxy(request: NextRequest) {
   // Locale routing only applies to the frontend. Payload's admin panel and
   // API routes must never be locale-prefixed.
   if (!pathname.startsWith('/api') && !pathname.startsWith('/admin')) {
-    // Serbian is the only public locale, so never serve the English-prefixed
-    // routes even if someone navigates to them directly.
+    // English is no longer a locale. Without this guard the prefix would be
+    // treated as a CMS slug under the default locale instead of a 404.
     if (pathname === '/en' || pathname.startsWith('/en/')) {
-      const url = request.nextUrl.clone()
-      url.pathname = pathname.replace(/^\/en(?=\/|$)/, '') || '/'
-      return NextResponse.redirect(url, 308)
+      return new NextResponse('Not Found', { status: 404 })
     }
 
     return intlMiddleware(request)
