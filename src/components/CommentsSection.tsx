@@ -65,6 +65,9 @@ export default function CommentsSection({ postId }: { postId: string | number })
     e.preventDefault()
     if (!newComment.trim()) return
 
+    const form = e.currentTarget as HTMLFormElement
+    const honeypot = String(new FormData(form).get('website') ?? '')
+
     setLoading(true)
     try {
       const response = await fetch('/api/comments', {
@@ -77,7 +80,7 @@ export default function CommentsSection({ postId }: { postId: string | number })
           post: postIdNum,
           authorName: user ? undefined : guestName,
           authorEmail: user ? undefined : guestEmail,
-          honeypot: '', // Honeypot field for anti-spam
+          honeypot, // Bots that fill the hidden field are rejected server-side
         }),
       })
       if (!response.ok) throw new Error(`Request failed with status ${response.status}`)
