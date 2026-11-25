@@ -7,22 +7,19 @@ import { Archivo, Fraunces } from 'next/font/google'
 import { GeistMono } from 'geist/font/mono'
 import React from 'react'
 
-import { AdminBar } from '@/components/AdminBar'
 import { JsonLd } from '@/components/JsonLd'
 import { TermsConsent } from '@/components/TermsConsent'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
 import { defaultTheme, themeLocalStorageKey } from '@/providers/Theme/shared'
-import type { Theme } from '@/providers/Theme/types'
-import { themeIsValid } from '@/providers/Theme/types'
+import { organizationJsonLd, websiteJsonLd } from '@/utilities/structuredData'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { DEFAULT_DESCRIPTION, DEFAULT_OG_IMAGE, SITE_NAME, absoluteUrl } from '@/utilities/seo'
-import { organizationJsonLd, websiteJsonLd } from '@/utilities/structuredData'
-import { cookies, draftMode } from 'next/headers'
+import { getServerSideURL } from '@/utilities/getURL'
+import { localeBcp47, normalizeLocale } from '@/utilities/locale'
 
 import './globals.css'
-import { getServerSideURL } from '@/utilities/getURL'
 
 const archivo = Archivo({
   subsets: ['latin', 'latin-ext'],
@@ -36,44 +33,38 @@ const fraunces = Fraunces({
   display: 'swap',
 })
 
-export default async function RootLayout({
-  children,
-  params,
-}: {
+// Runs before paint so a saved theme never flashes the default light theme.
+// This keeps the layout free of server-side cookie reads and therefore cacheable.
+const themeScript = `(function(){try{var key='${themeLocalStorageKey}';var cookie=document.cookie.split('; ').find(function(c){return c.indexOf(key+'=')===0});var value=cookie?decodeURIComponent(cookie.split('=').slice(1).join('=')):null;try{value=value||localStorage.getItem(key)}catch(e){}if(value==='dark'||value==='light'){document.documentElement.setAttribute('data-theme',value)}}catch(e){}})();`
+
+type LocaleParams = { params: Promise<{ locale?: string }> }
+
+export default async function RootLayout({ children, params }: LocaleParams & {
   children: React.ReactNode
-  params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const { isEnabled } = await draftMode()
+  const resolvedLocale = normalizeLocale(locale)
   const messages = await getMessages()
-  const themePreference = (await cookies()).get(themeLocalStorageKey)?.value
-  const theme: Theme =
-    themePreference && themeIsValid(themePreference) ? themePreference : defaultTheme
 
   return (
     <html
       className={cn(archivo.variable, fraunces.variable, GeistMono.variable, archivo.className)}
-      data-theme={theme}
-      lang={locale}
+      data-theme={defaultTheme}
+      lang={resolvedLocale}
       suppressHydrationWarning
     >
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
       </head>
       <body>
-        <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
+        <JsonLd data={[organizationJsonLd(), websiteJsonLd({ locale: resolvedLocale })]} />
         <NextIntlClientProvider messages={messages}>
-          <Providers theme={theme}>
-            <AdminBar
-              adminBarProps={{
-                preview: isEnabled,
-              }}
-            />
-
-            <Header locale={locale} />
+          <Providers theme={defaultTheme}>
+            <Header locale={resolvedLocale} />
             {children}
-            <Footer locale={locale} />
+            <Footer locale={resolvedLocale} />
             <TermsConsent />
           </Providers>
         </NextIntlClientProvider>
@@ -82,22 +73,31 @@ export default async function RootLayout({
   )
 }
 
-export const metadata: Metadata = {
-  metadataBase: new URL(getServerSideURL()),
-  applicationName: SITE_NAME,
-  title: `${SITE_NAME} — Ideje, priče i saveti`,
-  description: DEFAULT_DESCRIPTION,
-  openGraph: mergeOpenGraph(),
-  twitter: {
-    card: 'summary_large_image',
+export async function generateMetadata({ params }: LocaleParams): Promise<Metadata> {
+  const { locale } = await params
+  const resolvedLocale = normalizeLocale(locale)
+
+  return {
+    metadataBase: new URL(getServerSideURL()),
+    applicationName: SITE_NAME,
     title: `${SITE_NAME} — Ideje, priče i saveti`,
     description: DEFAULT_DESCRIPTION,
-    images: [absoluteUrl(DEFAULT_OG_IMAGE)],
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
+    alternates: {
+      canonical: '/',
+      languages: { [localeBcp47(resolvedLocale)]: '/' },
+    },
+    openGraph: mergeOpenGraph(undefined, resolvedLocale),
+    twitter: {
+      card: 'summary_large_image',
+      title: `${SITE_NAME} — Ideje, priče i saveti`,
+      description: DEFAULT_DESCRIPTION,
+      images: [absoluteUrl(DEFAULT_OG_IMAGE)],
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+  }
 }
 
 export const viewport: Viewport = {

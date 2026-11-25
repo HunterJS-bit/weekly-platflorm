@@ -4,6 +4,8 @@ import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
 
 import { getServerSideURL } from '@/utilities/getURL'
+import { defaultLocale } from '@/i18n/config'
+import { localeBcp47 } from '@/utilities/locale'
 
 export const dynamic = 'force-dynamic'
 
@@ -74,6 +76,13 @@ const getPagesSitemap = unstable_cache(
       entries.set(loc, {
         loc,
         ...(lastmod ? { lastmod } : {}),
+        alternateRefs: [
+          {
+            href: loc,
+            hreflang: localeBcp47(defaultLocale),
+            hrefIsAbsolute: true,
+          },
+        ],
       })
     }
 

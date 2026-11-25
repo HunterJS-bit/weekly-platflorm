@@ -5,8 +5,12 @@ import { unstable_cache } from 'next/cache'
 
 import { getMediaURL } from '@/utilities/seo'
 import { getServerSideURL } from '@/utilities/getURL'
+import { defaultLocale } from '@/i18n/config'
+import { localeBcp47 } from '@/utilities/locale'
 
 export const dynamic = 'force-dynamic'
+
+const DATE_FALLBACK = new Date().toISOString()
 
 type CachedEntry = {
   loc: string
@@ -21,7 +25,6 @@ const getPostsSitemap = unstable_cache(
   async (): Promise<CachedEntry[]> => {
     const payload = await getPayload({ config })
     const SITE_URL = getServerSideURL().replace(/\/$/, '')
-    const dateFallback = new Date().toISOString()
 
     const results = await payload.find({
       collection: 'posts',
@@ -51,7 +54,7 @@ const getPostsSitemap = unstable_cache(
 
         return {
           loc: `${SITE_URL}/posts/${post.slug}`,
-          lastmod: post.updatedAt || dateFallback,
+          lastmod: post.updatedAt || DATE_FALLBACK,
           ...(imageUrl
             ? {
                 image: {
@@ -77,6 +80,13 @@ export async function GET() {
   const sitemap: ISitemapField[] = entries.map((entry) => ({
     loc: entry.loc,
     lastmod: entry.lastmod,
+    alternateRefs: [
+      {
+        href: entry.loc,
+        hreflang: localeBcp47(defaultLocale),
+        hrefIsAbsolute: true,
+      },
+    ],
     ...(entry.image
       ? {
           images: [
