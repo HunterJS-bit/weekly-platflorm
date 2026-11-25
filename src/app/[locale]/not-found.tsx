@@ -1,8 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 
-export const dynamic = 'force-dynamic'
-
 export default async function NotFound() {
   const t = await getTranslations('error.404')
 

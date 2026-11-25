@@ -4,33 +4,19 @@ import { CollectionArchive } from '@/components/CollectionArchive'
 import { PageRange } from '@/components/PageRange'
 import { Pagination } from '@/components/Pagination'
 import { JsonLd } from '@/components/JsonLd'
-import configPromise from '@payload-config'
 import { getTranslations } from 'next-intl/server'
-import { getPayload } from 'payload'
 import React from 'react'
 import { buildSeoMetadata } from '@/utilities/seo'
+import { getCachedPostsPage } from '@/utilities/cachedQueries'
 import { breadcrumbJsonLd, webPageJsonLd } from '@/utilities/structuredData'
 import PageClient from './page.client'
 
-export const dynamic = 'force-dynamic'
+type Args = { params: Promise<{ locale?: string }> }
 
-export default async function Page() {
+export default async function Page({ params }: Args) {
   const t = await getTranslations('posts')
-  const payload = await getPayload({ config: configPromise })
-
-  const posts = await payload.find({
-    collection: 'posts',
-    depth: 1,
-    limit: 12,
-    overrideAccess: false,
-    select: {
-      title: true,
-      slug: true,
-      heroImage: true,
-      categories: true,
-      meta: true,
-    },
-  })
+  const { locale = 'sr' } = await params
+  const posts = await getCachedPostsPage(1)
 
   return (
     <div className="pt-24 pb-24">
@@ -40,6 +26,7 @@ export default async function Page() {
             title: t('title'),
             description: t('metadataDescription'),
             path: '/posts',
+            locale,
             type: 'CollectionPage',
           }),
           breadcrumbJsonLd([
@@ -75,12 +62,14 @@ export default async function Page() {
   )
 }
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({ params }: Args): Promise<Metadata> {
   const t = await getTranslations('posts')
+  const { locale = 'sr' } = await params
 
   return buildSeoMetadata({
     title: t('title'),
     description: t('metadataDescription'),
     path: '/posts',
+    locale,
   })
 }

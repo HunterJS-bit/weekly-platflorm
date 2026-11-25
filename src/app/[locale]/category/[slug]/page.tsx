@@ -2,14 +2,11 @@ import type { Metadata } from 'next'
 import { buildMagazineFeed } from '@/components/Magazine/fromCms'
 import { PostImage } from '@/components/Magazine/PostImage'
 import { JsonLd } from '@/components/JsonLd'
-import configPromise from '@payload-config'
 import { getTranslations } from 'next-intl/server'
-import { getPayload } from 'payload'
-import React, { cache } from 'react'
-
-import type { Category } from '@/payload-types'
+import React from 'react'
 
 import { Link } from '@/i18n/navigation'
+import { getCachedCategory, getCachedCategoryPosts } from '@/utilities/cachedQueries'
 import {
   localizeCategoryDescription,
   localizeCategoryTitle,
@@ -29,22 +26,6 @@ type Args = {
 
 const POSTS_PER_PAGE = 12
 
-const queryCategory = cache(async (slug: string): Promise<Category | null> => {
-  const payload = await getPayload({ config: configPromise })
-
-  const result = await payload.find({
-    collection: 'categories',
-    where: {
-      slug: {
-        equals: slug,
-      },
-    },
-    limit: 1,
-  })
-
-  return result.docs[0] || null
-})
-
 export async function generateMetadata({
   params: paramsPromise,
 }: {
@@ -52,12 +33,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale = 'sr', slug = '' } = await paramsPromise
   const t = await getTranslations('category')
-  const category = await queryCategory(slug)
+  const category = await getCachedCategory(slug)
 
   if (!category) {
     return buildSeoMetadata({
       title: t('notFound'),
       path: `/category/${slug}`,
+      locale,
       noindex: true,
     })
   }
@@ -74,6 +56,7 @@ export async function generateMetadata({
     imageAlt: category.meta?.image && typeof category.meta.image === 'object'
       ? category.meta.image.alt
       : title,
+    locale,
   })
 }
 
@@ -86,9 +69,8 @@ export default async function CategoryPage({
   const { locale = 'sr', slug = '' } = await paramsPromise
   const { page: pageParam = '1' } = await searchParamsPromise
   const currentPage = parseInt(pageParam, 10) || 1
-  const payload = await getPayload({ config: configPromise })
 
-  const categoryData = await queryCategory(slug)
+  const categoryData = await getCachedCategory(slug)
 
   if (!categoryData) {
     return (
@@ -101,21 +83,8 @@ export default async function CategoryPage({
   const categoryTitle = localizeCategoryTitle(categoryData, locale)
   const categoryDescription = localizeCategoryDescription(categoryData, locale)
 
-  // Fetch posts for this category with pagination
-  const posts = await payload.find({
-    collection: 'posts',
-    draft: false,
-    limit: POSTS_PER_PAGE,
-    overrideAccess: false,
-    sort: '-publishedAt',
-    depth: 2,
-    page: currentPage,
-    where: {
-      categories: {
-        in: [categoryData.id],
-      },
-    },
-  })
+  // Fetch posts for this category with pagination.
+  const posts = await getCachedCategoryPosts(categoryData.id, currentPage)
 
   const feed = buildMagazineFeed(posts.docs, locale)
   const totalPages = Math.ceil((posts.totalDocs || 0) / POSTS_PER_PAGE)
@@ -244,5 +213,3 @@ export default async function CategoryPage({
     </div>
   )
 }
-
-export const dynamic = 'force-dynamic'

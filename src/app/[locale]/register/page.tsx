@@ -4,18 +4,20 @@ import { getTranslations } from 'next-intl/server'
 
 import { buildSeoMetadata } from '@/utilities/seo'
 
-export async function generateMetadata(): Promise<Metadata> {
+type Args = { params: Promise<{ locale?: string }> }
+
+export async function generateMetadata({ params }: Args): Promise<Metadata> {
   const t = await getTranslations('register')
+  const { locale = 'sr' } = await params
 
   return buildSeoMetadata({
     title: t('metadataTitle'),
     description: t('metadataDescription'),
     path: '/register',
+    locale,
     noindex: true,
   })
 }
-
-export const dynamic = 'force-dynamic'
 
 export default async function RegisterPage() {
   const t = await getTranslations('register')

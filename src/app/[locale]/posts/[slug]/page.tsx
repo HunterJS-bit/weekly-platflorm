@@ -1,26 +1,11 @@
 import type { Metadata } from 'next'
 
-import { RelatedPosts } from '@/blocks/RelatedPosts/Component'
+import { PostArticle } from '@/components/Magazine/PostArticle'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
-import CommentsSection from '@/components/CommentsSection'
-import { JsonLd } from '@/components/JsonLd'
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
-import { draftMode } from 'next/headers'
-import React, { cache } from 'react'
-import RichText from '@/components/RichText'
+import React from 'react'
 
-import type { Post } from '@/payload-types'
-
-import { PostHero } from '@/heros/PostHero'
 import { generateMeta } from '@/utilities/generateMeta'
-import { localizeCategoryTitle } from '@/utilities/localizeCategory'
-import { articleJsonLd, breadcrumbJsonLd } from '@/utilities/structuredData'
-import PageClient from './page.client'
-import { LivePreviewListener } from '@/components/LivePreviewListener'
-
-// Render on demand. This keeps production builds independent of the database.
-export const dynamic = 'force-dynamic'
+import { getCachedPublishedPost } from '@/utilities/cachedQueries'
 
 type Args = {
   params: Promise<{
@@ -30,106 +15,25 @@ type Args = {
 }
 
 export default async function Post({ params: paramsPromise }: Args) {
-  const { isEnabled: draft } = await draftMode()
   const { locale = 'sr', slug = '' } = await paramsPromise
-  // Decode to support slugs with special characters
   const decodedSlug = decodeURIComponent(slug)
-  const url = '/posts/' + decodedSlug
-  const post = await queryPostBySlug({ slug: decodedSlug })
+  const url = `/posts/${decodedSlug}`
+  const post = await getCachedPublishedPost(decodedSlug)
 
   if (!post) return <PayloadRedirects url={url} />
 
-  const postPath = `/posts/${post.slug}`
-  const primaryCategory = (post.categories ?? []).find(
-    (category): category is Exclude<typeof category, number> => typeof category === 'object',
-  )
-
-  const breadcrumbs = [
-    { name: 'Početna', path: '/' },
-    { name: 'Članci', path: '/posts' },
-    ...(primaryCategory
-      ? [
-          {
-            name: localizeCategoryTitle(primaryCategory, locale),
-            path: `/category/${primaryCategory.slug}`,
-          },
-        ]
-      : []),
-    { name: post.title, path: postPath },
-  ]
-
-  return (
-    <article className="pt-16 pb-16">
-      <JsonLd
-        data={[
-          articleJsonLd({ post, path: postPath, locale }),
-          breadcrumbJsonLd(breadcrumbs),
-        ]}
-      />
-      <PageClient />
-
-      {/* Allows redirects for valid pages too */}
-      <PayloadRedirects disableNotFound url={url} />
-
-      {draft && <LivePreviewListener />}
-
-      <PostHero post={post} locale={locale} />
-
-      <div className="flex flex-col items-center gap-4 pt-8">
-        <div className="container">
-          <RichText
-            className="max-w-[48rem] mx-auto"
-            data={post.content}
-            enableGutter={false}
-            proseSize="lg"
-          />
-          {post.relatedPosts && post.relatedPosts.length > 0 && (
-            <RelatedPosts
-              className="mt-12 max-w-[52rem] lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[2fr]"
-              docs={post.relatedPosts.filter((post) => typeof post === 'object')}
-            />
-          )}
-          <CommentsSection postId={String(post.id)} />
-        </div>
-      </div>
-    </article>
-  )
+  return <PostArticle post={post} locale={locale} />
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { isEnabled: draft } = await draftMode()
   const { locale = 'sr', slug = '' } = await paramsPromise
-  // Decode to support slugs with special characters
   const decodedSlug = decodeURIComponent(slug)
-  const post = await queryPostBySlug({ slug: decodedSlug })
+  const post = await getCachedPublishedPost(decodedSlug)
 
   return generateMeta({
     doc: post,
     path: `/posts/${decodedSlug}`,
     type: 'article',
     locale,
-    noindex: draft,
   })
 }
-
-const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
-  const { isEnabled: draft } = await draftMode()
-
-  const payload = await getPayload({ config: configPromise })
-
-  const result = await payload.find({
-    collection: 'posts',
-    draft,
-    limit: 1,
-    overrideAccess: draft,
-    pagination: false,
-    where: {
-      slug: {
-        equals: slug,
-      },
-    },
-    depth: 2,
-  })
-
-  return result.docs?.[0] || null
-})

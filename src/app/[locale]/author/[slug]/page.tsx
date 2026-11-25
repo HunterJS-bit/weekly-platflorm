@@ -3,10 +3,8 @@ import Image from 'next/image'
 import { ArrowUpRight, Facebook, Globe, Instagram, Linkedin, Twitter } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
-import { cache } from 'react'
 
+import { getCachedAuthor, getCachedAuthorPosts } from '@/utilities/cachedQueries'
 import { mapCmsPost } from '@/components/Magazine/fromCms'
 import { CategoryPills, MetaRow } from '@/components/Magazine/MetaRow'
 import { PostImage } from '@/components/Magazine/PostImage'
@@ -14,41 +12,6 @@ import { JsonLd } from '@/components/JsonLd'
 import { Link } from '@/i18n/navigation'
 import { buildSeoMetadata, getMediaURL } from '@/utilities/seo'
 import { authorJsonLd, breadcrumbJsonLd } from '@/utilities/structuredData'
-
-const queryAuthor = cache(async (slug: string) => {
-  const payload = await getPayload({ config: configPromise })
-  const isID = /^\d+$/.test(slug)
-
-  const result = await payload.find({
-    collection: 'users',
-    depth: 1,
-    limit: 1,
-    overrideAccess: false,
-    where: isID ? { id: { equals: Number(slug) } } : { slug: { equals: slug } },
-  })
-
-  return result.docs[0] || null
-})
-
-const queryPosts = cache(async (authorID: number) => {
-  const payload = await getPayload({ config: configPromise })
-
-  const result = await payload.find({
-    collection: 'posts',
-    depth: 2,
-    draft: false,
-    limit: 100,
-    overrideAccess: false,
-    sort: '-publishedAt',
-    where: {
-      authors: {
-        in: [authorID],
-      },
-    },
-  })
-
-  return result.docs
-})
 
 type Args = {
   params: Promise<{
@@ -60,12 +23,13 @@ type Args = {
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const t = await getTranslations('author')
   const { locale = 'sr', slug = '' } = await paramsPromise
-  const author = await queryAuthor(slug)
+  const author = await getCachedAuthor(slug)
 
   if (!author) {
     return buildSeoMetadata({
       title: t('notFound'),
       path: `/author/${slug}`,
+      locale,
       noindex: true,
     })
   }
@@ -78,6 +42,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
     path: `/author/${slug}`,
     image: getMediaURL(author.meta?.image, 'og') || getMediaURL(author.avatar, 'og'),
     imageAlt: name,
+    locale,
   })
 }
 
@@ -85,11 +50,11 @@ export default async function AuthorPage({ params: paramsPromise }: Args) {
   const t = await getTranslations('author')
   const tCommon = await getTranslations('common')
   const { locale = 'sr', slug = '' } = await paramsPromise
-  const author = await queryAuthor(slug)
+  const author = await getCachedAuthor(slug)
 
   if (!author) notFound()
 
-  const posts = await queryPosts(author.id)
+  const posts = await getCachedAuthorPosts(author.id)
   const feed = posts.map((post, index) => mapCmsPost(post, index, locale))
 
   const name = author.name || t('label')
@@ -117,7 +82,7 @@ export default async function AuthorPage({ params: paramsPromise }: Args) {
     <div className="min-h-screen bg-[#f9f9f9] text-[#111] dark:bg-[#111] dark:text-white">
       <JsonLd
         data={[
-          authorJsonLd({ author, path: `/author/${slug}` }),
+          authorJsonLd({ author, path: `/author/${slug}`, locale }),
           breadcrumbJsonLd([
             { name: tCommon('home'), path: '/' },
             { name, path: `/author/${slug}` },
@@ -255,5 +220,3 @@ export default async function AuthorPage({ params: paramsPromise }: Args) {
     </div>
   )
 }
-
-export const dynamic = 'force-dynamic'

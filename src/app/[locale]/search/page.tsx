@@ -11,18 +11,21 @@ import { buildSeoMetadata } from '@/utilities/seo'
 import PageClient from './page.client'
 
 type Args = {
+  params: Promise<{ locale?: string }>
   searchParams: Promise<{
     q: string
   }>
 }
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale?: string }> }): Promise<Metadata> {
   const t = await getTranslations('search')
+  const { locale = 'sr' } = await params
 
   return buildSeoMetadata({
     title: t('title'),
     description: t('metadataDescription'),
     path: '/search',
+    locale,
     noindex: true,
   })
 }

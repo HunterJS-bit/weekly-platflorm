@@ -4,41 +4,31 @@ import { CollectionArchive } from '@/components/CollectionArchive'
 import { PageRange } from '@/components/PageRange'
 import { Pagination } from '@/components/Pagination'
 import { JsonLd } from '@/components/JsonLd'
-import configPromise from '@payload-config'
 import { getTranslations } from 'next-intl/server'
-import { getPayload } from 'payload'
 import React from 'react'
 import { buildSeoMetadata } from '@/utilities/seo'
+import { getCachedPostsPage } from '@/utilities/cachedQueries'
 import { breadcrumbJsonLd, webPageJsonLd } from '@/utilities/structuredData'
 import PageClient from './page.client'
 import { notFound, redirect } from 'next/navigation'
 
-// Render on demand; pagination is read from the live database at request time.
-export const dynamic = 'force-dynamic'
-
 type Args = {
   params: Promise<{
+    locale?: string
     pageNumber: string
   }>
 }
 
 export default async function Page({ params: paramsPromise }: Args) {
   const t = await getTranslations('posts')
-  const { pageNumber } = await paramsPromise
-  const payload = await getPayload({ config: configPromise })
+  const { locale = 'sr', pageNumber } = await paramsPromise
 
   const sanitizedPageNumber = Number(pageNumber)
 
   if (!Number.isInteger(sanitizedPageNumber)) notFound()
   if (sanitizedPageNumber === 1) redirect('/posts')
 
-  const posts = await payload.find({
-    collection: 'posts',
-    depth: 1,
-    limit: 12,
-    page: sanitizedPageNumber,
-    overrideAccess: false,
-  })
+  const posts = await getCachedPostsPage(sanitizedPageNumber)
 
   // Avoid indexing empty or out-of-range pagination pages.
   if (sanitizedPageNumber < 1 || sanitizedPageNumber > posts.totalPages) notFound()
@@ -53,6 +43,7 @@ export default async function Page({ params: paramsPromise }: Args) {
             title: `${t('title')} — ${sanitizedPageNumber}`,
             description: t('metadataDescription'),
             path: pagePath,
+            locale,
             type: 'CollectionPage',
           }),
           breadcrumbJsonLd([
@@ -91,11 +82,12 @@ export default async function Page({ params: paramsPromise }: Args) {
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const t = await getTranslations('posts')
-  const { pageNumber } = await paramsPromise
+  const { locale = 'sr', pageNumber } = await paramsPromise
 
   return buildSeoMetadata({
     title: `${t('title')} — ${pageNumber || ''}`,
     description: t('metadataDescription'),
     path: pageNumber === '1' ? '/posts' : `/posts/page/${pageNumber}`,
+    locale,
   })
 }

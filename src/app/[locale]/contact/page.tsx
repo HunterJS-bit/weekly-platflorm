@@ -2,9 +2,8 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import { Facebook, Instagram, Linkedin, Mail, Twitter, Youtube } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
 
+import { getCachedContactPosts } from '@/utilities/cachedQueries'
 import { mapCmsPost } from '@/components/Magazine/fromCms'
 import { MetaRow } from '@/components/Magazine/MetaRow'
 // import { PostImage } from '@/components/Magazine/PostImage'
@@ -16,13 +15,17 @@ import { breadcrumbJsonLd, webPageJsonLd } from '@/utilities/structuredData'
 
 import { ContactForm } from './ContactForm'
 
-export async function generateMetadata(): Promise<Metadata> {
+type Args = { params: Promise<{ locale?: string }> }
+
+export async function generateMetadata({ params }: Args): Promise<Metadata> {
   const t = await getTranslations('contact')
+  const { locale = 'sr' } = await params
 
   return buildSeoMetadata({
     title: t('metadataTitle'),
     description: t('metadataDescription'),
     path: '/contact',
+    locale,
   })
 }
 
@@ -38,26 +41,13 @@ const socials = [
   { href: 'https://youtube.com', label: 'YouTube', Icon: Youtube },
 ]
 
-export default async function ContactPage({
-  params,
-}: {
-  params: Promise<{ locale?: string }>
-}) {
+export default async function ContactPage({ params }: Args) {
   const { locale = 'sr' } = await params
   const t = await getTranslations('contact')
   const tCommon = await getTranslations('common')
-  const payload = await getPayload({ config: configPromise })
 
-  const postsResult = await payload.find({
-    collection: 'posts',
-    draft: false,
-    limit: 3,
-    overrideAccess: false,
-    sort: '-publishedAt',
-    depth: 2,
-  })
-
-  const latestPosts = postsResult.docs.map((post, index) => mapCmsPost(post, index, locale))
+  const posts = await getCachedContactPosts()
+  const latestPosts = posts.map((post, index) => mapCmsPost(post, index, locale))
 
   return (
     <div className="min-h-screen bg-[#f9f9f9] text-[#111] dark:bg-[#111] dark:text-white">
@@ -67,6 +57,7 @@ export default async function ContactPage({
             title: t('title'),
             description: t('metadataDescription'),
             path: '/contact',
+            locale,
             type: 'ContactPage',
           }),
           breadcrumbJsonLd([
@@ -217,5 +208,3 @@ export default async function ContactPage({
     </div>
   )
 }
-
-export const dynamic = 'force-dynamic'

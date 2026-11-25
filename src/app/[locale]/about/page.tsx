@@ -9,17 +9,17 @@ import { Link } from '@/i18n/navigation'
 import { buildSeoMetadata } from '@/utilities/seo'
 import { breadcrumbJsonLd, webPageJsonLd } from '@/utilities/structuredData'
 
-// The shared layout reads header/footer data from the CMS, so keep this route
-// dynamic to avoid a database connection during `next build`.
-export const dynamic = 'force-dynamic'
+type Args = { params: Promise<{ locale?: string }> }
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({ params }: Args): Promise<Metadata> {
   const t = await getTranslations('about')
+  const { locale = 'sr' } = await params
 
   return buildSeoMetadata({
     title: t('title'),
     description: t('description'),
     path: '/about',
+    locale,
   })
 }
 
@@ -27,7 +27,8 @@ const VALUE_KEYS = [1, 2, 3] as const
 const OFFER_KEYS = ['reading', 'community', 'categories', 'writers'] as const
 const STANDARD_KEYS = [1, 2, 3] as const
 
-export default async function AboutPage() {
+export default async function AboutPage({ params }: Args) {
+  const { locale = 'sr' } = await params
   const t = await getTranslations('about')
   const tLegal = await getTranslations('legal')
   const tCommon = await getTranslations('common')
@@ -40,6 +41,7 @@ export default async function AboutPage() {
             title: t('title'),
             description: t('description'),
             path: '/about',
+            locale,
             type: 'AboutPage',
           }),
           breadcrumbJsonLd([

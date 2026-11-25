@@ -2,46 +2,82 @@
 
 import { ArrowUpRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 import { Link } from '@/i18n/navigation'
 
-const STORAGE_KEY = 'infotaktik-terms-accepted-v1'
+const STORAGE_KEY = 'infotaktik-terms-consent-v1'
+const PORTAL_ID = 'terms-consent-root'
+
+type Consent = 'accepted' | 'declined'
+
+const readConsent = (): Consent | null => {
+  try {
+    const stored = window.localStorage.getItem(STORAGE_KEY)
+
+    // Migrate the old flag while keeping decline distinct from acceptance.
+    if (stored === '1' || stored === 'accepted') return 'accepted'
+    if (stored === 'declined') return 'declined'
+  } catch {
+    // Storage can be unavailable in private mode.
+  }
+
+  return null
+}
 
 /**
- * Blocks the site on first visit until the reader accepts the terms of use.
- * The acceptance is stored locally so the dialog only appears once.
+ * Blocks the site until the reader accepts the terms. A decline is stored as a
+ * distinct value and the dialog is shown again on the next visit.
  */
 export const TermsConsent = () => {
   const t = useTranslations('termsConsent')
+  const [mounted, setMounted] = useState(false)
   const [visible, setVisible] = useState(false)
   const acceptRef = useRef<HTMLButtonElement>(null)
   const dialogRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    let accepted = false
-
-    try {
-      const storedValue = window.localStorage.getItem(STORAGE_KEY)
-      accepted = storedValue === '1' || storedValue === 'declined'
-    } catch {
-      accepted = false
-    }
-
-    if (!accepted) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setVisible(true)
-    }
+    // The dialog is rendered only after hydration so it can inspect storage.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true)
+    setVisible(readConsent() !== 'accepted')
   }, [])
 
-  useEffect(() => {
-    if (!visible) return
+  const close = useCallback((consent: Consent) => {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, consent)
+    } catch {
+      // Storage can be unavailable in private mode; keep the choice for this session.
+    }
 
+    setVisible(false)
+  }, [])
+
+  const accept = useCallback(() => close('accepted'), [close])
+  const decline = useCallback(() => close('declined'), [close])
+
+  useEffect(() => {
+    if (!visible || !mounted) return
+
+    const previouslyFocused = document.activeElement as HTMLElement | null
     const previousOverflow = document.body.style.overflow
+    const background = Array.from(document.body.children).filter(
+      (element) => element.id !== PORTAL_ID,
+    )
+
     document.body.style.overflow = 'hidden'
+    background.forEach((element) => element.setAttribute('inert', ''))
+
     const focusTimer = window.setTimeout(() => acceptRef.current?.focus(), 50)
 
     const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        decline()
+        return
+      }
+
       if (event.key !== 'Tab') return
 
       const dialog = dialogRef.current
@@ -69,35 +105,18 @@ export const TermsConsent = () => {
 
     return () => {
       document.body.style.overflow = previousOverflow
+      background.forEach((element) => element.removeAttribute('inert'))
       window.removeEventListener('keydown', handleKeyDown)
       window.clearTimeout(focusTimer)
+
+      if (previouslyFocused?.isConnected) previouslyFocused.focus()
     }
-  }, [visible])
+  }, [visible, mounted, decline])
 
-  if (!visible) return null
+  if (!mounted || !visible) return null
 
-  const accept = () => {
-    try {
-      window.localStorage.setItem(STORAGE_KEY, '1')
-    } catch {
-      // Storage can be unavailable in private mode; accept for this session.
-    }
-
-    setVisible(false)
-  }
-
-  const decline = () => {
-    try {
-      window.localStorage.setItem(STORAGE_KEY, 'declined')
-    } catch {
-      // Storage can be unavailable in private mode; decline for this session.
-    }
-
-    setVisible(false)
-  }
-
-  return (
-    <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/45 p-4 sm:items-center">
+  return createPortal(
+    <div id={PORTAL_ID} className="fixed inset-0 z-[60] flex items-end justify-center bg-black/45 p-4 sm:items-center">
       <div
         ref={dialogRef}
         role="dialog"
@@ -159,6 +178,7 @@ export const TermsConsent = () => {
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }
