@@ -4,6 +4,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
    ALTER TABLE "comments" ADD COLUMN "author_name" varchar;
    ALTER TABLE "comments" ADD COLUMN "author_email" varchar;
+   ALTER TABLE "comments" ADD COLUMN "honeypot" varchar;
   `)
 }
 
@@ -11,5 +12,6 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   await db.execute(sql`
    ALTER TABLE "comments" DROP COLUMN "author_name";
    ALTER TABLE "comments" DROP COLUMN "author_email";
+   ALTER TABLE "comments" DROP COLUMN "honeypot";
   `)
 }

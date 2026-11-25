@@ -11,6 +11,7 @@ type Comment = {
     name: string
   }
   authorName?: string
+  authorEmail?: string
   createdAt: string
   parent?: {
     id: string
@@ -38,7 +39,7 @@ export default function CommentsSection({ postId }: { postId: string | number })
   const fetchComments = async () => {
     try {
       const response = await fetch(
-        `/api/comments?where[post][equals]=${encodeURIComponent(postIdNum)}&depth=1&sort=-createdAt&limit=100`,
+        `/api/comments?where[post][equals]=${encodeURIComponent(postIdNum)}&depth=2&sort=-createdAt&limit=100`,
       )
       if (!response.ok) throw new Error(`Request failed with status ${response.status}`)
       const result = await response.json()
