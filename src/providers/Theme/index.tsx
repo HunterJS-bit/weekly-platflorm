@@ -51,17 +51,24 @@ export const ThemeProvider = ({
     setThemeState(nextTheme)
   }, [])
 
-  // Migrate preferences stored by older versions that only used localStorage.
+  // The inline layout script applies the saved theme before paint. Sync React
+  // state to that value on mount and migrate older localStorage-only preferences.
   useEffect(() => {
+    const domTheme = getCurrentTheme()
     const stored = window.localStorage.getItem(themeLocalStorageKey)
 
-    if (!themeIsValid(stored) || getCurrentTheme() === stored) {
+    if (themeIsValid(stored) && stored !== domTheme) {
+      persistTheme(stored)
+      document.documentElement.setAttribute('data-theme', stored)
+      // Sync React state with the value the pre-paint script already applied.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setThemeState(stored)
       return
     }
 
-    persistTheme(stored)
-    document.documentElement.setAttribute('data-theme', stored)
-    setThemeState(stored)
+    if (themeIsValid(domTheme)) {
+      setThemeState(domTheme)
+    }
   }, [])
 
   return <ThemeContext value={{ setTheme, theme }}>{children}</ThemeContext>

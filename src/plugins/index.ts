@@ -11,7 +11,9 @@ import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
 
 import { Page, Post, Category, User } from '@/payload-types'
+import { defaultLocale } from '@/i18n/config'
 import { getServerSideURL } from '@/utilities/getURL'
+import { localizedPath } from '@/utilities/locale'
 import { SITE_NAME } from '@/utilities/seo'
 
 type SeoDoc = Post | Page | Category | User
@@ -30,20 +32,21 @@ const generateTitle: GenerateTitle<SeoDoc> = ({ doc }) => {
 }
 
 const generateURL: GenerateURL<SeoDoc> = ({ collectionConfig, doc }) => {
-  const url = getServerSideURL().replace(/\/$/, '')
+  const baseUrl = getServerSideURL().replace(/\/$/, '')
   const slug = doc && 'slug' in doc && typeof doc.slug === 'string' ? doc.slug : undefined
+  const toUrl = (path: string) => `${baseUrl}${localizedPath(defaultLocale, path)}`
 
-  if (!slug) return url
+  if (!slug) return toUrl('/')
 
   switch (collectionConfig?.slug) {
     case 'categories':
-      return `${url}/category/${slug}`
+      return toUrl(`/category/${slug}`)
     case 'users':
-      return `${url}/author/${slug}`
+      return toUrl(`/author/${slug}`)
     case 'pages':
-      return slug === 'home' ? url : `${url}/${slug}`
+      return toUrl(slug === 'home' ? '/' : `/${slug}`)
     default:
-      return `${url}/posts/${slug}`
+      return toUrl(`/posts/${slug}`)
   }
 }
 
