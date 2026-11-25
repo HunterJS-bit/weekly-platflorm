@@ -108,7 +108,7 @@ export default function CommentsSection({ postId }: { postId: string | number })
               value={guestName}
               onChange={(e) => setGuestName(e.target.value)}
               placeholder={t('yourName') || 'Your name'}
-              className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="p-3 border border-gray-300 dark:border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-[#111] text-gray-900 dark:text-white disabled:opacity-50"
               disabled={loading}
               required
             />
@@ -117,7 +117,7 @@ export default function CommentsSection({ postId }: { postId: string | number })
               value={guestEmail}
               onChange={(e) => setGuestEmail(e.target.value)}
               placeholder={t('yourEmail') || 'Your email (optional)'}
-              className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="p-3 border border-gray-300 dark:border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-[#111] text-gray-900 dark:text-white disabled:opacity-50"
               disabled={loading}
             />
           </div>
@@ -126,7 +126,7 @@ export default function CommentsSection({ postId }: { postId: string | number })
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
           placeholder={t('shareThoughts')}
-          className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 min-h-[100px]"
+          className="w-full p-4 border border-gray-300 dark:border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 min-h-[100px] bg-white dark:bg-[#111] text-gray-900 dark:text-white disabled:opacity-50"
           disabled={loading}
         />
         <button
@@ -148,18 +148,18 @@ export default function CommentsSection({ postId }: { postId: string | number })
 
       <div className="space-y-4">
         {comments.map((comment) => (
-          <div key={comment.id} className="p-4 bg-gray-50 rounded-lg">
+          <div key={comment.id} className="p-4 bg-gray-50 dark:bg-white/5 rounded-lg border border-gray-200 dark:border-white/10">
             <div className="flex items-center gap-2 mb-2">
-              <span className="font-semibold">
+              <span className="font-semibold text-gray-900 dark:text-white">
                 {comment.author?.name || comment.authorName || 'Anonymous'}
               </span>
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-gray-500 dark:text-gray-400">
                 {new Date(comment.createdAt).toLocaleDateString(
                   locale === 'sr' ? 'sr-Latn-RS' : 'en-US',
                 )}
               </span>
             </div>
-            <p className="text-gray-700">{comment.content}</p>
+            <p className="text-gray-700 dark:text-gray-300">{comment.content}</p>
           </div>
         ))}
         {comments.length === 0 && (
