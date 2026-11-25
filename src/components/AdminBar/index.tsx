@@ -19,8 +19,9 @@ const Title: React.FC<{ label: string }> = ({ label }) => <span>{label}</span>
 
 export const AdminBar: React.FC<{
   adminBarProps?: PayloadAdminBarProps
+  collectionSlug?: 'pages' | 'posts'
 }> = (props) => {
-  const { adminBarProps } = props || {}
+  const { adminBarProps, collectionSlug } = props || {}
   const segments = useSelectedLayoutSegments()
   const [show, setShow] = useState(false)
   const t = useTranslations('adminBar')
@@ -38,9 +39,11 @@ export const AdminBar: React.FC<{
       singular: t('projectSingular'),
     },
   }
-  const collection = (
-    collectionLabels[segments?.[1] as keyof typeof collectionLabels] ? segments[1] : 'pages'
-  ) as keyof typeof collectionLabels
+  const collection: keyof typeof collectionLabels =
+    collectionSlug ||
+    (collectionLabels[segments?.[1] as keyof typeof collectionLabels]
+      ? (segments[1] as keyof typeof collectionLabels)
+      : 'pages')
   const router = useRouter()
 
   const onAuthChange = React.useCallback((user: PayloadMeUser) => {

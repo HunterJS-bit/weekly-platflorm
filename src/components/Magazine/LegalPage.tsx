@@ -15,6 +15,7 @@ type LegalPageProps = {
   path: string
   sections: LegalSection[]
   currentKey: 'impressum' | 'privacy' | 'terms'
+  locale?: string
 }
 
 export async function LegalPage({
@@ -24,6 +25,7 @@ export async function LegalPage({
   path,
   sections,
   currentKey,
+  locale = 'sr',
 }: LegalPageProps) {
   const t = await getTranslations('legal')
   const tCommon = await getTranslations('common')
@@ -38,6 +40,7 @@ export async function LegalPage({
             title,
             description,
             path,
+            locale,
             type: 'WebPage',
           }),
           breadcrumbJsonLd([
