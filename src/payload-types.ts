@@ -312,6 +312,14 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Ime autora ili izvora slike (prikazuje se uz sliku).
+   */
+  credit?: string | null;
+  /**
+   * Opcioni link ka profilu autora ili izvoru slike.
+   */
+  creditUrl?: string | null;
   folder?: (number | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
@@ -671,6 +679,10 @@ export interface ContentBlock {
  */
 export interface MediaBlock {
   media: number | Media;
+  /**
+   * Gde se prikazuje natpis i zasluga autora slike.
+   */
+  captionPosition?: ('below' | 'overlay') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'mediaBlock';
@@ -1309,6 +1321,7 @@ export interface ContentBlockSelect<T extends boolean = true> {
  */
 export interface MediaBlockSelect<T extends boolean = true> {
   media?: T;
+  captionPosition?: T;
   id?: T;
   blockName?: T;
 }
@@ -1392,6 +1405,8 @@ export interface PostsSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   caption?: T;
+  credit?: T;
+  creditUrl?: T;
   folder?: T;
   updatedAt?: T;
   createdAt?: T;

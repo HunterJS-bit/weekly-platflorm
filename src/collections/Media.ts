@@ -42,6 +42,20 @@ export const Media: CollectionConfig = {
         },
       }),
     },
+    {
+      name: 'credit',
+      type: 'text',
+      admin: {
+        description: 'Ime autora ili izvora slike (prikazuje se uz sliku).',
+      },
+    },
+    {
+      name: 'creditUrl',
+      type: 'text',
+      admin: {
+        description: 'Opcioni link ka profilu autora ili izvoru slike.',
+      },
+    },
   ],
   upload: {
     // Upload to Cloudflare R2 if configured, otherwise use local filesystem
