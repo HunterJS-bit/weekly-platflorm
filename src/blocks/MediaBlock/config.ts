@@ -10,5 +10,17 @@ export const MediaBlock: Block = {
       relationTo: 'media',
       required: true,
     },
+    {
+      name: 'captionPosition',
+      type: 'select',
+      defaultValue: 'below',
+      options: [
+        { label: 'Ispod slike', value: 'below' },
+        { label: 'Preko slike', value: 'overlay' },
+      ],
+      admin: {
+        description: 'Gde se prikazuje natpis i zasluga autora slike.',
+      },
+    },
   ],
 }
