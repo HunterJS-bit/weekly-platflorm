@@ -11,6 +11,50 @@ import { getServerSideURL } from './src/utilities/getURL'
 
 const SITE_URL = getServerSideURL()
 
+const securityHeaders = [
+  {
+    key: 'Strict-Transport-Security',
+    value: 'max-age=63072000; includeSubDomains; preload',
+  },
+  {
+    key: 'X-Content-Type-Options',
+    value: 'nosniff',
+  },
+  {
+    key: 'Referrer-Policy',
+    value: 'strict-origin-when-cross-origin',
+  },
+  {
+    key: 'Permissions-Policy',
+    value:
+      'accelerometer=(), autoplay=(), camera=(), display-capture=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()',
+  },
+  {
+    key: 'X-Frame-Options',
+    value: 'SAMEORIGIN',
+  },
+  {
+    // Report-only for now: Next and the Payload admin rely on inline scripts,
+    // so enforcing this immediately would break them. Review reports first.
+    key: 'Content-Security-Policy-Report-Only',
+    value: [
+      "default-src 'self'",
+      "base-uri 'self'",
+      "object-src 'none'",
+      "frame-ancestors 'self'",
+      "form-action 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: blob: https:",
+      "font-src 'self' data:",
+      "connect-src 'self' https: wss:",
+      "media-src 'self' data: blob:",
+      "worker-src 'self' blob:",
+      "frame-src 'self' https:",
+    ].join('; '),
+  },
+]
+
 const nextConfig: NextConfig = {
   output: 'standalone',
   poweredByHeader: false,
@@ -54,6 +98,7 @@ const nextConfig: NextConfig = {
   },
   reactStrictMode: true,
   redirects,
+  headers: () => [{ source: '/:path*', headers: securityHeaders }],
   turbopack: {
     root: path.resolve(dirname),
   },
