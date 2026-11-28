@@ -1,6 +1,6 @@
 import configPromise from '@payload-config'
 import { unstable_cache } from 'next/cache'
-import { getPayload } from 'payload'
+import { getPayload, type Where } from 'payload'
 
 import type { Category, Page, Post, User } from '@/payload-types'
 
@@ -179,6 +179,43 @@ const fetchContactPosts = async (): Promise<Post[]> => {
   return result.docs
 }
 
+type RelatedPostsArgs = {
+  categoryIDs: number[]
+  postID: number
+  tagIDs: number[]
+  limit?: number
+}
+
+/** Fallback for posts without manually linked related posts. */
+const fetchRelatedPosts = async ({
+  categoryIDs,
+  limit = 4,
+  postID,
+  tagIDs,
+}: RelatedPostsArgs): Promise<Post[]> => {
+  const payload = await getPayload({ config: configPromise })
+
+  const constraints: Where[] = [{ id: { not_equals: postID } }]
+  const matching: Where[] = []
+
+  if (categoryIDs.length > 0) matching.push({ categories: { in: categoryIDs } })
+  if (tagIDs.length > 0) matching.push({ tags: { in: tagIDs } })
+  if (matching.length > 0) constraints.push({ or: matching })
+
+  const result = await payload.find({
+    collection: 'posts',
+    depth: 1,
+    draft: false,
+    limit,
+    overrideAccess: false,
+    select: POST_CARD_SELECT,
+    sort: '-publishedAt',
+    where: { and: constraints },
+  })
+
+  return result.docs
+}
+
 export const getCachedPublishedPost = unstable_cache(fetchPublishedPost, ['published-post'], {
   tags: ['posts'],
 })
@@ -208,5 +245,9 @@ export const getCachedAuthorPosts = unstable_cache(fetchAuthorPosts, ['author-po
 })
 
 export const getCachedContactPosts = unstable_cache(fetchContactPosts, ['contact-posts'], {
+  tags: ['posts'],
+})
+
+export const getCachedRelatedPosts = unstable_cache(fetchRelatedPosts, ['related-posts'], {
   tags: ['posts'],
 })

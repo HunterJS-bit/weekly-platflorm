@@ -7,12 +7,28 @@ import CommentsSection from '@/components/CommentsSection'
 import { JsonLd } from '@/components/JsonLd'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { PostHero } from '@/heros/PostHero'
+import { getCachedRelatedPosts } from '@/utilities/cachedQueries'
 import { localizeCategoryTitle } from '@/utilities/localizeCategory'
 import { articleJsonLd, breadcrumbJsonLd } from '@/utilities/structuredData'
+import { getTranslations } from 'next-intl/server'
 import React from 'react'
 import RichText from '@/components/RichText'
 
-export const PostArticle = ({
+const relationIDs = (values: unknown): number[] => {
+  if (!Array.isArray(values)) return []
+
+  return values
+    .map((value) => {
+      if (typeof value === 'number') return value
+      if (value && typeof value === 'object' && 'id' in value && typeof value.id === 'number') {
+        return value.id
+      }
+      return null
+    })
+    .filter((id): id is number => id !== null)
+}
+
+export const PostArticle = async ({
   post,
   locale,
   draft = false,
@@ -21,6 +37,7 @@ export const PostArticle = ({
   locale: string
   draft?: boolean
 }) => {
+  const t = await getTranslations('post')
   const postPath = `/posts/${post.slug}`
   const url = postPath
   const primaryCategory = (post.categories ?? []).find(
@@ -40,6 +57,21 @@ export const PostArticle = ({
       : []),
     { name: post.title, path: postPath },
   ]
+
+  const linkedPosts = (post.relatedPosts ?? []).filter(
+    (related): related is Post =>
+      typeof related === 'object' && related !== null && related.id !== post.id,
+  )
+
+  // If the editor did not link any posts manually, fall back to posts from the
+  // same categories/tags (or the latest published posts) so the section is useful.
+  const relatedPosts = linkedPosts.length
+    ? linkedPosts
+    : await getCachedRelatedPosts({
+        categoryIDs: relationIDs(post.categories),
+        postID: post.id,
+        tagIDs: relationIDs(post.tags),
+      })
 
   return (
     <article className="pt-16 pb-16">
@@ -66,13 +98,15 @@ export const PostArticle = ({
             enableGutter={false}
             proseSize="lg"
           />
-          {post.relatedPosts && post.relatedPosts.length > 0 && (
-            <RelatedPosts
-              className="mt-12 max-w-[52rem] lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[2fr]"
-              docs={post.relatedPosts.filter((post) => typeof post === 'object')}
-            />
-          )}
+
           <CommentsSection postId={String(post.id)} />
+
+          {relatedPosts.length > 0 && (
+            <section className="mt-14 border-t border-border pt-10">
+              <h2 className="mb-6 text-2xl font-semibold">{t('relatedPosts')}</h2>
+              <RelatedPosts docs={relatedPosts} enableGutter={false} />
+            </section>
+          )}
         </div>
       </div>
     </article>
