@@ -65,13 +65,15 @@ export const PostArticle = async ({
 
   // If the editor did not link any posts manually, fall back to posts from the
   // same categories/tags (or the latest published posts) so the section is useful.
-  const relatedPosts = linkedPosts.length
+  const relatedPosts = (linkedPosts.length
     ? linkedPosts
     : await getCachedRelatedPosts({
         categoryIDs: relationIDs(post.categories),
+        limit: 2,
         postID: post.id,
         tagIDs: relationIDs(post.tags),
       })
+  ).slice(0, 2)
 
   return (
     <article className="pt-16 pb-16">

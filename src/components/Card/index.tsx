@@ -36,16 +36,22 @@ export const Card: React.FC<{
   return (
     <article
       className={cn(
-        'border border-border rounded-lg overflow-hidden bg-card hover:cursor-pointer',
+        'flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card hover:cursor-pointer',
         className,
       )}
       ref={card.ref}
     >
-      <div className="relative w-full ">
-        {!metaImage && <div className="">{t('noImage')}</div>}
-        {metaImage && typeof metaImage !== 'string' && <Media resource={metaImage} size="33vw" />}
+      <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted">
+        {!metaImage && (
+          <span className="absolute inset-0 flex items-center justify-center text-sm text-muted-foreground">
+            {t('noImage')}
+          </span>
+        )}
+        {metaImage && typeof metaImage !== 'string' && (
+          <Media fill imgClassName="object-cover" resource={metaImage} size="33vw" />
+        )}
       </div>
-      <div className="p-4">
+      <div className="flex flex-1 flex-col p-4">
         {showCategories && hasCategories && (
           <div className="uppercase text-sm mb-4">
             {categories?.map((category, index) => {

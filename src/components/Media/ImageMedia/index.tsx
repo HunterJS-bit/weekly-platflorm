@@ -4,7 +4,7 @@ import type { StaticImageData } from 'next/image'
 
 import { cn } from '@/utilities/ui'
 import NextImage from 'next/image'
-import React, { useState } from 'react'
+import React, { useCallback, useState, useSyncExternalStore } from 'react'
 
 import { ImageLoadingOverlay } from '../LoadingOverlay'
 import type { Props as MediaProps } from '../types'
@@ -13,6 +13,10 @@ import { cssVariables } from '@/cssVariables'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 
 const { breakpoints } = cssVariables
+
+const subscribeToHydration = () => () => {}
+const getHydratedSnapshot = () => true
+const getServerSnapshot = () => false
 
 // A base64 encoded image to use as a placeholder while the image is loading
 const placeholderBlur =
@@ -78,7 +82,24 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
 
   const srcKey = typeof src === 'string' ? src : JSON.stringify(src)
   const [loadedSrc, setLoadedSrc] = useState<string | null>(null)
+  // The server snapshot keeps images visible; the skeleton only takes over
+  // after hydration. If JS is blocked or hydration fails, images stay visible.
+  const hydrated = useSyncExternalStore(
+    subscribeToHydration,
+    getHydratedSnapshot,
+    getServerSnapshot,
+  )
+
+  // A cached image can finish before React attaches the onLoad handler.
+  const handleImageRef = useCallback(
+    (node: HTMLImageElement | null) => {
+      if (node?.complete) setLoadedSrc(srcKey)
+    },
+    [srcKey],
+  )
+
   const loaded = loadedSrc === srcKey
+  const showSkeleton = hydrated && !loaded
 
   const loading = loadingFromProps || (!priority ? 'lazy' : undefined)
 
@@ -91,12 +112,13 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
 
   return (
     <picture className={cn(pictureClassName, !fill && 'relative')}>
-      {!loaded && <ImageLoadingOverlay />}
+      {showSkeleton && <ImageLoadingOverlay />}
       <NextImage
+        ref={handleImageRef}
         alt={alt || ''}
         className={cn(
           'transition-opacity duration-300',
-          loaded ? 'opacity-100' : 'opacity-0',
+          showSkeleton ? 'opacity-0' : 'opacity-100',
           imgClassName,
         )}
         fill={fill}
