@@ -9,6 +9,9 @@ const intlMiddleware = createMiddleware({
   localePrefix,
   // Only Serbian is published, so never negotiate a locale from the browser.
   localeDetection: false,
+  // With one locale there is nothing to remember. Writing NEXT_LOCALE on every
+  // response makes Next mark pages private/no-store, which prevents CDN caching.
+  localeCookie: false,
 })
 
 // Simple in-memory rate limiter

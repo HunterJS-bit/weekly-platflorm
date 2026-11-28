@@ -56,6 +56,11 @@ export const Comments: CollectionConfig = {
       name: 'authorEmail',
       type: 'text',
       required: false,
+      // Contact details are collected for the editor, never published with comments.
+      access: {
+        // Only editors need the submitter's contact details or the spam trap.
+        read: ({ req: { user } }) => user?.role === 'admin' || user?.role === 'editor',
+      },
       admin: {
         description: 'Email for guest commenters (optional for authenticated users)',
       },
@@ -72,6 +77,10 @@ export const Comments: CollectionConfig = {
       name: 'honeypot',
       type: 'text',
       required: false,
+      access: {
+        // The spam trap is only useful to editors reviewing submissions.
+        read: ({ req: { user } }) => user?.role === 'admin' || user?.role === 'editor',
+      },
       admin: {
         description: 'Anti-spam honeypot field - should be empty for legitimate submissions',
       },

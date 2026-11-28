@@ -39,12 +39,38 @@ export const Users: CollectionConfig = {
   hooks: revalidateEntity('/author'),
   fields: [
     {
+      name: 'email',
+      type: 'email',
+      // Author pages only need public profile fields. Keep login/contact data
+      // out of the public REST and GraphQL responses.
+      access: {
+        read: ({ req: { user } }) => Boolean(user),
+      },
+    },
+    {
+      name: 'sessions',
+      type: 'array',
+      access: {
+        read: ({ req: { user } }) => Boolean(user),
+      },
+      // Match Payload's built-in auth session shape so the base field config
+      // can be safely overridden.
+      fields: [
+        { name: 'id', type: 'text', required: true },
+        { name: 'createdAt', type: 'date', defaultValue: () => new Date() },
+        { name: 'expiresAt', type: 'date', required: true },
+      ],
+    },
+    {
       name: 'name',
       type: 'text',
     },
     {
       name: 'role',
       type: 'select',
+      access: {
+        read: ({ req: { user } }) => Boolean(user),
+      },
       options: [
         {
           label: 'Admin',
